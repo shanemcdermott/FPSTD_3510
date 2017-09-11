@@ -37,3 +37,22 @@ level:
 
 enemies:
 traits- move speed, attack speed, damage, model/animation, [projectiles], collider, sound
+
+
+
+
+
+Level Outline:
+1. spawn map
+2. spawn player at home location
+3. let player set up walls/towers/guns until round start button is pressed
+4. spawn monsters at an interval, who follow an AI pattern
+5. update wave score
+6. display wave/level score and currency
+
+Order of Operations:
+1. create map for level 1
+2. create basic UI (main menu, pause menu, load menu, end of level/score menu, in game HUD)
+3. create gun script/ select model
+4. create player script/ select player model
+5. create monster AI/ stats/ models
