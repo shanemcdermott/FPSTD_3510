@@ -5,35 +5,38 @@ public class EnemyAttack : MonoBehaviour
 {
     public float timeBetweenAttacks = 0.5f;
     public int attackDamage = 10;
+    public Team team;
+
 
     Animator anim;
     GameObject target;
     HealthComponent targetHealth;
     EnemyHealth enemyHealth;
-    bool playerInRange;
+    bool enemyInRange;
     float timer;
 
 
     void Awake ()
     {
-        AssignTarget(GameObject.FindGameObjectWithTag("Tower"));
-
+        team = GetComponent<Team>();
         enemyHealth = GetComponent<EnemyHealth>();
         anim = GetComponent <Animator> ();
     }
 
-    void AssignTarget(GameObject targetObject)
+    public void AssignTarget(GameObject targetObject)
     {
         target = targetObject;
         targetHealth = target.GetComponent<HealthComponent>();
     }
 
-
+    //Attack any overlapping enemies
     void OnTriggerEnter (Collider other)
     {
-        if(other.gameObject == target)
+        Team otherTeam = other.GetComponent<Team>();
+        if(otherTeam != null && !otherTeam.IsFriendly(team))
         {
-            playerInRange = true;
+            enemyInRange = true;
+            AssignTarget(other.gameObject);
         }
     }
 
@@ -42,7 +45,8 @@ public class EnemyAttack : MonoBehaviour
     {
         if(other.gameObject == target)
         {
-            playerInRange = false;
+            enemyInRange = false;
+            GetComponent<MonsterController>().FindNextTarget();
         }
     }
 
@@ -51,7 +55,7 @@ public class EnemyAttack : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.currentHealth > 0)
+        if(timer >= timeBetweenAttacks && enemyInRange && enemyHealth.currentHealth > 0)
         {
             Attack ();
         }
@@ -59,7 +63,14 @@ public class EnemyAttack : MonoBehaviour
         
         if(targetHealth.IsDead())
         {
-            anim.SetTrigger ("PlayerDead");
+            if (target.tag == "Player")
+            {
+                anim.SetTrigger("PlayerDead");
+            }
+            else
+            {
+                GetComponent<MonsterController>().FindNextTarget();
+            }
         }
         
     }

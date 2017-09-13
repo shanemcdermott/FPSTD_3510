@@ -2,18 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum DamageType
+{
+    Physical,
+    Electric,
+    Fire,
+    Cold  
+}
+
 public struct DamageContext
 {
     public GameObject source;
     public int amount;
-    public int type;
+    public DamageType type;
     public Vector3 hitLocation;
 
     public DamageContext(GameObject source, int amount)
     {
         this.source = source;
         this.amount = amount;
-        this.type = 0;
+        this.type = DamageType.Physical;
         this.hitLocation = new Vector3();
     }
 
@@ -21,11 +30,11 @@ public struct DamageContext
     {
         this.source = source;
         this.amount = amount;
-        this.type = 0;
+        this.type = DamageType.Physical;
         this.hitLocation = hitLocation;
     }
 
-    public DamageContext(GameObject source, int amount, Vector3 hitLocation, int type)
+    public DamageContext(GameObject source, int amount, Vector3 hitLocation, DamageType type)
     {
         this.source = source;
         this.amount = amount;
@@ -33,6 +42,8 @@ public struct DamageContext
         this.hitLocation = hitLocation;
     }
 }
+
+
 
 public class HealthComponent : MonoBehaviour {
 

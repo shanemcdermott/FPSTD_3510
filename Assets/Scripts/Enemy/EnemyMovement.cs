@@ -11,12 +11,11 @@ public class EnemyMovement : MonoBehaviour
 
     void Awake ()
     {
-        AssignTarget(GameObject.FindGameObjectWithTag("Tower"));   
         enemyHealth = GetComponent <EnemyHealth> ();
         nav = GetComponent <UnityEngine.AI.NavMeshAgent> ();
     }
 
-    void AssignTarget(GameObject targetObject)
+    public void AssignTarget(GameObject targetObject)
     {
         target = targetObject.transform;
         targetHealth = target.GetComponent<HealthComponent>();
@@ -28,10 +27,6 @@ public class EnemyMovement : MonoBehaviour
         if(enemyHealth.currentHealth > 0 && !targetHealth.IsDead())
         {
             nav.SetDestination (target.position);
-        }
-        else
-        {
-            nav.enabled = false;
         }
     }
 }
