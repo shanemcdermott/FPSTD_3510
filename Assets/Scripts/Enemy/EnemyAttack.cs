@@ -61,7 +61,7 @@ public class EnemyAttack : MonoBehaviour
         }
 
         
-        if(targetHealth.IsDead())
+        if(targetHealth != null && targetHealth.IsDead())
         {
             if (target.tag == "Player")
             {

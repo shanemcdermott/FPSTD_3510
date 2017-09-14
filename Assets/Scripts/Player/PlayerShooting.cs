@@ -2,6 +2,30 @@
 
 public class PlayerShooting : MonoBehaviour
 {
+    Equipment equipment;
+    void Awake()
+    {
+        equipment = GetComponent<Equipment>();
+    }
+
+    void Update()
+    {
+        if(Input.GetButton("Fire1") && equipment != null)
+        {
+            equipment.Activate();
+        }
+    }
+
+
+    public void DisableEffects()
+    {
+        if(equipment != null)
+        {
+            equipment.DisableEffects();
+        }
+    }
+
+    /*
     public int damagePerShot = 20;
     public float timeBetweenBullets = 0.15f;
     public float range = 100f;
@@ -82,4 +106,5 @@ public class PlayerShooting : MonoBehaviour
             gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
         }
     }
+    */
 }

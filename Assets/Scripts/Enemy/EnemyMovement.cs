@@ -24,7 +24,7 @@ public class EnemyMovement : MonoBehaviour
     //Using Update instead of fixed update since this is a navmesh agent
     void Update ()
     {
-        if(enemyHealth.currentHealth > 0 && !targetHealth.IsDead())
+        if(enemyHealth.currentHealth > 0 && targetHealth != null && !targetHealth.IsDead())
         {
             nav.SetDestination (target.position);
         }
