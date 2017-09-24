@@ -5,14 +5,7 @@ using UnityEngine;
 public abstract class Equipment : MonoBehaviour {
 
     protected bool bIsBusy;
-
-
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
-
+ 
     public virtual bool IsBusy()
     {
         return bIsBusy;

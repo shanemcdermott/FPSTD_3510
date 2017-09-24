@@ -12,19 +12,19 @@ public abstract class Weapon : Equipment
     /*Amount of time it takes to replenish magazine*/
     public float timeToReload = 1.0f;
 
-    protected float timer;
+
     protected bool bIsReloading;
     protected int bulletsInMag;
+    protected float timer;
 
-
-    void Awake()
+    protected virtual void Awake()
     {
         timer = 0f;
         bulletsInMag = bulletsPerMag;
         bIsReloading = false;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         timer += Time.deltaTime;
     }
@@ -35,13 +35,13 @@ public abstract class Weapon : Equipment
             && timer >= timeBetweenShots && Time.timeScale != 0;
     }
 
-    public void StartReloading()
+    public virtual void StartReloading()
     {
         timer = 0f;
         bIsReloading = true;
     }
 
-    public void StopReloading()
+    public virtual void StopReloading()
     {
         if(IsReloading() && timer >= timeToReload)
         {

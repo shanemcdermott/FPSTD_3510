@@ -22,8 +22,17 @@ public class MapFactory : MonoBehaviour
     /// </summary>
     public int height = 10;
 
+    /// <summary>
+    /// Tile size in meters in X direction.
+    /// </summary>
+    public int tileWidth = 2;
+    /// <summary>
+    /// Tile height in meters in Z direction.
+    /// </summary>
+    public int tileHeight = 2;
+
     private Transform board;
-    private GameObject[,] tileMap;
+    private TileMap map;
 
 	// Use this for initialization
 	void Start ()
@@ -36,8 +45,11 @@ public class MapFactory : MonoBehaviour
     /// </summary>
     void SetupBoard()
     {
-        board = new GameObject("Board").transform;
-        tileMap = new GameObject[width, height];
+        GameObject boardObject = new GameObject("Board");
+        map = boardObject.AddComponent<TileMap>();
+        board = boardObject.transform;
+
+        map.setMapSize(width, height);
 
         for (int x = 0; x < width; x++)
         {
@@ -45,9 +57,9 @@ public class MapFactory : MonoBehaviour
             {
                 GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
 
-                GameObject instance = Instantiate(toInstantiate, new Vector3(x, 0f, z), Quaternion.identity) as GameObject;
+                GameObject instance = Instantiate(toInstantiate, new Vector3(x * tileWidth, 0f, z * tileHeight), Quaternion.identity) as GameObject;
                 instance.transform.SetParent(board);
-                tileMap[x, z] = instance;
+                map.setTileAt(x,z,instance);
             }
         }
     }

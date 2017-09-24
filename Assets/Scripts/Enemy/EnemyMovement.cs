@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemyMovement : MonoBehaviour
 {
-    Transform target;
+    public Transform target;
     HealthComponent targetHealth;
     EnemyHealth enemyHealth;
     UnityEngine.AI.NavMeshAgent nav;

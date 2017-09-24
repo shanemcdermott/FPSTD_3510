@@ -22,10 +22,12 @@ public class EnemyHealth : HealthComponent
         enemyAudio = GetComponent <AudioSource> ();
         hitParticles = GetComponentInChildren <ParticleSystem> ();
         capsuleCollider = GetComponent <CapsuleCollider> ();
-        base.ResetHealth();
-        
     }
 
+    private void Start()
+    {
+        base.ResetHealth();
+    }
 
     void Update ()
     {

@@ -19,6 +19,10 @@ public class MonsterController : MonoBehaviour
         health = GetComponent<HealthComponent>();
         movement = GetComponent<EnemyMovement>();
         attack = GetComponent<EnemyAttack>();
+    }
+
+    private void Start()
+    {
         FindNextTarget();
     }
 

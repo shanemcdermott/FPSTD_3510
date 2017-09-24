@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4268700493363568}
   - component: {fileID: 114984943629184920}
   m_Layer: 0
-  m_Name: Map
+  m_Name: MapMaker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,7 +52,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorTiles:
-  - {fileID: 1799794573638432, guid: 1c4c26b7812098a4691eae328ba840d7, type: 2}
-  - {fileID: 1425253022048344, guid: aaabd504c8e29714793783b38c20b5e4, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  wallTiles: []
   width: 10
   height: 10
+  tileWidth: 2
+  tileHeight: 2

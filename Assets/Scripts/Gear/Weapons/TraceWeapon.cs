@@ -23,8 +23,9 @@ public class TraceWeapon : Weapon
     float effectsDisplayTime = 0.2f;
 
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         shootableMask = LayerMask.GetMask("Shootable");
         traceLine = GetComponent<LineRenderer>();
 
@@ -33,8 +34,9 @@ public class TraceWeapon : Weapon
         gunLight = GetComponent<Light>();
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (timer >= timeBetweenShots * effectsDisplayTime)
         {
             DisableEffects();
