@@ -7,12 +7,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 movement;
     private Animator anim;
     private Rigidbody playerRigidBody;
-    private int floorMask;
-    private float camRayLength = 100f;
     
     void Awake()
     {
-        floorMask = LayerMask.GetMask("Floor");
         anim = GetComponent<Animator>();
         playerRigidBody = GetComponent<Rigidbody>();
     }
@@ -22,7 +19,6 @@ public class PlayerMovement : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        UpdateTurn();
         Move(h, v);
         UpdateAnim(h, v);
     }
@@ -31,21 +27,8 @@ public class PlayerMovement : MonoBehaviour
     {
         movement.Set(h, 0f, v);
         movement = movement.normalized * walkSpeed *Time.deltaTime;
- 
-        playerRigidBody.MovePosition(transform.position + movement);
-    }
 
-    void UpdateTurn()
-    {
-        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit floorHit;
-        if(Physics.Raycast(camRay,out floorHit, camRayLength, floorMask))
-        {
-            Vector3 playerToMouse = floorHit.point - transform.position;
-            playerToMouse.y = 0f;
-            Quaternion newRot = Quaternion.LookRotation(playerToMouse);
-            playerRigidBody.MoveRotation(newRot);
-        }
+        playerRigidBody.MovePosition(transform.position + movement);
     }
 
     void UpdateAnim(float h, float v)

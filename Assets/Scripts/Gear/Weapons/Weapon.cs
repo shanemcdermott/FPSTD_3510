@@ -24,9 +24,13 @@ public abstract class Weapon : Equipment
         bIsReloading = false;
     }
 
+    /// <summary>
+    /// Increase the timer.
+    /// </summary>
     protected virtual void Update()
     {
         timer += Time.deltaTime;
+
     }
 
     public override bool CanActivate()
@@ -63,6 +67,6 @@ public abstract class Weapon : Equipment
 
     public override bool IsBusy()
     {
-        return base.IsBusy() || bIsReloading;
+        return base.IsBusy() || IsReloading();
     }
 }

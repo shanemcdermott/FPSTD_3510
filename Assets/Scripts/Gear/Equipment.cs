@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Abstract parent class for game equipment.
+/// </summary>
 public abstract class Equipment : MonoBehaviour {
 
     protected bool bIsBusy;
