@@ -342,13 +342,13 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 1
+        value: 0.2297306
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
-      m_RotationOrder: 4
+      m_RotationOrder: 0
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
@@ -880,7 +880,7 @@ GameObject:
   - component: {fileID: 1055615510}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1443,7 +1443,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2086173643}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 20.14439, y: 11.761866, z: -0.02309379}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
@@ -1524,7 +1524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83fc3da79d194c1288d76f87750c522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1055615500}
 --- !u!1 &2120690196
 GameObject:
   m_ObjectHideFlags: 0
