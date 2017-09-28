@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 56b559cc157cf1143b708b430c73b332
+timeCreated: 1506638080
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Passion One
+  fontNames:
+  - Passion One
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
