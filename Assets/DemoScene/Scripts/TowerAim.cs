@@ -15,9 +15,9 @@ public class TowerAim : MonoBehaviour {
 	void Update () {
 
 		float zDiff = target.transform.position.z - this.transform.position.z;
-		float yDiff = this.transform.position.y - target.transform.position.y;
+		float yDiff = target.transform.position.y - this.transform.position.y;
 		float xDiff = target.transform.position.x - this.transform.position.x;
-		float xAngle = (Mathf.Atan2 (zDiff, yDiff) / Mathf.PI * 180) + 90;
+		float xAngle = (Mathf.Atan2 (Mathf.Abs(yDiff), Mathf.Sqrt(xDiff * xDiff + zDiff * zDiff)) / Mathf.PI * 180);
 		float yAngle = (Mathf.Atan2 (xDiff, zDiff) / Mathf.PI * 180);
 
 
