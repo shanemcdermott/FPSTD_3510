@@ -16,11 +16,9 @@ public class TowerAim : MonoBehaviour {
 
 		float zDiff = target.transform.position.z - this.transform.position.z;
 		float yDiff = this.transform.position.y - target.transform.position.y;
-		Debug.Log (target.transform.position.y);
 		float xDiff = target.transform.position.x - this.transform.position.x;
-		float xAngle = -(Mathf.Atan2 (yDiff, zDiff) / Mathf.PI * 180) - 180;
+		float xAngle = (Mathf.Atan2 (zDiff, yDiff) / Mathf.PI * 180) + 90;
 		float yAngle = (Mathf.Atan2 (xDiff, zDiff) / Mathf.PI * 180);
-		//float zAngle = (Mathf.Atan2 (yDiff, xDiff) / Mathf.PI * 180); //Later, why?
 
 
 
