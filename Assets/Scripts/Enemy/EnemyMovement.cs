@@ -1,32 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 {
-    public Transform target;
-    HealthComponent targetHealth;
-    EnemyHealth enemyHealth;
-    UnityEngine.AI.NavMeshAgent nav;
-
+    public GameObject target;
+    public float speed = 4f;
 
     void Awake ()
     {
-        enemyHealth = GetComponent <EnemyHealth> ();
-        nav = GetComponent <UnityEngine.AI.NavMeshAgent> ();
+        GetComponent<HealthComponent>().RegisterDeathResponder(this);
     }
 
     public void AssignTarget(GameObject targetObject)
     {
-        target = targetObject.transform;
-        targetHealth = target.GetComponent<HealthComponent>();
+        target = targetObject;
     }
 
-    //Using Update instead of fixed update since this is a navmesh agent
+
+    //Move Towards Target
     void Update ()
     {
-        if(enemyHealth.currentHealth > 0 && targetHealth != null && !targetHealth.IsDead())
+        if (target != null)
         {
-            nav.SetDestination (target.position);
+
+            float zDiff = target.transform.position.z - this.transform.position.z;
+            float xDiff = target.transform.position.x - this.transform.position.x;
+            this.transform.localEulerAngles = new Vector3(0, (Mathf.Atan2(xDiff, zDiff) / Mathf.PI * 180), 0);
+            this.transform.Translate(new Vector3(0, 0, speed * Time.deltaTime));
+
         }
+    }
+
+    public void OnDeath(DamageContext context)
+    {
+        enabled = false;
     }
 }

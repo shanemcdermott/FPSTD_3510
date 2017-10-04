@@ -11,7 +11,8 @@ public abstract class Weapon : Equipment
     public int bulletsPerMag = 100;
     /*Amount of time it takes to replenish magazine*/
     public float timeToReload = 1.0f;
-
+    /*Does this weapon consume ammo*/
+    public bool usesAmmo = false;
 
     protected bool bIsReloading;
     protected int bulletsInMag;
@@ -58,6 +59,11 @@ public abstract class Weapon : Equipment
     public bool HasBullets()
     {
         return bulletsInMag > 0;
+    }
+
+    public int GetBulletsInMag()
+    {
+        return bulletsInMag;
     }
 
     public bool IsReloading()

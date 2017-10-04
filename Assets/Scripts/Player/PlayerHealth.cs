@@ -58,9 +58,9 @@ public class PlayerHealth : HealthComponent
         playerAudio.Play();
     }
 
-    protected override void Death()
+    public override void OnDeath(DamageContext context)
     {
-        base.Death();
+        base.OnDeath(context);
         playerShooting.DisableEffects();
 
         anim.SetTrigger("Die");

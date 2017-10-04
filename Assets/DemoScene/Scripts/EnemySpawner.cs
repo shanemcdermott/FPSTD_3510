@@ -28,7 +28,7 @@ public class EnemySpawner : MonoBehaviour
 				//float angle = Random.Range (0, 360);
 				//enemies [i].transform.Rotate (0, angle, 0);
 
-				enemies [i].GetComponent<FollowingEnemy> ().target = player;
+				//enemies [i].GetComponent<FollowingEnemy> ().target = player;
 			}
 		}
 	}

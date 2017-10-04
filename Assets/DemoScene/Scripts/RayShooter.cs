@@ -27,15 +27,16 @@ public class RayShooter : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetButton("Fire1")) {
 			Vector3 point = new Vector3 (_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
 			Ray ray = _camera.ScreenPointToRay (point);
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit)) {
 				GameObject hitObject = hit.transform.gameObject;
-				ReactiveTarget target = hitObject.GetComponent<ReactiveTarget> ();
+				HealthComponent target = hitObject.GetComponent<HealthComponent> ();
 				if (target != null) {
-					target.reactToHit ();
+                    target.TakeDamage(new DamageContext(gameObject, 1));
+					//target.reactToHit ();
 					Debug.Log ("Hit Target");
 				} else {
 					//StartCoroutine (SphereIndicator (hit.point));

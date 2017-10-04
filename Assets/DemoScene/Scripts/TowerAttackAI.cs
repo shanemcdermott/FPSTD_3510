@@ -4,39 +4,50 @@ using UnityEngine;
 
 public class TowerAttackAI : MonoBehaviour {
 
+    //The Tower's equipment/weapon
+    public Equipment equipment;
+
+    private GameObject player;
+    private TowerAim towerAim;
+
 	static public float timeBetweenShots = 0.5f;
 
 	private float timeUntilNextShot = timeBetweenShots;
 
 	void Start()
 	{
-		this.GetComponentInChildren<LineRenderer> ().enabled = false;
+        player = GameObject.FindGameObjectWithTag("Player");
+        towerAim = this.GetComponent<TowerAim>();
+        if (equipment == null)
+            equipment = this.GetComponentInChildren<Equipment>();
+        //this.GetComponentInChildren<LineRenderer> ().enabled = false;
 	}
 
+    protected GameObject FindTargetClosestTo(Vector3 position)
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject target = null;
+        float closestDist = float.MaxValue;
 
-	void FixedUpdate () {
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            float currDist = (position - enemies[i].transform.position).sqrMagnitude;
+            if (currDist < closestDist)
+            {
+                closestDist = currDist;
+                target = enemies[i];
+            }
+        }
+        return target;
+    }
 
-		GameObject[] enemies = GameObject.FindGameObjectsWithTag ("Enemy");
-		GameObject player = GameObject.FindGameObjectWithTag ("Player");
+	void FixedUpdate ()
+    {
+        GameObject target = FindTargetClosestTo(player.transform.position);
+        towerAim.setTarget(target);
 
-		float closestDist = float.MaxValue;
-
-		for (int i = 0; i < enemies.Length; i++) {
-			float currDist = (player.transform.position - enemies[i].transform.position).sqrMagnitude;
-			if (currDist < closestDist) {
-				closestDist = currDist;
-				this.GetComponent<TowerAim> ().setTarget (enemies [i]);
-			}
-			
-			
-		}
-
-		timeUntilNextShot -= Time.deltaTime;
-
-		if (timeUntilNextShot < 0) {
-			StartCoroutine (shoot());
-			timeUntilNextShot += timeBetweenShots;
-		}
+        if (target != null)
+            equipment.Activate();
 
 	}
 

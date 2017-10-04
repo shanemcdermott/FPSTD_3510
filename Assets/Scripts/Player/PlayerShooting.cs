@@ -5,7 +5,7 @@ public class PlayerShooting : MonoBehaviour
     Equipment equipment;
     void Awake()
     {
-        equipment = GetComponent<Equipment>();
+        equipment = GetComponentInChildren<Equipment>();
     }
 
     void Update()

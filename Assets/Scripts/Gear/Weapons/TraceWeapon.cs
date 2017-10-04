@@ -10,34 +10,36 @@ public class TraceWeapon : Weapon
 
     public int damagePerShot = 20;
     public float range = 100f;
-
+    public float effectsDisplayTime = 0.2f;
+    public LineRenderer traceLine;
+    public ParticleSystem gunParticles;
+    public AudioSource gunAudio;
+    public Light gunLight;
 
     protected Ray shootRay = new Ray();
     protected RaycastHit shootHit;
     int shootableMask;
-    LineRenderer traceLine;
-
-    ParticleSystem gunParticles;
-    AudioSource gunAudio;
-    Light gunLight;
-    float effectsDisplayTime = 0.2f;
 
 
     protected override void Awake()
     {
         base.Awake();
         shootableMask = LayerMask.GetMask("Shootable");
-        traceLine = GetComponent<LineRenderer>();
+        if(traceLine == null)
+            traceLine = GetComponent<LineRenderer>();
 
-        gunParticles = GetComponent<ParticleSystem>();
-        gunAudio = GetComponent<AudioSource>();
-        gunLight = GetComponent<Light>();
+        if(gunParticles == null)
+            gunParticles = GetComponent<ParticleSystem>();
+        if(gunAudio == null)
+            gunAudio = GetComponent<AudioSource>();
+        if(gunLight == null)
+            gunLight = GetComponent<Light>();
     }
 
     protected override void Update()
     {
         base.Update();
-        if (timer >= timeBetweenShots * effectsDisplayTime)
+        if (timer >= effectsDisplayTime)
         {
             DisableEffects();
         }
@@ -47,15 +49,12 @@ public class TraceWeapon : Weapon
     {
         if(CanActivate())
         {
+            if (usesAmmo)
+                bulletsInMag--;
+
             timer = 0f;
 
-            gunAudio.Play();
-
-            gunLight.enabled = true;
-
-            gunParticles.Stop();
-            gunParticles.Play();
-            traceLine.enabled = true;
+            EnableEffects();
             traceLine.SetPosition(0, transform.position);
 
             shootRay.origin = transform.position;
@@ -75,7 +74,14 @@ public class TraceWeapon : Weapon
             {
                 traceLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
             }
-            EnableEffects();
+        }
+        else if(IsReloading() && timer >= timeToReload)
+        {
+            StopReloading();
+        }
+        else if(!HasBullets() && !IsReloading())
+        {
+            StartReloading();
         }
     }
 
@@ -89,14 +95,29 @@ public class TraceWeapon : Weapon
     public override void DisableEffects()
     {
         traceLine.enabled = false;
-        gunLight.enabled = false;
-        //
+        if(gunLight != null)
+            gunLight.enabled = false;
+        if (gunAudio != null)
+            gunAudio.Stop();
+        if (gunParticles != null)
+        {
+            gunParticles.Stop();
+        }
     }
 
     public override void EnableEffects()
     {
-        //traceLine.enabled = true;
-        //throw new NotImplementedException();
-    }
+        if(gunAudio != null)
+            gunAudio.Play();
 
+        if(gunLight != null)
+            gunLight.enabled = true;
+
+        if (gunParticles != null)
+        {
+            gunParticles.Play();
+        }
+
+        traceLine.enabled = true;
+    }
 }

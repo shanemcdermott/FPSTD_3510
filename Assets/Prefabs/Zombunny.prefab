@@ -248,6 +248,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f6618a0da65fa45b24d5105d5d8422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 4
 --- !u!114 &114767727352534900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,6 +276,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf11c54739fd4134f9e7e27022b3dcb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: {fileID: 0}
+  health: {fileID: 0}
+  movement: {fileID: 0}
+  attack: {fileID: 0}
 --- !u!114 &114894354456328500
 MonoBehaviour:
   m_ObjectHideFlags: 1
