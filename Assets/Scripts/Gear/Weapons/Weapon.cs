@@ -76,3 +76,7 @@ public abstract class Weapon : Equipment
         return base.IsBusy() || IsReloading();
     }
 }
+public enum WeaponType
+{
+    rifle, sniper, shotgun
+}
