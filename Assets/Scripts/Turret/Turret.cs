@@ -5,6 +5,7 @@ using UnityEngine;
 public class Turret : Obstacle
 {
     public TurretType turretType;
+    //public Equipment equipment;
     float damage;
     int cost;
     float attackRadius;

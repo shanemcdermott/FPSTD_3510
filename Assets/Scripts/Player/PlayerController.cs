@@ -1,15 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IRespondsToDeath
 {
     public Camera fpsCamera;
     public float placementRange;
     public GameObject map;
-
-    public GameObject grenadeTurret;
-    public GameObject cannonTurret;
-    public GameObject rifleTurret;
-    public GameObject aoeTurret;
 
     public GameObject wall;
 
@@ -17,33 +13,46 @@ public class PlayerController : MonoBehaviour
     public Material redMaterial;
 
 
-    public GameObject[] weapons;
-    public GameObject rifle;
-    public GameObject sniper;
-    public GameObject shotgun;
-    public GameObject grenadeLauncher;
-    public GameObject equippedWeapon;
+    public Weapon[] weapons;
+    public int equippedIndex;
 
-    int hp;
-    int currentHP;
-    float movementSpeed;
+    public GameObject[] turrets;
+    public int turretIndex;
+
+    public GameObject[] placeableObjects;
+    public int placeableIndex;
+
+    private CharacterController _characterController;
+    public float movementSpeed = 40f;
+    public float gravity = -9.8f;
+
+    public PlayerHealth health;
+    
     float playerReloadSpeed;
 
     bool isPlacing;
-    GameObject[] turrets;
+
     GameObject currentPlaceable;
     GameObject currentTurret;
     TurretType currentTurretType;
 
     int currentFunds;
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     void Awake()
     {
+        _characterController = GetComponent<CharacterController>();
+        health = GetComponent<PlayerHealth>();
+        health.RegisterDeathResponder(this);
         isPlacing = false;
-        weapons = new GameObject[] { rifleTurret, sniper, shotgun, grenadeLauncher };
-        turrets = new GameObject[] { rifleTurret, grenadeTurret, cannonTurret, aoeTurret };
-        equippedWeapon = rifle;
-        currentTurret = rifleTurret;
-        currentTurretType = TurretType.rifleTurret;
+        equippedIndex = 0;
+        turretIndex = 0;
+        placeableIndex = 0;
     }
 
     void Update()
@@ -52,7 +61,7 @@ public class PlayerController : MonoBehaviour
     }
     public void HandleInput()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetButton("Fire1"))
         {
             if (isPlacing)
             {
@@ -83,9 +92,9 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (equippedWeapon.GetComponent<Weapon>().CanActivate())
+                if(weapons[equippedIndex].CanActivate())
                 {
-                    equippedWeapon.GetComponent<Weapon>().Shoot();
+                    weapons[equippedIndex].Activate();
                 }
             }
 
@@ -102,26 +111,54 @@ public class PlayerController : MonoBehaviour
             }
             TogglePlacementMode();
         }
-        for (int i = 1; i <= 4; i++)
+        if(isPlacing)
         {
-            if (Input.GetKey(i.ToString()))
+            for(int i = 1; i <= turrets.Length; i++)
             {
-                if (isPlacing)
+                if(Input.GetKey(i.ToString()))
                 {
-                    currentTurret = turrets[i - 1];
+                    turretIndex = i - 1;
+                    currentTurret = turrets[turretIndex];
                 }
-                else
+            }
+        }
+        else
+        {
+            for(int i = 1; i <= weapons.Length; i++)
+            {
+                if(Input.GetKey(i.ToString()))
                 {
-                    if (i == 5)
-                    {
-                        continue;
-                    }
-                    equippedWeapon = weapons[i - 1];
+                    EquipWeapon(i - 1);
                 }
             }
         }
 
+        float deltaX = Input.GetAxis("Horizontal");// * movementSpeed;
+        float deltaZ = Input.GetAxis("Vertical");// * movementSpeed;
+
+        Vector3 movement = new Vector3(deltaX, 0, deltaZ);
+        movement = movement.normalized * movementSpeed;
+
+
+        movement = transform.TransformDirection(movement);
+
+        movement.y = gravity;
+        movement *= Time.deltaTime;
+
+        _characterController.Move(movement);
+        }
+
+    public void EquipWeapon(int weaponIndex)
+    {
+        //TODO:
+        //Unequip current weapon
+        //Wait for amount of time.
+        float timeToUnEquip = weapons[equippedIndex].StartUnEquipping();
+        //Equip new weapon after timeToUnEquip has passed
+        equippedIndex = weaponIndex;
+        weapons[equippedIndex].StartEquipping();
     }
+
     public void TogglePlacementMode()
     {
         isPlacing = !isPlacing;
@@ -152,52 +189,25 @@ public class PlayerController : MonoBehaviour
 
     public void DisableEffects()
     {
-        //if(equipment != null)
-        //{
-        //    equipment.DisableEffects();
-        //}
+        if(weapons[equippedIndex] != null)
+            weapons[equippedIndex].DisableEffects();
     }
 
-    /*
-    public int damagePerShot = 20;
-    public float timeBetweenBullets = 0.15f;
-    public float range = 100f;
-
-
-    float timer;
-    Ray shootRay = new Ray();
-    RaycastHit shootHit;
-    int shootableMask;
-    ParticleSystem gunParticles;
-    LineRenderer gunLine;
-    AudioSource gunAudio;
-    Light gunLight;
-    float effectsDisplayTime = 0.2f;
-
-
-    void Awake ()
+    public void OnDeath(DamageContext context)
     {
-        shootableMask = LayerMask.GetMask ("Shootable");
-        gunParticles = GetComponent<ParticleSystem> ();
-        gunLine = GetComponent <LineRenderer> ();
-        gunAudio = GetComponent<AudioSource> ();
-        gunLight = GetComponent<Light> ();
+        DisableEffects();
     }
 
-
-    void Update ()
+    void OnGUI()
     {
-        timer += Time.deltaTime;
+        int size = 12;
+        float posx = fpsCamera.pixelWidth / 2 - size / 4;
+        float posy = fpsCamera.pixelHeight / 2 - size / 2;
+        GUI.Label(new Rect(posx, posy, size, size), "*");
 
-		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
-        {
-            Shoot ();
-        }
+        //size = 48;
+        //string str = string.Format(" {0} / {1} ", weapon.GetBulletsInMag(), weapon.bulletsPerMag);
+        //GUI.Label(new Rect(size, size, size, size), str);
 
-        if(timer >= timeBetweenBullets * effectsDisplayTime)
-        {
-            DisableEffects ();
-        }
     }
-    */
 }

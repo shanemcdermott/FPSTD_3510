@@ -80,7 +80,6 @@ GameObject:
   - component: {fileID: 54424355451868090}
   - component: {fileID: 82503336516574510}
   - component: {fileID: 136366042159491476}
-  - component: {fileID: 114958185415070556}
   - component: {fileID: 114765068622310236}
   - component: {fileID: 114058753848870946}
   m_Layer: 0
@@ -449,20 +448,6 @@ Light:
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_FalloffTable:
-    m_Table[0]: 0
-    m_Table[1]: 0
-    m_Table[2]: 0
-    m_Table[3]: 0
-    m_Table[4]: 0
-    m_Table[5]: 0
-    m_Table[6]: 0
-    m_Table[7]: 0
-    m_Table[8]: 0
-    m_Table[9]: 0
-    m_Table[10]: 0
-    m_Table[11]: 0
-    m_Table[12]: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
@@ -478,9 +463,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c63be2a8918c741863160b9d9da122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePerShot: 20
-  timeBetweenBullets: 0.15
-  range: 100
+  fpsCamera: {fileID: 0}
+  placementRange: 0
+  map: {fileID: 0}
+  wall: {fileID: 0}
+  greenMaterial: {fileID: 0}
+  redMaterial: {fileID: 0}
+  weapons: []
+  equippedIndex: 0
+  turrets: []
+  turretIndex: 0
+  placeableObjects: []
+  placeableIndex: 0
+  movementSpeed: 40
+  gravity: -9.8
+  health: {fileID: 0}
 --- !u!114 &114058753848870946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -525,18 +522,6 @@ MonoBehaviour:
   deathClip: {fileID: 8300000, guid: d36a393bca4582043982db9089e1694f, type: 3}
   flashSpeed: 5
   flashColour: {r: 1, g: 0, b: 0, a: 0.1}
---- !u!114 &114958185415070556
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1902924303448958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ec45203ae7a1a54c9d02c355f983833, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 6
 --- !u!120 &120367931564458468
 LineRenderer:
   m_ObjectHideFlags: 1
