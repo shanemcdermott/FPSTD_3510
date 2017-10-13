@@ -1,20 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 
 
-
-public class HealthComponent : MonoBehaviour {
+public class HealthComponent : MonoBehaviour, IRespondsToDeath
+{
 
     public int startingHealth = 100;
     public int currentHealth;
     bool bIsDead;
 
+    //Array of components that need to do something when the object dies
+    protected List<IRespondsToDeath> deathResponders = new List<IRespondsToDeath>();
+
     void Awake()
     {
         ResetHealth();
+    }
+
+    //Add deathResponder to collection of responders to notify upon death
+    public void RegisterDeathResponder(IRespondsToDeath deathResponder)
+    {
+        deathResponders.Add(deathResponder);
     }
 
     public void ResetHealth()
@@ -40,13 +50,18 @@ public class HealthComponent : MonoBehaviour {
             currentHealth -= context.amount;
             if (currentHealth <= 0 && !bIsDead)
             {
-                Death();
+                OnDeath(context);
             }
         }
     }
 
-    protected virtual void Death()
+    //Enable bIsDead flag and notify all responders of death
+    public virtual void OnDeath(DamageContext context)
     {
         bIsDead = true;
+        foreach(IRespondsToDeath responder in deathResponders)
+        {
+            responder.OnDeath(context);
+        }
     }
 }

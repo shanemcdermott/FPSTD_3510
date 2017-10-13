@@ -16,8 +16,6 @@ public class PlayerHealth : HealthComponent
 
     Animator anim;
     AudioSource playerAudio;
-    PlayerMovement playerMovement;
-    PlayerShooting playerShooting;
     bool isDead;
     bool damaged;
 
@@ -27,8 +25,6 @@ public class PlayerHealth : HealthComponent
         base.ResetHealth();
         anim = GetComponent <Animator> ();
         playerAudio = GetComponent <AudioSource> ();
-        playerMovement = GetComponent <PlayerMovement> ();
-        playerShooting = GetComponentInChildren <PlayerShooting> ();
         //healthSlider.value = currentHealth;
     }
 
@@ -58,18 +54,13 @@ public class PlayerHealth : HealthComponent
         playerAudio.Play();
     }
 
-    protected override void Death()
+    public override void OnDeath(DamageContext context)
     {
-        base.Death();
-        playerShooting.DisableEffects();
-
+        base.OnDeath(context);
         anim.SetTrigger("Die");
-
         playerAudio.clip = deathClip;
         playerAudio.Play();
 
-        playerMovement.enabled = false;
-        playerShooting.enabled = false;
     }
 
     public void RestartLevel ()

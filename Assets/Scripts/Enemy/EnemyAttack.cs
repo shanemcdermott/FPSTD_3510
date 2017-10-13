@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class EnemyAttack : MonoBehaviour
+public class EnemyAttack : MonoBehaviour, IRespondsToDeath
 {
     public float timeBetweenAttacks = 0.5f;
     public int attackDamage = 10;
@@ -11,16 +12,15 @@ public class EnemyAttack : MonoBehaviour
     Animator anim;
     GameObject target;
     HealthComponent targetHealth;
-    EnemyHealth enemyHealth;
     bool enemyInRange;
     float timer;
-
+    protected MonsterController controller;
 
     void Awake ()
     {
         team = GetComponent<Team>();
-        enemyHealth = GetComponent<EnemyHealth>();
         anim = GetComponent <Animator> ();
+        controller = GetComponent<MonsterController>();
     }
 
     public void AssignTarget(GameObject targetObject)
@@ -46,7 +46,7 @@ public class EnemyAttack : MonoBehaviour
         if(other.gameObject == target)
         {
             enemyInRange = false;
-            GetComponent<MonsterController>().FindNextTarget();
+            controller.FindNextTarget();
         }
     }
 
@@ -55,7 +55,7 @@ public class EnemyAttack : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if(timer >= timeBetweenAttacks && enemyInRange && enemyHealth.currentHealth > 0)
+        if(timer >= timeBetweenAttacks && enemyInRange)
         {
             Attack ();
         }
@@ -69,7 +69,7 @@ public class EnemyAttack : MonoBehaviour
             }
             else
             {
-                GetComponent<MonsterController>().FindNextTarget();
+                controller.FindNextTarget();
             }
         }
         
@@ -84,5 +84,10 @@ public class EnemyAttack : MonoBehaviour
         {
             targetHealth.TakeDamage (new DamageContext(gameObject, attackDamage));
         }
+    }
+
+    public void OnDeath(DamageContext context)
+    {
+        enabled = false;
     }
 }

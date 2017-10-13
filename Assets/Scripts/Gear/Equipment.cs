@@ -6,24 +6,17 @@ using UnityEngine;
 /// <summary>
 /// Abstract parent class for game equipment.
 /// </summary>
-public abstract class Equipment : MonoBehaviour {
+public interface Equipment
+{
+    //Start playing equip animation. Return the time it will take to equip.
+    float StartEquipping();
+    //Start playing unequip animation. Return the time it will take to unequip.
+    float StartUnEquipping();
 
-    protected bool bIsBusy;
- 
-    public virtual bool IsBusy()
-    {
-        return bIsBusy;
-    }
+    bool CanActivate();
+    void Activate();
+    void Deactivate();
 
-    public void SetIsBusy(bool bNewBusy)
-    {
-        bIsBusy = bNewBusy;
-    }
-
-    public abstract bool CanActivate();
-    public abstract void Activate();
-    public abstract void Deactivate();
-
-    public abstract void EnableEffects();
-    public abstract void DisableEffects();
+    void EnableEffects();
+    void DisableEffects();
 }

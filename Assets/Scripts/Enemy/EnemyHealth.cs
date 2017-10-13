@@ -12,7 +12,6 @@ public class EnemyHealth : HealthComponent
     AudioSource enemyAudio;
     ParticleSystem hitParticles;
     CapsuleCollider capsuleCollider;
-    bool isDead;
     bool isSinking;
 
 
@@ -44,32 +43,31 @@ public class EnemyHealth : HealthComponent
             return;
 
         base.TakeDamage(context);
-
-        enemyAudio.Play ();                   
-        hitParticles.transform.position = context.hitLocation;
-        hitParticles.Play();
+        if (enemyAudio != null)
+        {
+            enemyAudio.Play();
+        }
+        if (hitParticles != null)
+        {
+            hitParticles.transform.position = context.hitLocation;
+            hitParticles.Play();
+        }
     }
 
 
-    protected override void Death ()
+    public override void OnDeath (DamageContext context)
     {
-        base.Death();
+        base.OnDeath(context);
 
-        capsuleCollider.isTrigger = true;
+        if(anim != null)
+            anim.SetTrigger ("Dead");
 
-        anim.SetTrigger ("Dead");
+        if (enemyAudio != null)
+        {
+            if (enemyAudio.isPlaying)
+                enemyAudio.Stop();
 
-        enemyAudio.clip = deathClip;
-        enemyAudio.Play ();
-    }
-
-
-    public void StartSinking ()
-    {
-        GetComponent <UnityEngine.AI.NavMeshAgent> ().enabled = false;
-        GetComponent <Rigidbody> ().isKinematic = true;
-        isSinking = true;
-        //ScoreManager.score += scoreValue;
-        Destroy (gameObject, 2f);
+            enemyAudio.PlayOneShot(deathClip);
+        }
     }
 }

@@ -10,93 +10,76 @@ public class TraceWeapon : Weapon
 
     public int damagePerShot = 20;
     public float range = 100f;
-
+    public LineRenderer traceLine;
 
     protected Ray shootRay = new Ray();
     protected RaycastHit shootHit;
-    int shootableMask;
-    LineRenderer traceLine;
-
-    ParticleSystem gunParticles;
-    AudioSource gunAudio;
-    Light gunLight;
-    float effectsDisplayTime = 0.2f;
+    protected int shootableMask;
 
 
     protected override void Awake()
     {
         base.Awake();
         shootableMask = LayerMask.GetMask("Shootable");
-        traceLine = GetComponent<LineRenderer>();
-
-        gunParticles = GetComponent<ParticleSystem>();
-        gunAudio = GetComponent<AudioSource>();
-        gunLight = GetComponent<Light>();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        if (timer >= timeBetweenShots * effectsDisplayTime)
-        {
-            DisableEffects();
-        }
+        if(traceLine == null)
+            traceLine = GetComponent<LineRenderer>();
+        if(gunParticles == null)
+            gunParticles = GetComponent<ParticleSystem>();
+        if(gunAudio == null)
+            gunAudio = GetComponent<AudioSource>();
+        if(gunLight == null)
+            gunLight = GetComponent<Light>();
     }
 
     public override void Activate()
     {
-        if(CanActivate())
-        {
-            timer = 0f;
+        SetCurrentState(WeaponState.HipFiring);
 
-            gunAudio.Play();
+        if (usesAmmo)
+            bulletsInMag--;
 
-            gunLight.enabled = true;
+        timer = 0f;
 
-            gunParticles.Stop();
-            gunParticles.Play();
-            traceLine.enabled = true;
-            traceLine.SetPosition(0, transform.position);
+        EnableEffects();
+        traceLine.SetPosition(0, transform.position);
 
-            shootRay.origin = transform.position;
-            shootRay.direction = transform.forward;
+        shootRay.origin = transform.position;
+        shootRay.direction = transform.forward;
 
             
-            if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
+        if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
+        {
+            HealthComponent enemyHealth = shootHit.collider.GetComponent<HealthComponent>();
+            if (enemyHealth != null)
             {
-                HealthComponent enemyHealth = shootHit.collider.GetComponent<HealthComponent>();
-                if (enemyHealth != null)
-                {
-                    enemyHealth.TakeDamage(new DamageContext(gameObject, damagePerShot, shootHit.point));
-                }
-                traceLine.SetPosition(1, shootHit.point);
+                enemyHealth.TakeDamage(new DamageContext(gameObject, damagePerShot, shootHit.point));
             }
-            else
-            {
-                traceLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
-            }
-            EnableEffects();
+            traceLine.SetPosition(1, shootHit.point);
         }
+        else
+        {
+            traceLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
+        }
+        
     }
 
     public override void Deactivate()
     {
         //
-        SetIsBusy(false);
+        SetCurrentState(WeaponState.Idle);
         DisableEffects();
     }
 
     public override void DisableEffects()
     {
+        base.DisableEffects();
         traceLine.enabled = false;
-        gunLight.enabled = false;
-        //
     }
 
     public override void EnableEffects()
     {
-        //traceLine.enabled = true;
-        //throw new NotImplementedException();
+        base.EnableEffects();
+        traceLine.enabled = true;
+        Debug.Log("Boom");
     }
-
 }
