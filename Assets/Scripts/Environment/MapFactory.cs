@@ -56,8 +56,8 @@ public class MapFactory : MonoBehaviour
             for (int z = 0; z < height; z++)
             {
                 GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
-
-                GameObject instance = Instantiate(toInstantiate, new Vector3(x * tileWidth, 0f, z * tileHeight), Quaternion.identity) as GameObject;
+				Vector3 p = this.transform.position;
+				GameObject instance = Instantiate(toInstantiate, new Vector3(x * tileWidth + p.x, 0f + p.y, z * tileHeight + p.z), Quaternion.identity) as GameObject;
                 instance.transform.SetParent(board);
                 map.setTileAt(x,z,instance);
             }
