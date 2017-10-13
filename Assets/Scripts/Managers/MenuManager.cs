@@ -6,8 +6,25 @@ public class MenuManager : MonoBehaviour {
     public Animator mainMenu;
     public Animator volumeSlider;
     public Animator levelSelect;
+    public Animator pause;
 	
 	// Update is called once per frame
+    void Update()
+    {
+
+        if(Input.GetKeyDown(KeyCode.P) && pause.GetBool("isHidden")) {
+            pause.SetBool("isHidden", false);
+            Cursor.visible = true;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.P) && !pause.GetBool("isHidden"))
+        {
+            pause.SetBool("isHidden", true);
+            Cursor.visible = false;
+        }
+        
+    }
+
 	public void ChangeToScene (int sceneToChangeTo) {
         Application.LoadLevel(sceneToChangeTo);
 	}
