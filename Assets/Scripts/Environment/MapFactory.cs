@@ -67,5 +67,6 @@ public class MapFactory : MonoBehaviour
     public void SetupScene()
     {
         SetupBoard();
+		this.GetComponentInChildren<PathFinder> ().setMap (this.map);
     }
 }
