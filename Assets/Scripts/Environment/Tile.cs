@@ -6,8 +6,7 @@ public class Tile : MonoBehaviour
 {
     bool placeable;
     public GameObject wall;
-    private bool hasWall = false;
-
+    private GameObject placedWall;
     /// <summary>
     /// Whether or not this tile blocks
     /// </summary>
@@ -28,14 +27,13 @@ public class Tile : MonoBehaviour
     }
     public void PlaceWall()
     {
-        wall.transform.position = gameObject.transform.position + new Vector3(0, 1, 0);
-        wall.transform.parent = gameObject.transform;
-        wall.AddComponent<Wall>();
-        GameObject.Instantiate(wall);
-        hasWall = true;
+        Vector3 wallPos = gameObject.transform.position + new Vector3(0, 1, 0);
+        placedWall = GameObject.Instantiate(wall, wallPos, Quaternion.identity);
+        placedWall.transform.parent = gameObject.transform;
+        Debug.Log("Placed Wall at " + wallPos.ToString());
     }
     public bool HasWall()
     {
-        return hasWall;
+        return placedWall != null;
     }
 }

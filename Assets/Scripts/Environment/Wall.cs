@@ -17,8 +17,9 @@ public class Wall : MonoBehaviour {
 
     public void PlaceTurret(GameObject turretToPlace, TurretType type)
     {
+
         turret = turretToPlace;
-        turret.transform.position = gameObject.transform.position + new Vector3(0,1.5f,0);
+        Vector3 turPosition = gameObject.transform.position + new Vector3(0,1.5f,0);
         gameObject.AddComponent<Turret>();
         Turret turretComponent = gameObject.GetComponent<Turret>();
         turretComponent.SetupTurret(type);

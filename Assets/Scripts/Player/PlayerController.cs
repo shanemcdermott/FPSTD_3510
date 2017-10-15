@@ -38,6 +38,10 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     int currentFunds;
 
+    protected Ray traceRay = new Ray();
+    protected RaycastHit traceHit;
+    protected int buildableMask;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -53,6 +57,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         equippedIndex = 0;
         turretIndex = 0;
         placeableIndex = 0;
+        buildableMask = LayerMask.GetMask("Buildable");
     }
 
     void Update()
@@ -65,13 +70,15 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         {
             if (isPlacing)
             {
-                RaycastHit hit;
-                if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, placementRange))
+                traceRay.origin = transform.position;
+                traceRay.direction = transform.forward;
+                if (Physics.Raycast(traceRay, out traceHit, placementRange, buildableMask))
                 {
-                    Debug.Log(hit.transform.name);
+                    Debug.Log("Placing...");
 
-                    Tile tileTarget = hit.transform.GetComponent<Tile>();
-                    Wall wallTarget = hit.transform.GetComponent<Wall>();
+                    Tile tileTarget = traceHit.collider.GetComponent<Tile>();
+                    //Tile tileTarget = hit.transform.GetComponent<Tile>();
+                  
                     if (tileTarget != null)
                     {
                         if (!tileTarget.HasWall())
@@ -80,13 +87,16 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                             currentFunds -= 10;
                         }
                     }
-                    if (wallTarget != null)
+                    else
                     {
-                        if (!wallTarget.HasTurret())
+                        Wall wallTarget = traceHit.transform.GetComponent<Wall>();
+                        if (wallTarget != null)
                         {
-                            wallTarget.PlaceTurret(currentTurret, currentTurretType);
+                            if (!wallTarget.HasTurret())
+                            {
+                                wallTarget.PlaceTurret(currentTurret, currentTurretType);
+                            }
                         }
-
                     }
                 }
             }
