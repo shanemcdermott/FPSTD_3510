@@ -35,6 +35,7 @@ public class EnemyAttack : MonoBehaviour, IRespondsToDeath
         Team otherTeam = other.GetComponent<Team>();
         if(otherTeam != null && !otherTeam.IsFriendly(team))
         {
+            GetComponent<Animator>().SetBool("isAttacking", true);
             enemyInRange = true;
             AssignTarget(other.gameObject);
         }
@@ -45,6 +46,7 @@ public class EnemyAttack : MonoBehaviour, IRespondsToDeath
     {
         if(other.gameObject == target)
         {
+            GetComponent<Animator>().SetBool("isAttacking", false);
             enemyInRange = false;
             controller.FindNextTarget();
         }

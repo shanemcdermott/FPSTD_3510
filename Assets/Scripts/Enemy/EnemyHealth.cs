@@ -52,6 +52,7 @@ public class EnemyHealth : HealthComponent
             hitParticles.transform.position = context.hitLocation;
             hitParticles.Play();
         }
+        GetComponent<Animator>().SetTrigger("hit");
     }
 
 
@@ -60,7 +61,8 @@ public class EnemyHealth : HealthComponent
         base.OnDeath(context);
 
         if(anim != null)
-            anim.SetTrigger ("Dead");
+            //anim.SetTrigger ("Dead");
+            GetComponent<Animator>().SetBool("isDead", true);
 
         if (enemyAudio != null)
         {
