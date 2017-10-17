@@ -7,6 +7,7 @@ public class MenuManager : MonoBehaviour {
     public Animator volumeSlider;
     public Animator levelSelect;
     public Animator pause;
+    public Animator pauseSettings;
 	
 	// Update is called once per frame
     void Update()
@@ -56,5 +57,22 @@ public class MenuManager : MonoBehaviour {
     {
         mainMenu.SetBool("isHidden", false);
         levelSelect.SetBool("isHidden", true);
+    }
+
+    public void OpenPauseSettings()
+    {
+        pause.SetBool("isHidden", true);
+        pauseSettings.SetBool("isHidden", false);
+    }
+
+    public void ClosePauseSettings()
+    {
+        pause.SetBool("isHidden", false);
+        pauseSettings.SetBool("isHidden", true);
+    }
+
+    public void ClosePause()
+    {
+        pause.SetBool("isHidden", true);
     }
 }
