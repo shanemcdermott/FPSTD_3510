@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     GameObject currentTurret;
     TurretType currentTurretType;
 
-    bool isPlacing;
+    public bool isPlacing;
     int currentFunds;
 
     protected Ray traceRay = new Ray();
