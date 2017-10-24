@@ -7,78 +7,107 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     public float placementRange;
     public GameObject map;
 
-    public GameObject wall;
-
-    public Material greenMaterial;
-    public Material redMaterial;
-
-
-    public Weapon[] weapons;
-    public int equippedIndex;
+    public GameObject[] weapons; //rifle, sniper, shotgun, rocket
+    public GameObject currentWeapon; //rifle, cannon, rocket, aoe
 
     public GameObject[] turrets;
-    public int turretIndex;
 
-    public GameObject[] placeableObjects;
-    public int placeableIndex;
+    public Material canPlace;
+    public Material cantPlace;
 
-    private CharacterController _characterController;
-    public float movementSpeed = 40f;
-    public float gravity = -9.8f;
 
-    public PlayerHealth health;
-    
-    float playerReloadSpeed;
-
-    bool isPlacing;
-
-    GameObject currentPlaceable;
     GameObject currentTurret;
     TurretType currentTurretType;
 
+    bool isPlacing;
     int currentFunds;
 
     protected Ray traceRay = new Ray();
     protected RaycastHit traceHit;
     protected int buildableMask;
 
+    public PlayerHealth health;
+
+    float playerReloadSpeed;
+
+    Material[] defaultTileMat;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        currentWeapon = weapons[0];
+        currentTurret = turrets[0];
     }
 
     void Awake()
     {
-        _characterController = GetComponent<CharacterController>();
         health = GetComponent<PlayerHealth>();
         health.RegisterDeathResponder(this);
         isPlacing = false;
-        equippedIndex = 0;
-        turretIndex = 0;
-        placeableIndex = 0;
         buildableMask = LayerMask.GetMask("Buildable");
     }
 
     void Update()
     {
-        HandleInput();
+        HandlePlacement();
+        SwitchWeapon();
+        SwitchTurret();
     }
-    public void HandleInput()
+    private void SwitchWeapon()
     {
-        if (Input.GetButton("Fire1"))
+        if (!isPlacing)
+        {
+            currentWeapon.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.Alpha1)) currentWeapon = weapons[0];
+            if (Input.GetKeyDown(KeyCode.Alpha2)) currentWeapon = weapons[1];
+            if (Input.GetKeyDown(KeyCode.Alpha3)) currentWeapon = weapons[2];
+            if (Input.GetKeyDown(KeyCode.Alpha4)) currentWeapon = weapons[3];
+            currentWeapon.SetActive(true);
+        }
+    }
+
+    private void SwitchTurret()
+    {
+        if (isPlacing)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                currentTurret = turrets[0];
+                currentTurretType = TurretType.rifleTurret;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                currentTurret = turrets[1];
+                currentTurretType = TurretType.cannonTurret;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                currentTurret = turrets[2];
+                currentTurretType = TurretType.rocketTurret;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                currentTurret = turrets[3];
+                currentTurretType = TurretType.aoeTurret;
+            }
+        }
+    }
+
+    public void HandlePlacement()
+    {
+        if (Input.GetMouseButtonUp(0))
         {
             if (isPlacing)
             {
-                traceRay.origin = transform.position;
-                traceRay.direction = transform.forward;
-                if (Physics.Raycast(traceRay, out traceHit, placementRange, buildableMask))
+                RaycastHit hit;
+                if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, placementRange))
                 {
-                    Debug.Log("Placing...");
+                    Debug.Log(hit.transform.name);
 
-                    Tile tileTarget = traceHit.collider.GetComponent<Tile>();
-                    //Tile tileTarget = hit.transform.GetComponent<Tile>();
-                  
+                    Tile tileTarget = hit.transform.GetComponent<Tile>();
+                    Wall wallTarget = hit.transform.GetComponent<Wall>();
+
                     if (tileTarget != null)
                     {
                         if (!tileTarget.HasWall())
@@ -87,88 +116,27 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                             currentFunds -= 10;
                         }
                     }
-                    else
+                    else if (wallTarget != null)
                     {
-                        Wall wallTarget = traceHit.transform.GetComponent<Wall>();
-                        if (wallTarget != null)
+                        if (!wallTarget.HasTurret())
                         {
-                            if (!wallTarget.HasTurret())
-                            {
-                                wallTarget.PlaceTurret(currentTurret, currentTurretType);
-                            }
+                            wallTarget.PlaceTurret(currentTurret, currentTurretType);
                         }
+
                     }
                 }
             }
-            else
-            {
-                if(weapons[equippedIndex].CanActivate())
-                {
-                    weapons[equippedIndex].Activate();
-                }
-            }
-
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (isPlacing)
-            {
-                Debug.Log("turning placement mode off");
-            }
-            else
-            {
-                Debug.Log("turning placement mode on");
-            }
             TogglePlacementMode();
+            ToggleWeapon();
         }
-        if(isPlacing)
-        {
-            for(int i = 1; i <= turrets.Length; i++)
-            {
-                if(Input.GetKey(i.ToString()))
-                {
-                    turretIndex = i - 1;
-                    currentTurret = turrets[turretIndex];
-                }
-            }
-        }
-        else
-        {
-            for(int i = 1; i <= weapons.Length; i++)
-            {
-                if(Input.GetKey(i.ToString()))
-                {
-                    EquipWeapon(i - 1);
-                }
-            }
-        }
-
-        float deltaX = Input.GetAxis("Horizontal");// * movementSpeed;
-        float deltaZ = Input.GetAxis("Vertical");// * movementSpeed;
-
-        Vector3 movement = new Vector3(deltaX, 0, deltaZ);
-        movement = movement.normalized * movementSpeed;
-
-
-        movement = transform.TransformDirection(movement);
-
-        movement.y = gravity;
-        movement *= Time.deltaTime;
-
-        _characterController.Move(movement);
-        }
-
-    public void EquipWeapon(int weaponIndex)
-    {
-        //TODO:
-        //Unequip current weapon
-        //Wait for amount of time.
-        float timeToUnEquip = weapons[equippedIndex].StartUnEquipping();
-        //Equip new weapon after timeToUnEquip has passed
-        equippedIndex = weaponIndex;
-        weapons[equippedIndex].StartEquipping();
     }
-
+    private void ToggleWeapon()
+    {
+        currentWeapon.SetActive(!currentWeapon.activeSelf);
+    }
     public void TogglePlacementMode()
     {
         isPlacing = !isPlacing;
@@ -177,30 +145,23 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         {
             foreach (Tile tile in tiles)
             {
-                if (tile.IsPlaceable())
-                {
-                    Material childMaterial = tile.transform.GetChild(0).transform.GetChild(0).GetComponent<Renderer>().material;
-                    childMaterial.color = new Color(childMaterial.color.r + 100, childMaterial.color.g, childMaterial.color.b);
-                }
+                Material childMaterial = tile.transform.GetChild(0).transform.GetChild(0).GetComponent<Renderer>().material;
+                childMaterial.color = new Color(childMaterial.color.r + 100, childMaterial.color.g, childMaterial.color.b);
             }
         }
         else
         {
             foreach (Tile tile in tiles)
             {
-                if (tile.IsPlaceable())
-                {
-                    Material childMaterial = tile.transform.GetChild(0).transform.GetChild(0).GetComponent<Renderer>().material;
-                    childMaterial.color = new Color(childMaterial.color.r - 100, childMaterial.color.g, childMaterial.color.b);
-                }
+                Material childMaterial = tile.transform.GetChild(0).transform.GetChild(0).GetComponent<Renderer>().material;
+                childMaterial.color = new Color(childMaterial.color.r - 100, childMaterial.color.g, childMaterial.color.b);
             }
         }
     }
 
     public void DisableEffects()
     {
-        if(weapons[equippedIndex] != null)
-            weapons[equippedIndex].DisableEffects();
+        currentWeapon.GetComponent<Weapon>().DisableEffects();
     }
 
     public void OnDeath(DamageContext context)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-
+    public Equipment equipment;
     public TurretType turretType;
     //public Equipment equipment;
     float damage;
@@ -37,7 +37,7 @@ public class Turret : MonoBehaviour
                 fireRate = 0.15f;
                 damage = 100;
                 break;
-            case TurretType.grenadeTurret:
+            case TurretType.rocketTurret:
                 cost = 10;
                 attackRadius = 50;
                 attackRange = 200;
