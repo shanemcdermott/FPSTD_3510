@@ -23,7 +23,7 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
     {
         if (target != null)
         {
-
+            GetComponent<Animator>().SetBool("isWalking", true);
             float zDiff = target.transform.position.z - this.transform.position.z;
             float xDiff = target.transform.position.x - this.transform.position.x;
             this.transform.localEulerAngles = new Vector3(0, (Mathf.Atan2(xDiff, zDiff) / Mathf.PI * 180), 0);
