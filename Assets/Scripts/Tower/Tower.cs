@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*A Tower is a defense point*/
 
-public class Tower : Obstacle
+public class Tower : MonoBehaviour
 {
 
     TowerHealth health;

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : Obstacle
+public class Turret : MonoBehaviour
 {
+    public Equipment equipment;
     public TurretType turretType;
     //public Equipment equipment;
     float damage;
@@ -15,7 +16,7 @@ public class Turret : Obstacle
     // Use this for initialization
     void Start()
     {
-        bCanBuildUpon = false;
+        
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class Turret : Obstacle
                 fireRate = 0.15f;
                 damage = 100;
                 break;
-            case TurretType.grenadeTurret:
+            case TurretType.rocketTurret:
                 cost = 10;
                 attackRadius = 50;
                 attackRange = 200;

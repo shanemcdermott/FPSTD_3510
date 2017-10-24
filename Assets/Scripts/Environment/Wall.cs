@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour {
     GameObject turret;
-    bool hasTurret = false;
+    GameObject placedTurret;
 	// Use this for initialization
 	void Start () {
 		
@@ -18,23 +18,31 @@ public class Wall : MonoBehaviour {
     public void PlaceTurret(GameObject turretToPlace, TurretType type)
     {
         turret = turretToPlace;
-        turret.transform.position = gameObject.transform.position + new Vector3(0,1.5f,0);
-        gameObject.AddComponent<Turret>();
-        Turret turretComponent = gameObject.GetComponent<Turret>();
+        Vector3 turPosition = new Vector3(0,0.25f,0);
+        placedTurret = Instantiate(turret, turPosition+transform.position, Quaternion.identity);
+        Debug.Log("turrPos: " + turPosition + " placePos: " + placedTurret.transform.position);
+        placedTurret.transform.parent = transform;
+        placedTurret.AddComponent<BoxCollider>();
+        BoxCollider turretCollider = placedTurret.GetComponent<BoxCollider>();
+        turretCollider.center += new Vector3(0, 0.5f, 0);
+        placedTurret.AddComponent<Turret>();
+        Turret turretComponent = placedTurret.GetComponent<Turret>();
         turretComponent.SetupTurret(type);
-        Transform transform = Instantiate(turret.transform) as Transform;
-        transform.parent = this.transform;
-        hasTurret = true;
+        placedTurret.transform.tag = "Tower";
+    }
+    public void DestroyTurret()
+    {
+        GameObject.Destroy(placedTurret);
     }
     public bool HasTurret()
     {
-        return hasTurret;
+        return placedTurret != null;
     }
 }
 public enum TurretType
 {
     rifleTurret,
-    grenadeTurret,
+    rocketTurret,
     aoeTurret,
     cannonTurret
 }

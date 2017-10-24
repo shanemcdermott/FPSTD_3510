@@ -26,7 +26,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     public Light gunLight;
 
     /*Tracks current Weapon State*/
-    public WeaponState state;
+    private WeaponState state;
 
     protected int bulletsInMag;
     protected float timer;

@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class TraceWeapon : Weapon
 {
-
     public int damagePerShot = 20;
     public float range = 100f;
     public LineRenderer traceLine;
@@ -65,7 +64,6 @@ public class TraceWeapon : Weapon
 
     public override void Deactivate()
     {
-        //
         SetCurrentState(WeaponState.Idle);
         DisableEffects();
     }

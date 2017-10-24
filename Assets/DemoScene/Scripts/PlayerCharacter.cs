@@ -26,7 +26,7 @@ public class PlayerCharacter : MonoBehaviour
         GUI.Label(new Rect(posx, posy, size, size), "*");
 
         size = 48;
-        string str = string.Format(" {0} / {1} ", weapon.GetBulletsInMag(), weapon.bulletsPerMag);
+		string str = "temp";//string.Format(" {0} / {1} ", weapon.GetBulletsInMag(), weapon.bulletsPerMag);
         GUI.Label(new Rect(size, size, size, size), str);
 
     }

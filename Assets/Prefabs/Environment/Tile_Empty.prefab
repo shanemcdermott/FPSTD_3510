@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4444598161628696}
   - component: {fileID: 114593919109539856}
   - component: {fileID: 65472349718592974}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tile_Empty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4580103508128224}
   - component: {fileID: 33314246367520788}
   - component: {fileID: 23837706018526996}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4170764590776578}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ Transform:
   m_GameObject: {fileID: 1862495383172526}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 1, z: 0.5}
   m_Children:
   - {fileID: 4580103508128224}
   m_Father: {fileID: 4444598161628696}
@@ -150,7 +150,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 0.05, z: 2}
+  m_Size: {x: 1, y: 0.05, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114593919109539856
 MonoBehaviour:
@@ -163,4 +163,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3ec03443c46d6449c04ea45b2bab58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall: {fileID: 1769019368187682, guid: d28751d9907ea654f95055eb21a02479, type: 2}
   blocksMovement: 0
