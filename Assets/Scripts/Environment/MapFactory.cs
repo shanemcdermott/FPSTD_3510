@@ -69,4 +69,9 @@ public class MapFactory : MonoBehaviour
         SetupBoard();
 		//this.GetComponentInChildren<PathFinder> ().setMap (this.map);
     }
+
+	public TileMap getTileMap()
+	{
+		return map;
+	}
 }

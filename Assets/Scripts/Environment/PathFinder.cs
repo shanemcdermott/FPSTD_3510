@@ -6,7 +6,8 @@ using UnityEngine;
 public class PathFinder : MonoBehaviour {
 
 
-	//public TileMap map;
+	public TileMap map;
+	//public MapFactory mapFac;
 
 	public static float tileWidth = 1f;
 	public Vector3 cubeSize = new Vector3 (tileWidth, tileWidth, tileWidth);
@@ -30,7 +31,39 @@ public class PathFinder : MonoBehaviour {
 	private bool[,] path;
 
 
-	public void initGrid(int xl, int zl, float wallProb)
+	public void deriveGridFromTileMap (TileMap tm)
+	{
+		int xlen = tm.getWidth ();
+		int zlen = tm.getLength ();
+
+		startx = 0;
+		startz = 0;
+		targetx = xlen - 1;
+		targetz = zlen - 1;
+
+		for (int x = 0; x < xlen; x++) {
+			for (int z = 0; z < zlen; z++) {
+				grid [z, x] = !(tm.getTileAt (x, z).GetComponent<Tile> ().HasWall ()); //false for can't walk through (maybe change this)
+			}
+		}
+
+		grid [startz, startx] = true;
+		grid [targetz, targetx] = true;
+
+		visited = new bool[zlen, xlen];
+		path = new bool[zlen, xlen];
+		for (int x = 0; x < xlen; x++) {
+			for (int z = 0; z < zlen; z++) {
+				visited[z, x] = false;
+				path [z, x] = false;
+			}
+		}
+
+		Debug.Log ("Path found = " + recursiveFindPath (startx, startz));
+
+	}
+
+	public void initRandomGrid(int xl, int zl, float wallProb)
 	{
 		grid = new bool[xl, zl];
 		startx = 0;
@@ -69,6 +102,7 @@ public class PathFinder : MonoBehaviour {
 		Debug.Log ("Path found = " + recursiveFindPath (startx, startz));
 
 	}
+
 
 	public bool recursiveFindPath(int x, int z)
 	{
@@ -121,7 +155,13 @@ public class PathFinder : MonoBehaviour {
 
 	public void Start()
 	{
-		initGrid (10, 10, 0.2f);
+		//deriveGridFromTileMap (mapFac.getTileMap());
+	}
+
+	public void loadTileMap(MapFactory mf)
+	{
+		map = mf.getTileMap ();
+		deriveGridFromTileMap (map);
 	}
 
 	public void OnDrawGizmos()
