@@ -22,6 +22,7 @@ public class TileMap : MonoBehaviour
         tileMap[x, z] = tile;
     }
 
+
     public GameObject getTileAt(int x, int z)
     {
         return tileMap[x, z];

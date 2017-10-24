@@ -7,6 +7,7 @@ public class Tile : MonoBehaviour
     bool placeable;
     public GameObject wall;
     private GameObject placedWall;
+
     /// <summary>
     /// Whether or not this tile blocks
     /// </summary>
@@ -25,6 +26,8 @@ public class Tile : MonoBehaviour
     {
         return placeable;
     }
+
+    //Place a wall at on top of this tile.
     public void PlaceWall()
     {
         Vector3 wallPos = gameObject.transform.position + new Vector3(0, 1, 0);

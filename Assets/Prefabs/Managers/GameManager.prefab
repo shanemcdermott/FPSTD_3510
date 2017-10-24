@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4416091760058988}
   - component: {fileID: 114036405370270520}
+  - component: {fileID: 114928587232897940}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -51,3 +52,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46a40e0d17051f419a2cee666669032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  phase: 0
+--- !u!114 &114928587232897940
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1650921511992148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a99222b1e4a384e923ac7e86efc709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefabs:
+  - {fileID: 1350807989951994, guid: bfbd90f439039b9469119860f3db4a99, type: 2}
+  bShouldSpawn: 0
+  spawnTime: 3
+  spawnPoints: []
