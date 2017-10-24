@@ -28,6 +28,11 @@ public class GameManager : MonoBehaviour {
         InitGame();
     }
 
+	public TileMap getTileMap()
+	{
+		return tileMap;
+	}
+
     private void InitGame()
     {
         //Prepare level etc.
