@@ -10,14 +10,16 @@ public class HUDManager : MonoBehaviour {
     public Text crystals;
     public Text upgrades;
     public Text phase;
-    public GameObject player;
+    private GameObject player;
 
 	// Use this for initialization
-	void Start () {
-        
-        
-	}
-	
+	void Start ()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+
+    }
+
+
 	// Update is called once per frame
 	void Update () {
         healthSlider.value = player.GetComponent<PlayerHealth>().currentHealth;

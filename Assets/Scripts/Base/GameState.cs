@@ -7,12 +7,12 @@ public abstract class GameState : MonoBehaviour, IState
 {
     public virtual void Enter()
     {
-        
+        enabled = true;
     }
 
     public virtual void Exit()
     {
-        Destroy(this);
+        enabled = false;
         //
     }
 }

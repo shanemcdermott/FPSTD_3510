@@ -8,12 +8,16 @@ public class EnemyManager : MonoBehaviour
     public Transform[] spawnPoints;
 
 
-    void Start ()
+    public void OnEnable()
     {
         bShouldSpawn = true;
-        InvokeRepeating ("Spawn", spawnTime, spawnTime);
+        InvokeRepeating("Spawn", spawnTime, spawnTime);
     }
 
+    public void OnDisable()
+    {
+        bShouldSpawn = false;
+    }
 
     void Spawn ()
     {

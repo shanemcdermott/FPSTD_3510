@@ -15,12 +15,14 @@ public class MenuManager : MonoBehaviour {
 
         if(Input.GetKeyDown(KeyCode.P) && pause.GetBool("isHidden")) {
             pause.SetBool("isHidden", false);
+            Time.timeScale = 0;
             Cursor.visible = true;
         }
 
         else if (Input.GetKeyDown(KeyCode.P) && !pause.GetBool("isHidden"))
         {
             pause.SetBool("isHidden", true);
+            Time.timeScale = 1;
             Cursor.visible = false;
         }
         
