@@ -52,6 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnRadius: 0
-  enemyPrefab: {fileID: 1757725467570836, guid: c99d1f1d92ecdbe4699a99433e1287c9,
+  enemyPrefab: {fileID: 1350807989951994, guid: bfbd90f439039b9469119860f3db4a99,
     type: 2}
   player: {fileID: 0}
