@@ -23,6 +23,15 @@ public class HUDManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         healthSlider.value = player.GetComponent<PlayerHealth>().currentHealth;
+
+        if (player.GetComponent<PlayerController>().isPlacing)
+        {
+            phase.text = "Build";
+        }
+        else
+        {
+            phase.text = "Defend";
+        }
 	}
 
 
