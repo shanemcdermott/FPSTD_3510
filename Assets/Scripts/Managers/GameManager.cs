@@ -3,24 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GamePhase
-{
-    Build,
-    Defend,
-    Complete
-}
 
 public class GameManager : MonoBehaviour, IStateController<GameState>
 {
 
     public static GameManager instance = null;
 
-    public GamePhase phase;
+
+    public GameState state;
+    public HUDManager HUD;
+    public MenuManager MenuManager;
+
     private TileMap tileMap;
     private int level = 1;
-    
-    private GameState state;
+
     private EnemyManager enemyManager;
+    private GameObject player;
 
     private void Awake()
     {
@@ -36,13 +34,15 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
         DontDestroyOnLoad(gameObject);
         tileMap = GetComponent<TileMap>();
         enemyManager = GetComponent<EnemyManager>();
-
+        player = GameObject.FindGameObjectWithTag("Player");
         InitGame();
     }
 
+
     private void InitGame()
     {
-        //Prepare level etc.
+        if (state != null)
+            state.Enter();
     }
 
     // Update is called once per frame
@@ -51,6 +51,11 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
 		
 	}
 
+    public EnemyManager GetEnemyManager()
+    {
+        return enemyManager;
+    }
+
     public TileMap GetTileMap()
     {
         return tileMap;
@@ -58,7 +63,9 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
 
     public void SetState(GameState state)
     {
-        this.state.Exit();
+        if(this.state != null)
+            this.state.Exit();
+
         this.state = state;
         this.state.Enter();
     }
