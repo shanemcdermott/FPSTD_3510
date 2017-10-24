@@ -22,9 +22,13 @@ public class Wall : MonoBehaviour {
         placedTurret = Instantiate(turret, turPosition+transform.position, Quaternion.identity);
         Debug.Log("turrPos: " + turPosition + " placePos: " + placedTurret.transform.position);
         placedTurret.transform.parent = transform;
+        placedTurret.AddComponent<BoxCollider>();
+        BoxCollider turretCollider = placedTurret.GetComponent<BoxCollider>();
+        turretCollider.center += new Vector3(0, 0.5f, 0);
         placedTurret.AddComponent<Turret>();
         Turret turretComponent = placedTurret.GetComponent<Turret>();
         turretComponent.SetupTurret(type);
+        placedTurret.transform.tag = "Tower";
     }
     public void DestroyTurret()
     {

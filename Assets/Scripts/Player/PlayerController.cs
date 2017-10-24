@@ -127,6 +127,38 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                 }
             }
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (isPlacing)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, placementRange))
+                {
+                    Debug.Log("Destroying: " + hit.transform.name);
+                    if (hit.transform.tag == "Wall")
+                    {
+                        Tile tileHit = hit.transform.parent.GetComponent<Tile>();
+                        Wall wallHit = hit.transform.GetComponent<Wall>();
+                        if (wallHit.HasTurret())
+                        {
+                            wallHit.DestroyTurret();
+                        }
+                        else
+                        {
+                            tileHit.DestroyWall();
+                        }
+                    }
+                    if (hit.transform.tag == "Tower")
+                    {
+                        Wall wallHit = hit.transform.parent.GetComponent<Wall>();
+                        if (wallHit.HasTurret())
+                        {
+                            wallHit.DestroyTurret();
+                        }
+                    }
+                }
+            }
+        }
         if (Input.GetKeyDown(KeyCode.E))
         {
             TogglePlacementMode();
