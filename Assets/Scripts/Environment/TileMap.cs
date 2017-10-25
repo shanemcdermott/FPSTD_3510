@@ -22,7 +22,7 @@ public class TileMap : MonoBehaviour
 	//used for pathfinding
 	private bool[,] grid = null;
 	private bool[,] visited = null;
-	private bool[,] path = null;
+	private bool[,] path = null; //change this to a path
 
 
 //    //do we need this?
@@ -33,7 +33,6 @@ public class TileMap : MonoBehaviour
 //		zlen = numZ;
 //    }
 
-	//default init method
 	public void initTileMap(int xSize, int zSize)
 	{
 		xlen = xSize;
@@ -57,6 +56,11 @@ public class TileMap : MonoBehaviour
 		}
 	}
 
+	void updateMap()
+	{
+		
+	}
+
 	public void setStartTile (int x, int z)
 	{
 		startx = x;
@@ -71,13 +75,13 @@ public class TileMap : MonoBehaviour
 
     public void setTileAt(int x, int z, GameObject tile)
     {
-        tileMap[x, z] = tile;
+        tileMap[z, x] = tile;
     }
 
 
     public GameObject getTileAt(int x, int z)
     {
-        return tileMap[x, z];
+        return tileMap[z, x];
     }
 
 	public int getWidth()
@@ -98,6 +102,7 @@ public class TileMap : MonoBehaviour
 	public void PlaceWallHere(int x, int z)
 	{
 		tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
+		isPath ();
 	}
 
 	public bool CanPlaceHere(int x, int z)
@@ -202,10 +207,10 @@ public class TileMap : MonoBehaviour
 							Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 						}
 
-						if (grid [z, x]) {
-							Gizmos.DrawWireCube (center, cubeSize);
-						} else {
+						if (tileMap [z, x].GetComponent<Tile>().HasWall()) {
 							Gizmos.DrawCube (center, cubeSize);
+						} else {
+							Gizmos.DrawWireCube (center, cubeSize);
 						}
 					}
 
