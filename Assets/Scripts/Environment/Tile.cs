@@ -10,6 +10,11 @@ public class Tile : MonoBehaviour
 	private int xPos = -1;
 	private int zPos = -1;
 
+	public TileMap getParentTileMap()
+	{
+		return this.GetComponentInParent<TileMap> ();
+	}
+
 	public int getXPos()
 	{
 		return xPos;
@@ -28,10 +33,11 @@ public class Tile : MonoBehaviour
 
     public void PlaceWall()
     {
-        wall.transform.position = transform.position + new Vector3(0, 0.25f, 0);
-        GameObject wallInstance = GameObject.Instantiate(wall);
-        wallInstance.transform.parent = transform;
-        placedWall = wallInstance;
+		//TODO: need to check if wall can be placed here
+		wall.transform.position = transform.position + new Vector3 (0, 0.25f, 0);
+		GameObject wallInstance = GameObject.Instantiate (wall);
+		wallInstance.transform.parent = transform;
+		placedWall = wallInstance;
     }
 		
     public void DestroyWall()
