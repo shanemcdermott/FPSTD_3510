@@ -20,13 +20,12 @@ public class TileMap : MonoBehaviour
 	private int targetz;
 
 	//used for pathfinding
-	private bool[,] grid = null;
+	private bool[,] psudoGrid = null;
 	private bool[,] visited = null;
-	private bool[,] inPath = null; //change this to a path
+	private bool[,] inPath = null;
 
+	//path that can be given to enemies etc...
 	private Vector3[] path;
-
-
 
 
 	public void initTileMap(int xSize, int zSize)
@@ -38,97 +37,79 @@ public class TileMap : MonoBehaviour
 		setStartTile(0, 0);
 		setTargetTile(xlen - 1, zlen - 1);
 
-		grid = new bool[zlen, xlen];
+		psudoGrid = new bool[zlen, xlen];
 		visited = new bool[zlen, xlen];
 		inPath = new bool[zlen, xlen];
-
-		for (int x = 0; x < xlen; x++) {
-			for (int z = 0; z < zlen; z++) {
-				//grid [z, x] = !(getTileAt (x, z).GetComponent<Tile> ().HasWall ()); //false for can't walk through (maybe change this)
-				grid[z, x] = true;
-				visited[z, x] = false;
-				inPath [z, x] = false;
-			}
-		}
 	}
 
-	public void setStartTile (int x, int z)
-	{
-		startx = x;
-		startz = z;
-	}
 
-	public void setTargetTile (int x, int z)
-	{
-		targetx = x;
-		targetz = z;
-	}
-
-    public void setTileAt(int x, int z, GameObject tile)
-    {
-        tileMap[z, x] = tile;
-    }
-
-
-    public GameObject getTileAt(int x, int z)
-    {
-        return tileMap[z, x];
-    }
-
-	public int getWidth()
-	{
-		return xlen;
-	}
-
-	public int getLength()
-	{
-		return zlen;
-	}
 
 	public bool HasWallHere(int x, int z)
 	{
 		return tileMap[z, x].GetComponent<Tile>().HasWall();
 	}
 
+	//place wall if it maintains a path through
 	public void PlaceWallHere(int x, int z)
 	{
 		if (CanPlaceHere(x, z))
 			tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
-		isPath ();
+		
 	}
-
-	//depricate eventually
+		
+	//place a wall without asking nicely
 	public void forceWallHere(int x, int z)
 	{
 		tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
 	}
 
+
+	//returns true as long as there is still a path through
 	public bool CanPlaceHere(int x, int z)
 	{
-		//check here if you can place...
-		return true;
+		//maybe speed things up
+		if (inPath[z, x] == false) 
+			return true;
+		if (getTileAt (x, z).GetComponent<Tile> ().HasWall ())
+			return false;
+
+		forceWallHere (x, z);
+
+
+		if (recursiveFindPath ()) {
+			return true;
+		}
+		else {
+			getTileAt (x, z).GetComponent<Tile> ().DestroyWall ();
+			Debug.Log ("Destroyed Wall!!!");
+			redoPathfindingData ();
+			return false;
+
+		}
 	}
 
-	public bool isPath ()
+	private void redoPathfindingData()
 	{
-		Debug.Log ("Finding Path!!!");
-		return recursiveFindPath ();
-
-	}
-
-	public bool recursiveFindPath()
-	{
-		grid = new bool[zlen, xlen];
+		psudoGrid = new bool[zlen, xlen];
 		visited = new bool[zlen, xlen];
 		inPath = new bool[zlen, xlen];
 
 		for (int x = 0; x < xlen; x++) {
 			for (int z = 0; z < zlen; z++) {
-				grid [z, x] = !(getTileAt (x, z).GetComponent<Tile> ().HasWall ()); //false for can't walk through (maybe change this)
+				psudoGrid [z, x] = !(getTileAt (x, z).GetComponent<Tile> ().HasWall ());
 				visited[z, x] = false;
 				inPath [z, x] = false;
 			}
 		}
+	}
+		
+
+	public bool recursiveFindPath()
+	{
+		redoPathfindingData ();
+
+		if (psudoGrid [startz, startx] == false || psudoGrid [targetz, targetx] == false)
+			return false;
 
 		return recursiveFindPathHelper(startx, startz);
 	}
@@ -177,7 +158,7 @@ public class TileMap : MonoBehaviour
 	{
 		if (!(x < 0 || x >= xlen || z < 0 || z >= zlen))
 		{
-			return grid [z, x];
+			return psudoGrid [z, x];
 		}
 		return false;
 	}
@@ -198,7 +179,7 @@ public class TileMap : MonoBehaviour
 					Vector3 center = new Vector3 (tileWidth * x, tileWidth * 0.5f, tileWidth * z);
 					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 
-					if (inPath != null && grid != null) {
+					if (inPath != null && psudoGrid != null) {
 						if (inPath [z, x] || (z == startz && x == startx) || (z == targetz && x == targetx)) {
 							Gizmos.color = new Color (1f, 0f, 0f);
 							Gizmos.DrawCube (center, cubeSize / 2);
@@ -216,6 +197,43 @@ public class TileMap : MonoBehaviour
 				}
 			}
 		}
+	}
+
+
+
+
+	//getters and setters
+
+	public void setStartTile (int x, int z)
+	{
+		startx = x;
+		startz = z;
+	}
+
+	public void setTargetTile (int x, int z)
+	{
+		targetx = x;
+		targetz = z;
+	}
+
+	public void setTileAt(int x, int z, GameObject tile)
+	{
+		tileMap[z, x] = tile;
+	}
+
+	public GameObject getTileAt(int x, int z)
+	{
+		return tileMap[z, x];
+	}
+
+	public int getWidth()
+	{
+		return xlen;
+	}
+
+	public int getLength()
+	{
+		return zlen;
 	}
 			
 }

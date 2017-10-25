@@ -73,10 +73,15 @@ public class MapFactory : MonoBehaviour
 
 		addSomeWalls (10);
 
-		Debug.Log ("Path found = " + map.isPath ());
+		Debug.Log ("Path found = " + map.recursiveFindPath ());
 
 
     }
+
+	public TileMap getTileMap()
+	{
+		return map;
+	}
 
 	public void addSomeWalls(int numWalls)
 	{
