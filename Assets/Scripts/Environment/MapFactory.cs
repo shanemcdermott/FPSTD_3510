@@ -78,7 +78,7 @@ public class MapFactory : MonoBehaviour
 
     }
 
-	void addSomeWalls(int numWalls)
+	public void addSomeWalls(int numWalls)
 	{
 		for (int i = 0; i < numWalls; i++) {
 			int x = Random.Range (0, width);

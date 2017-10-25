@@ -22,16 +22,12 @@ public class TileMap : MonoBehaviour
 	//used for pathfinding
 	private bool[,] grid = null;
 	private bool[,] visited = null;
-	private bool[,] path = null; //change this to a path
+	private bool[,] inPath = null; //change this to a path
+
+	private Vector3[] path;
 
 
-//    //do we need this?
-//    public void setMapSize(int numX, int numZ)
-//    {
-//        tileMap = new GameObject[numX, numZ];
-//		xlen = numX;
-//		zlen = numZ;
-//    }
+
 
 	public void initTileMap(int xSize, int zSize)
 	{
@@ -44,21 +40,16 @@ public class TileMap : MonoBehaviour
 
 		grid = new bool[zlen, xlen];
 		visited = new bool[zlen, xlen];
-		path = new bool[zlen, xlen];
+		inPath = new bool[zlen, xlen];
 
 		for (int x = 0; x < xlen; x++) {
 			for (int z = 0; z < zlen; z++) {
 				//grid [z, x] = !(getTileAt (x, z).GetComponent<Tile> ().HasWall ()); //false for can't walk through (maybe change this)
 				grid[z, x] = true;
 				visited[z, x] = false;
-				path [z, x] = false;
+				inPath [z, x] = false;
 			}
 		}
-	}
-
-	void updateMap()
-	{
-		
 	}
 
 	public void setStartTile (int x, int z)
@@ -101,8 +92,15 @@ public class TileMap : MonoBehaviour
 
 	public void PlaceWallHere(int x, int z)
 	{
-		tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
+		if (CanPlaceHere(x, z))
+			tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
 		isPath ();
+	}
+
+	//depricate eventually
+	public void forceWallHere(int x, int z)
+	{
+		tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
 	}
 
 	public bool CanPlaceHere(int x, int z)
@@ -113,7 +111,7 @@ public class TileMap : MonoBehaviour
 
 	public bool isPath ()
 	{
-		
+		Debug.Log ("Finding Path!!!");
 		return recursiveFindPath ();
 
 	}
@@ -122,13 +120,13 @@ public class TileMap : MonoBehaviour
 	{
 		grid = new bool[zlen, xlen];
 		visited = new bool[zlen, xlen];
-		path = new bool[zlen, xlen];
+		inPath = new bool[zlen, xlen];
 
 		for (int x = 0; x < xlen; x++) {
 			for (int z = 0; z < zlen; z++) {
 				grid [z, x] = !(getTileAt (x, z).GetComponent<Tile> ().HasWall ()); //false for can't walk through (maybe change this)
 				visited[z, x] = false;
-				path [z, x] = false;
+				inPath [z, x] = false;
 			}
 		}
 
@@ -144,28 +142,28 @@ public class TileMap : MonoBehaviour
 
 		if (visitable (x, z + 1) && !visited[z + 1, x]) {
 			if (recursiveFindPathHelper (x, z + 1)) {
-				path [z + 1, x] = true;
+				inPath [z + 1, x] = true;
 				return true;
 			}
 		}
 
 		if (visitable (x + 1, z) && !visited[z, x + 1]) {
 			if (recursiveFindPathHelper (x + 1, z)) {
-				path [z, x + 1] = true;
+				inPath [z, x + 1] = true;
 				return true;
 			}
 		}
 
 		if (visitable (x - 1, z) && !visited[z, x - 1]) {
 			if (recursiveFindPathHelper (x - 1, z)) {
-				path [z, x -1] = true;
+				inPath [z, x -1] = true;
 				return true;
 			}
 		}
 
 		if (visitable (x, z - 1) && !visited[z - 1, x]) {
 			if (recursiveFindPathHelper (x, z - 1)) {
-				path [z - 1, x] = true;
+				inPath [z - 1, x] = true;
 				return true;
 			}
 		}
@@ -200,8 +198,8 @@ public class TileMap : MonoBehaviour
 					Vector3 center = new Vector3 (tileWidth * x, tileWidth * 0.5f, tileWidth * z);
 					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 
-					if (path != null && grid != null) {
-						if (path [z, x] || (z == startz && x == startx) || (z == targetz && x == targetx)) {
+					if (inPath != null && grid != null) {
+						if (inPath [z, x] || (z == startz && x == startx) || (z == targetz && x == targetx)) {
 							Gizmos.color = new Color (1f, 0f, 0f);
 							Gizmos.DrawCube (center, cubeSize / 2);
 							Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
