@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : MonoBehaviour {
+public class Wall : MonoBehaviour, IFocusable {
     GameObject turret;
     GameObject placedTurret;
 	// Use this for initialization
 	void Start () {
-		
 	}
 	
 	// Update is called once per frame
@@ -15,12 +14,27 @@ public class Wall : MonoBehaviour {
 		
 	}
 
+    public void onBeginFocus(GameObject turretToShow)
+    {
+        if (transform.parent.GetComponent<Tile>().HasWall())
+        {
+            if (placedTurret == null)
+            {
+                turretToShow.transform.position = transform.position + new Vector3(0, 0.25f, 0);
+                turretToShow.SetActive(true);
+            }
+        }
+    }
+    public void onEndFocus(GameObject turretToHide)
+    {
+        turretToHide.SetActive(false);
+    }
+
     public void PlaceTurret(GameObject turretToPlace, TurretType type)
     {
         turret = turretToPlace;
         Vector3 turPosition = new Vector3(0,0.25f,0);
         placedTurret = Instantiate(turret, turPosition+transform.position, Quaternion.identity);
-        Debug.Log("turrPos: " + turPosition + " placePos: " + placedTurret.transform.position);
         placedTurret.transform.parent = transform;
         placedTurret.AddComponent<BoxCollider>();
         BoxCollider turretCollider = placedTurret.GetComponent<BoxCollider>();
@@ -29,10 +43,12 @@ public class Wall : MonoBehaviour {
         Turret turretComponent = placedTurret.GetComponent<Turret>();
         turretComponent.SetupTurret(type);
         placedTurret.transform.tag = "Tower";
+        placedTurret.SetActive(true);
     }
     public void DestroyTurret()
     {
         GameObject.Destroy(placedTurret);
+        placedTurret = null;
     }
     public bool HasTurret()
     {
@@ -42,7 +58,7 @@ public class Wall : MonoBehaviour {
 public enum TurretType
 {
     rifleTurret,
+    cannonTurret,
     rocketTurret,
-    aoeTurret,
-    cannonTurret
+    aoeTurret
 }
