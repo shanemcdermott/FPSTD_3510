@@ -56,6 +56,11 @@ public class TileMap : MonoBehaviour
 			tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
 		
 	}
+
+	public void DestroyWallHere (int x, int z)
+	{
+		tileMap [z, x].GetComponent<Tile> ().DestroyWall ();
+	}
 		
 	//place a wall without asking nicely
 	public void forceWallHere(int x, int z)
@@ -82,7 +87,7 @@ public class TileMap : MonoBehaviour
 		else {
 			getTileAt (x, z).GetComponent<Tile> ().DestroyWall ();
 			Debug.Log ("Destroyed Wall!!!");
-			redoPathfindingData ();
+			recursiveFindPath ();
 			return false;
 
 		}
