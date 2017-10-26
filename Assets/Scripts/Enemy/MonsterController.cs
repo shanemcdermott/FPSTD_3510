@@ -34,7 +34,7 @@ public class MonsterController : MonoBehaviour, IRespondsToDeath
 
     public void FindNextTarget()
     {
-        AssignTarget(GameObject.FindGameObjectWithTag("Player"));
+        AssignTarget(GameManager.instance.GetPlayer());
         /*
         if (Random.Range(0, 100) > 75)
             AssignTarget(GameObject.FindGameObjectWithTag("Player"));

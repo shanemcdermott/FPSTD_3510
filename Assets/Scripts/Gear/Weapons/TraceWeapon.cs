@@ -78,6 +78,5 @@ public class TraceWeapon : Weapon
     {
         base.EnableEffects();
         traceLine.enabled = true;
-        Debug.Log("Boom");
     }
 }

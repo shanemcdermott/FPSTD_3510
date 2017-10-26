@@ -9,6 +9,11 @@ public class MenuManager : MonoBehaviour {
     public Animator pause;
     public Animator pauseSettings;
 	
+    void Start()
+    {
+        GameManager.instance.menuManager = this;
+    }
+
 	// Update is called once per frame
     void Update()
     {

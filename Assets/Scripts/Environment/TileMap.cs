@@ -105,7 +105,11 @@ public class TileMap : MonoBehaviour
 		}
 	}
 
-
+    public void Start()
+    {
+        //register self with the game manager.
+        GameManager.instance.tileMap = this;
+    }
 
 
 	public bool findPath()

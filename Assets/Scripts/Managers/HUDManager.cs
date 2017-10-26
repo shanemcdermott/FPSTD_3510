@@ -12,26 +12,16 @@ public class HUDManager : MonoBehaviour {
     public Text phase;
     private GameObject player;
 
-	// Use this for initialization
-	void Start ()
+    void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-
+        GameManager.instance.hud = this;
+        player = GameManager.instance.GetPlayer();
     }
 
 
 	// Update is called once per frame
 	void Update () {
         healthSlider.value = player.GetComponent<PlayerHealth>().currentHealth;
-
-        if (player.GetComponent<PlayerController>().isPlacing)
-        {
-            phase.text = "Build";
-        }
-        else
-        {
-            phase.text = "Defend";
-        }
 	}
 
 
