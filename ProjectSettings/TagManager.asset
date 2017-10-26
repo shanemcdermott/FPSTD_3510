@@ -7,6 +7,7 @@ TagManager:
   - Tower
   - Enemy
   - Wall
+  - Tile
   layers:
   - Default
   - TransparentFX

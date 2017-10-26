@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
 
     GameObject currentTurret;
-    TurretType currentTurretType;
+    public TurretType currentTurretType;
 
     public bool isPlacing;
     int currentFunds;
@@ -30,7 +30,16 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     float playerReloadSpeed;
 
-    Material[] defaultTileMat;
+    public GameObject[] transparentStuff; //wall, rifleTurr, cannon, rocket, aoe
+    public GameObject transparentWall;
+
+    public CursorFocus currentFocus = CursorFocus.Default;
+    public IFocusable currentFocusable;
+    public GameObject currentFocusedGameObject;
+    public enum CursorFocus
+    {
+        Tile, Wall, Tower, Enemy, Default
+    }
 
     void Start()
     {
@@ -38,6 +47,9 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         Cursor.visible = false;
         currentWeapon = weapons[0];
         currentTurret = turrets[0];
+
+        SetupFocusables();
+        
     }
 
     void Awake()
@@ -50,9 +62,92 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     void Update()
     {
+        SetCursorFocus();
         HandlePlacement();
         SwitchWeapon();
         SwitchTurret();
+    }
+    private void SetupFocusables()
+    {
+        transparentStuff = new GameObject[turrets.Length+1];
+        for (int i = 0; i < transparentStuff.Length; i++) {
+            if (i == 0)
+            {
+                transparentStuff[i] = GameObject.Instantiate(transparentWall);
+                Renderer renderer = transparentStuff[i].GetComponent<Renderer>();
+                Color transparentColor = renderer.sharedMaterial.color;
+                transparentColor.a = 0.1f;
+                renderer.sharedMaterial.SetColor("_Color", transparentColor);
+            }
+            else
+            {
+                transparentStuff[i] = GameObject.Instantiate(turrets[i-1]);
+                Renderer[] renderers = transparentStuff[i].GetComponentsInChildren<Renderer>();
+                foreach(Renderer renderer in renderers)
+                {
+                    Color transparentColor = renderer.sharedMaterial.color;
+                    transparentColor.a = 0.1f;
+                    renderer.sharedMaterial.SetColor("_Color", transparentColor);
+                }
+            }
+            transparentStuff[i].SetActive(false);
+        }
+    }
+    private void SetCursorFocus()
+    {
+        if (isPlacing)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, placementRange))
+            {
+                GameObject newGameObject = hit.transform.gameObject;
+                IFocusable newFocus = newGameObject.GetComponent<IFocusable>();
+                if (currentFocusable == null)
+                {
+                    currentFocusable = newFocus;
+                    currentFocusedGameObject = newGameObject;
+                    return;
+                }
+                if (newGameObject != currentFocusedGameObject)
+                {
+                    if (currentFocus == CursorFocus.Tile)
+                    {
+                        currentFocusable.onEndFocus(transparentStuff[0]);//hide wall
+                    }
+                    else if (currentFocus == CursorFocus.Wall)
+                    {
+                        currentFocusable.onEndFocus(transparentStuff[(int)currentTurretType+1]);//hide turret
+                    }
+                    else if (currentFocus == CursorFocus.Tower)
+                    {
+                        currentFocusable.onEndFocus(new GameObject());
+                    }
+
+                    switch (hit.transform.tag)
+                    {
+                        case "Tile":
+                            newFocus.onBeginFocus(transparentStuff[0]);
+                            currentFocus = CursorFocus.Tile;
+                            break;
+                        case "Wall":
+                            newFocus.onBeginFocus(transparentStuff[(int)currentTurretType+1]);
+                            currentFocus = CursorFocus.Wall;
+                            break;
+                        case "Tower":
+                            newFocus.onBeginFocus(new GameObject());
+                            currentFocus = CursorFocus.Tower;
+                            break;
+                        case "Enemy":
+                            newFocus.onBeginFocus(new GameObject());
+                            currentFocus = CursorFocus.Tile;
+                            break;
+
+                    }
+                    currentFocusedGameObject = newGameObject;
+                    currentFocusable = newFocus;
+                }
+            }
+        }
     }
     private void SwitchWeapon()
     {
@@ -74,22 +169,31 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 currentTurret = turrets[0];
+                currentFocusable.onEndFocus(transparentStuff[(int)currentTurretType + 1]);
                 currentTurretType = TurretType.rifleTurret;
+                currentFocusable.onBeginFocus(transparentStuff[(int)currentTurretType + 1]);
+
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 currentTurret = turrets[1];
+                currentFocusable.onEndFocus(transparentStuff[(int)currentTurretType + 1]);
                 currentTurretType = TurretType.cannonTurret;
+                currentFocusable.onBeginFocus(transparentStuff[(int)currentTurretType + 1]);
             }
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 currentTurret = turrets[2];
+                currentFocusable.onEndFocus(transparentStuff[(int)currentTurretType + 1]);
                 currentTurretType = TurretType.rocketTurret;
+                currentFocusable.onBeginFocus(transparentStuff[(int)currentTurretType + 1]);
             }
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 currentTurret = turrets[3];
+                currentFocusable.onEndFocus(transparentStuff[(int)currentTurretType + 1]);
                 currentTurretType = TurretType.aoeTurret;
+                currentFocusable.onBeginFocus(transparentStuff[(int)currentTurretType + 1]);
             }
         }
     }
@@ -134,7 +238,6 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                 RaycastHit hit;
                 if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, placementRange))
                 {
-                    Debug.Log("Destroying: " + hit.transform.name);
                     if (hit.transform.tag == "Wall")
                     {
                         Tile tileHit = hit.transform.parent.GetComponent<Tile>();
@@ -187,6 +290,10 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
             {
                 Material childMaterial = tile.transform.GetChild(0).transform.GetChild(0).GetComponent<Renderer>().material;
                 childMaterial.color = new Color(childMaterial.color.r - 100, childMaterial.color.g, childMaterial.color.b);
+            }
+            foreach (GameObject transparent in transparentStuff)
+            {
+                transparent.SetActive(false);
             }
         }
     }

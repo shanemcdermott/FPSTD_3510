@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : MonoBehaviour
+public class Turret : MonoBehaviour, IFocusable
 {
     public Equipment equipment;
     public TurretType turretType;
@@ -59,6 +59,14 @@ public class Turret : MonoBehaviour
                 damage = 500;
                 break;
         }
+    }
+    public void onBeginFocus(GameObject go)
+    {
+        //pop up the turret upgrade menu
+    }
+    public void onEndFocus(GameObject go)
+    {
+        //hide the turret upgrade menu
     }
 }
 public enum TurretFocus
