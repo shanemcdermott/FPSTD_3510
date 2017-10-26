@@ -24,8 +24,235 @@ public class TileMap : MonoBehaviour
 	private bool[,] visited = null;
 	private bool[,] inPath = null;
 
-	//path that can be given to enemies etc...
-	private Vector3[] path;
+	private Node[,] psudoGridTwo = null;
+	private List<Node> path = null;
+
+	struct Node
+	{
+		int xpos;
+		int zpos;
+		int costToGetHere;
+		int fromx;
+		int fromz;
+		bool isWall;
+
+		public Node (int x, int z)
+		{
+			xpos = x;
+			zpos = z;
+			costToGetHere = 10000;
+			fromx = -1;
+			fromz = -1;
+			isWall = false;
+
+		}
+
+		public Node (bool wall)
+		{
+			isWall = wall;
+			xpos = -1;
+			zpos = -1;
+			costToGetHere = 10000;
+			fromx = -1;
+			fromz = -1;
+		}
+			
+		public int getEstimatedTotalCost(int tx, int tz)
+		{
+			//TODO: store estimated calculated value for efficiency
+			return costToGetHere + (Mathf.Abs (tx - xpos) + Mathf.Abs (tz - zpos));
+		}
+
+		public int getX()
+		{
+			return xpos;
+		}
+
+		public int getZ()
+		{
+			return zpos;
+		}
+
+		public int costSoFar()
+		{
+			return costToGetHere;
+		}
+
+		public void setCost(int cost)
+		{
+			costToGetHere = cost;
+		}
+
+		public void setConnection(int x, int z)
+		{
+			fromx = x;
+			fromz = z;
+		}
+
+		public int getXConnection()
+		{
+			return fromx;
+		}
+
+		public int getZConnection ()
+		{
+			return fromz;
+		}
+
+		public bool hasWall()
+		{
+			return isWall;
+		}
+	}
+
+
+
+
+	public bool findPath()
+	{
+		
+		//initialize the grid (doing this every time might be costly)
+		psudoGridTwo = new Node[zlen, xlen];
+		for (int i = 0; i < xlen; i++) {
+			for (int j = 0; j < zlen; j++) {
+				if (tileMap [j, i].GetComponent<Tile> ().HasWall()) {
+					psudoGridTwo [j, i] = new Node(true);
+				} else {
+					psudoGridTwo [j, i] = new Node (i, j);
+				}
+			}
+		}
+			
+
+		//create open and closed lists
+		List<Node> open = new List<Node>(); //TODO: use a priority queue or something faster than a list
+		List<Node> closed = new List<Node> ();
+
+		//set the cost of the start node to zero and add it to open list
+		psudoGridTwo [startz, startx].setCost (0);
+		open.Add (psudoGridTwo[startz, startx]);
+
+
+		Debug.Log ("init finished");
+
+		//while there are open nodes...
+		while (open.Count > 0) {
+
+			Debug.Log ("start of loop through open");
+
+			int smallestTotalCost = 1000000000;
+			int indexOfSmallest = 0;
+			for (int i = 0; i < open.Count; i++)
+			{
+				Node n = open [i];
+
+				if (n.getEstimatedTotalCost(targetx, targetz) < smallestTotalCost) {
+					indexOfSmallest = i;
+					smallestTotalCost = n.getEstimatedTotalCost(targetx, targetz);
+				}
+			}
+
+			Node current = open [indexOfSmallest];
+
+			Debug.Log ("found smallest");
+			if (current.getX () == targetx && current.getZ () == targetz) {
+				Debug.Log ("Arrived at goal Node!!!");
+
+				path = new List<Node> ();
+				while (true) {
+					path.Add (current);
+					if (current.getZConnection () == -1 || current.getXConnection () == -1) {
+						Debug.Log ("Length of path: " + path.Count);
+						return true;
+					}
+					current = psudoGridTwo [current.getZConnection (), current.getXConnection ()];
+
+				}
+
+				//shouldn't ever get here
+				return true;
+			}
+
+			//process this node
+			Node candidate;
+
+			//try to add all four possible nodes
+			int nextz = current.getZ() + 1;
+			int nextx = current.getX();
+			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
+			{
+				candidate = psudoGridTwo[nextz, nextx];
+				if (!candidate.hasWall())
+				{
+					if (candidate.costSoFar () > current.costSoFar () + 1) {
+						candidate.setCost (current.costSoFar () + 1);
+						candidate.setConnection (current.getX (), current.getZ ());
+						open.Add (candidate);
+					}
+				}
+			}
+
+			nextz = current.getZ() - 1;
+			nextx = current.getX();
+			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
+			{
+				candidate = psudoGridTwo[nextz, nextx];
+				if (!candidate.hasWall())
+				{
+					if (candidate.costSoFar () > current.costSoFar () + 1) {
+						candidate.setCost (current.costSoFar () + 1);
+						candidate.setConnection (current.getX (), current.getZ ());
+						open.Add (candidate);
+					}
+				}
+			}
+
+			nextz = current.getZ();
+			nextx = current.getX() + 1;
+			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
+			{
+				candidate = psudoGridTwo[nextz, nextx];
+				if (!candidate.hasWall())
+				{
+					if (candidate.costSoFar () > current.costSoFar () + 1) {
+						candidate.setCost (current.costSoFar () + 1);
+						candidate.setConnection (current.getX (), current.getZ ());
+						open.Add (candidate);
+					}
+				}
+			}
+
+			nextz = current.getZ();
+			nextx = current.getX() - 1;
+			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
+			{
+				candidate = psudoGridTwo[nextz, nextx];
+				if (!candidate.hasWall())
+				{
+					if (candidate.costSoFar () > current.costSoFar () + 1) {
+						candidate.setCost (current.costSoFar () + 1);
+						candidate.setConnection (current.getX (), current.getZ ());
+						open.Add (candidate);
+					}
+				}
+			}
+
+			Debug.Log ("added candidates (hopefully)");
+			open.Remove (current);
+			closed.Add (current);
+
+			Debug.Log ("moved current from open to closed");
+			
+		}
+
+		return false; //no path found
+
+	}
+
+
+
+
+
 
 
 	public void initTileMap(int xSize, int zSize)
@@ -107,6 +334,10 @@ public class TileMap : MonoBehaviour
 			}
 		}
 	}
+
+
+
+
 		
 
 	public bool recursiveFindPath()

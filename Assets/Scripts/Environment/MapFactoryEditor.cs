@@ -23,6 +23,10 @@ public class MapFactoryEditor : Editor
 		if (GUILayout.Button ("Recalculate Path")) {
 			builder.getTileMap ().recursiveFindPath ();
 		}
+
+		if (GUILayout.Button ("Try A*")) {
+			builder.getTileMap ().findPath ();
+		}
     }
 		
 

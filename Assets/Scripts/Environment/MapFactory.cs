@@ -22,6 +22,8 @@ public class MapFactory : MonoBehaviour
     /// </summary>
     public int height;
 
+	public int wallsToAdd = 5;
+
     /// <summary>
     /// Tile size in meters in X direction.
     /// </summary>
@@ -72,7 +74,7 @@ public class MapFactory : MonoBehaviour
             }
         }
 
-		addSomeWalls (10);
+		addSomeWalls (wallsToAdd);
 
 		Debug.Log ("Path found = " + map.recursiveFindPath ());
 
