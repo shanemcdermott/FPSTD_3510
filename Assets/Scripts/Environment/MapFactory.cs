@@ -22,6 +22,8 @@ public class MapFactory : MonoBehaviour
     /// </summary>
     public int height;
 
+	public int wallsToAdd = 5;
+
     /// <summary>
     /// Tile size in meters in X direction.
     /// </summary>
@@ -66,19 +68,25 @@ public class MapFactory : MonoBehaviour
 				Vector3 p = this.transform.position;
 				GameObject instance = Instantiate(toInstantiate, new Vector3(x * tileWidth + p.x, 0f + p.y, z * tileHeight + p.z), Quaternion.identity) as GameObject;
                 instance.transform.SetParent(board);
+				instance.GetComponent<Tile>().setCoordinates (x, z);
                 map.setTileAt(x,z,instance);
 
             }
         }
 
-		addSomeWalls (10);
+		addSomeWalls (wallsToAdd);
 
-		Debug.Log ("Path found = " + map.isPath ());
+		Debug.Log ("Path found = " + map.recursiveFindPath ());
 
 
     }
 
-	void addSomeWalls(int numWalls)
+	public TileMap getTileMap()
+	{
+		return map;
+	}
+
+	public void addSomeWalls(int numWalls)
 	{
 		for (int i = 0; i < numWalls; i++) {
 			int x = Random.Range (0, width);

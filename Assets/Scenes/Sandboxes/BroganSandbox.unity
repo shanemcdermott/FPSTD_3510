@@ -138,8 +138,9 @@ MonoBehaviour:
   floorTiles:
   - {fileID: 1215070151678354, guid: 3ad11343f182c7d46a6dc74f353ac6a1, type: 2}
   wallTiles: []
-  width: 20
-  height: 20
+  width: 5
+  height: 5
+  wallsToAdd: 5
   tileWidth: 1
   tileHeight: 1
 --- !u!4 &585641099
