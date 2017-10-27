@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     public Camera fpsCamera;
     public float placementRange;
 
-    public GameObject[] weapons; //rifle, sniper, shotgun, rocket
-    public GameObject currentWeapon; //rifle, cannon, rocket, aoe
+    public Weapon[] weapons; //rifle, sniper, shotgun, rocket
+    public Weapon currentWeapon; //rifle, cannon, rocket, aoe
 
     public GameObject[] turrets;
 
@@ -150,15 +150,36 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     }
     private void SwitchWeapon()
     {
-        if (!isPlacing)
+        if(Input.GetMouseButton(0))
         {
-            currentWeapon.SetActive(false);
-            if (Input.GetKeyDown(KeyCode.Alpha1)) currentWeapon = weapons[0];
-            if (Input.GetKeyDown(KeyCode.Alpha2)) currentWeapon = weapons[1];
-            if (Input.GetKeyDown(KeyCode.Alpha3)) currentWeapon = weapons[2];
-            if (Input.GetKeyDown(KeyCode.Alpha4)) currentWeapon = weapons[3];
-            currentWeapon.SetActive(true);
+            currentWeapon.Activate();
         }
+        else if (!isPlacing)
+        {
+
+            if (Input.GetKeyDown(KeyCode.Alpha1)) EquipWeapon(0);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) EquipWeapon(1);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) EquipWeapon(2);
+            if (Input.GetKeyDown(KeyCode.Alpha4)) EquipWeapon(3);
+            
+        }
+    }
+
+    private void EquipWeapon(int index)
+    {
+        float waitTime = currentWeapon.StartUnEquipping();
+        currentWeapon = weapons[index];
+        Invoke("FinishedUnequipping", waitTime);
+    }
+
+    private void FinishedUnequipping()
+    {
+        Invoke("FinishedEquipping", currentWeapon.StartEquipping());
+    }
+
+    private void FinishedEquipping()
+    {
+        currentWeapon.SetCurrentState(WeaponState.Idle);
     }
 
     private void SwitchTurret()
@@ -269,7 +290,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     }
     private void ToggleWeapon()
     {
-        currentWeapon.SetActive(!currentWeapon.activeSelf);
+        currentWeapon.gameObject.SetActive(!currentWeapon.gameObject.activeSelf);
     }
     public void TogglePlacementMode()
     {
