@@ -21,12 +21,13 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     /*Does this weapon consume ammo*/
     public bool usesAmmo = false;
+    public bool useRootTransform = false;
     public ParticleSystem gunParticles;
     public AudioSource gunAudio;
     public Light gunLight;
 
     /*Tracks current Weapon State*/
-    private WeaponState state;
+    public WeaponState state;
 
     protected int bulletsInMag;
     protected float timer;
@@ -55,6 +56,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
         }
         if (timer >= timeToShoot && state == WeaponState.HipFiring)
             SetCurrentState(WeaponState.Idle);
+        
     }
 
     public void SetCurrentState(WeaponState newState)
@@ -146,6 +148,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     {
         Deactivate();
         SetCurrentState(WeaponState.UnEquipping);
+        gameObject.SetActive(false);
         return timeToUnEquip;
     }
 

@@ -49,8 +49,9 @@ public class Tile : MonoBehaviour, IFocusable
     {
         return placedWall != null;
     }
-    public void onBeginFocus(GameObject wallToShow)
+    public void onBeginFocus(PlayerController focuser)
     {
+        GameObject wallToShow = focuser.transparentStuff[0];
         if (wallToShow.GetComponent<Wall>())
         {
             if (placedWall == null)
@@ -59,10 +60,12 @@ public class Tile : MonoBehaviour, IFocusable
                 wallToShow.SetActive(true);
             }
         }
-        
     }
-    public void onEndFocus(GameObject wallToHide)
+    public void onEndFocus(PlayerController focuser)
     {
+        GameObject wallToHide = focuser.transparentStuff[0];
+
         wallToHide.SetActive(false);
+        
     }
 }

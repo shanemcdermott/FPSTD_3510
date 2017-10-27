@@ -60,11 +60,11 @@ public class Turret : MonoBehaviour, IFocusable
                 break;
         }
     }
-    public void onBeginFocus(GameObject go)
+    public void onBeginFocus(PlayerController focuser)
     {
         //pop up the turret upgrade menu
     }
-    public void onEndFocus(GameObject go)
+    public void onEndFocus(PlayerController focuser)
     {
         //hide the turret upgrade menu
     }

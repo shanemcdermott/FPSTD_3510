@@ -32,6 +32,8 @@ public class TraceWeapon : Weapon
 
     public override void Activate()
     {
+        //if (!CanActivate()) return;
+
         SetCurrentState(WeaponState.HipFiring);
 
         if (usesAmmo)
@@ -42,8 +44,17 @@ public class TraceWeapon : Weapon
         EnableEffects();
         traceLine.SetPosition(0, transform.position);
 
-        shootRay.origin = transform.position;
-        shootRay.direction = transform.forward;
+        if (useRootTransform)
+        {
+            shootRay.origin = transform.root.position;
+            shootRay.direction = transform.root.forward;
+        }
+        else
+        {
+            shootRay.origin = transform.position;
+            shootRay.direction = transform.forward;
+        }
+        //transform.root works for player but not for towers...
 
             
         if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
@@ -51,7 +62,7 @@ public class TraceWeapon : Weapon
             HealthComponent enemyHealth = shootHit.collider.GetComponent<HealthComponent>();
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(new DamageContext(gameObject, damagePerShot, shootHit.point));
+                enemyHealth.TakeDamage(new DamageContext(transform.root.gameObject, damagePerShot, shootHit.point));
             }
             traceLine.SetPosition(1, shootHit.point);
         }
@@ -64,7 +75,7 @@ public class TraceWeapon : Weapon
 
     public override void Deactivate()
     {
-        SetCurrentState(WeaponState.Idle);
+        //SetCurrentState(WeaponState.Idle);
         DisableEffects();
     }
 
@@ -79,4 +90,5 @@ public class TraceWeapon : Weapon
         base.EnableEffects();
         traceLine.enabled = true;
     }
+
 }

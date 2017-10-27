@@ -100,9 +100,11 @@ MonoBehaviour:
   timeToEquip: 0.5
   timeToUnEquip: 0.5
   usesAmmo: 0
+  useRootTransform: 0
   gunParticles: {fileID: 0}
   gunAudio: {fileID: 0}
   gunLight: {fileID: 0}
-  projectileToLaunch: {fileID: 114245141143720774, guid: 0ac2ccfd4ced3e24cbf25c90759b5f62,
+  state: 3
+  projectileToLaunch: {fileID: 114346593594613844, guid: 191777523e33eb945af823cb4bbc810b,
     type: 2}
   launchSpeed: 50
