@@ -50,11 +50,11 @@ public class TileMap : MonoBehaviour
 		public Node (bool wall)
 		{
 			isWall = wall;
-			xpos = -1;
-			zpos = -1;
+			xpos = -2;
+			zpos = -2;
 			costToGetHere = 10000;
-			fromx = -1;
-			fromz = -1;
+			fromx = -2;
+			fromz = -2;
 		}
 			
 		public int getEstimatedTotalCost(int tx, int tz)
@@ -103,6 +103,14 @@ public class TileMap : MonoBehaviour
 		{
 			return isWall;
 		}
+
+		public void debugPrint()
+		{
+			Debug.Log ("Node at (x=" + xpos + ", z=" + zpos + ")\nisWall=" + isWall + "\nCost to get here: " + costToGetHere + "\nfrom node at (x=" + fromx + ", z=" + fromz + ")");
+
+		
+		}
+
 	}
 
 
@@ -133,12 +141,12 @@ public class TileMap : MonoBehaviour
 		open.Add (psudoGridTwo[startz, startx]);
 
 
-		Debug.Log ("init finished");
+		//Debug.Log ("init finished");
 
 		//while there are open nodes...
 		while (open.Count > 0) {
 
-			Debug.Log ("start of loop through open");
+			Debug.Log ("loop through open");
 
 			int smallestTotalCost = 1000000000;
 			int indexOfSmallest = 0;
@@ -154,13 +162,14 @@ public class TileMap : MonoBehaviour
 
 			Node current = open [indexOfSmallest];
 
-			Debug.Log ("found smallest");
+			//Debug.Log ("found smallest");
 			if (current.getX () == targetx && current.getZ () == targetz) {
 				Debug.Log ("Arrived at goal Node!!!");
 
 				path = new List<Node> ();
 				while (true) {
 					path.Add (current);
+					current.debugPrint ();
 					if (current.getZConnection () == -1 || current.getXConnection () == -1) {
 						Debug.Log ("Length of path: " + path.Count);
 						return true;
@@ -169,7 +178,7 @@ public class TileMap : MonoBehaviour
 
 				}
 
-				//shouldn't ever get here
+				Debug.Log ("shouldn't ever get here");
 				return true;
 			}
 
@@ -188,6 +197,7 @@ public class TileMap : MonoBehaviour
 						candidate.setCost (current.costSoFar () + 1);
 						candidate.setConnection (current.getX (), current.getZ ());
 						open.Add (candidate);
+						candidate.debugPrint ();
 					}
 				}
 			}
@@ -203,6 +213,7 @@ public class TileMap : MonoBehaviour
 						candidate.setCost (current.costSoFar () + 1);
 						candidate.setConnection (current.getX (), current.getZ ());
 						open.Add (candidate);
+						candidate.debugPrint ();
 					}
 				}
 			}
@@ -218,6 +229,7 @@ public class TileMap : MonoBehaviour
 						candidate.setCost (current.costSoFar () + 1);
 						candidate.setConnection (current.getX (), current.getZ ());
 						open.Add (candidate);
+						candidate.debugPrint ();
 					}
 				}
 			}
@@ -233,15 +245,16 @@ public class TileMap : MonoBehaviour
 						candidate.setCost (current.costSoFar () + 1);
 						candidate.setConnection (current.getX (), current.getZ ());
 						open.Add (candidate);
+						candidate.debugPrint ();
 					}
 				}
 			}
 
-			Debug.Log ("added candidates (hopefully)");
+			//Debug.Log ("added candidates (hopefully)");
 			open.Remove (current);
 			closed.Add (current);
 
-			Debug.Log ("moved current from open to closed");
+			//Debug.Log ("moved current from open to closed");
 			
 		}
 
