@@ -20,10 +20,6 @@ public class MapFactoryEditor : Editor
 			builder.addSomeWalls (5);
 		}
 
-		if (GUILayout.Button ("Recalculate Path")) {
-			builder.getTileMap ().recursiveFindPath ();
-		}
-
 		if (GUILayout.Button ("Try A*")) {
 			builder.getTileMap ().findPath ();
 		}
