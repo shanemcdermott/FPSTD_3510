@@ -11,14 +11,27 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
 
 
     public GameState state;
-    public HUDManager HUD;
-    public MenuManager MenuManager;
+    public HUDManager hud;
+    public MenuManager menuManager;
+    public TileMap tileMap;
 
-    private TileMap tileMap;
+    //The current Wave Number
+    public int currentWave = 0;
+
+
+    //TODO- Implement
+    public float difficultyScale = 1;
+
+    public int numWavesInLevel = 10;
+    public bool endlessMode = false;
+
     private int level = 1;
-
     private EnemyManager enemyManager;
     private GameObject player;
+
+    private void Start()
+    {   
+    }
 
     private void Awake()
     {
@@ -32,17 +45,18 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
         }
 
         DontDestroyOnLoad(gameObject);
-        tileMap = GetComponent<TileMap>();
-        enemyManager = GetComponent<EnemyManager>();
         player = GameObject.FindGameObjectWithTag("Player");
+        enemyManager = GetComponent<EnemyManager>();
+        hud = player.GetComponentInChildren<HUDManager>();
+        menuManager = player.GetComponentInChildren<MenuManager>();
         InitGame();
     }
 
 
     private void InitGame()
     {
-        if (state != null)
-            state.Enter();
+        currentWave = 0;
+        state.Enter();
     }
 
     // Update is called once per frame
@@ -50,6 +64,16 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
     {
 		
 	}
+
+    public int GetNumWavesRemaining()
+    {
+        return numWavesInLevel - currentWave;
+    }
+
+    public GameObject GetPlayer()
+    {
+        return player;
+    }
 
     public EnemyManager GetEnemyManager()
     {
@@ -67,7 +91,8 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
             this.state.Exit();
 
         this.state = state;
-        this.state.Enter();
+        if(this.state != null)
+            this.state.Enter();
     }
 
     public GameState GetState()

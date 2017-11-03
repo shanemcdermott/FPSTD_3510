@@ -25,8 +25,10 @@ public class EnemyAttack : MonoBehaviour, IRespondsToDeath
 
     public void AssignTarget(GameObject targetObject)
     {
+        
         target = targetObject;
-        targetHealth = target.GetComponent<HealthComponent>();
+        if(target != null)
+            targetHealth = target.GetComponent<HealthComponent>();
     }
 
     //Attack any overlapping enemies

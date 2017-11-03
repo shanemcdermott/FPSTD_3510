@@ -5,7 +5,6 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 {
     public Camera fpsCamera;
     public float placementRange;
-    public GameObject map;
 
     public GameObject[] weapons; //rifle, sniper, shotgun, rocket
     public GameObject currentWeapon; //rifle, cannon, rocket, aoe
@@ -275,6 +274,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     public void TogglePlacementMode()
     {
         isPlacing = !isPlacing;
+        GameObject map = GameManager.instance.GetTileMap().gameObject;
         Component[] tiles = map.GetComponentsInChildren<Tile>();
         if (isPlacing)
         {
