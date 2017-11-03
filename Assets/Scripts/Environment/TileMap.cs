@@ -116,7 +116,7 @@ public class TileMap : MonoBehaviour
     public void Start()
     {
         //register self with the game manager.
-        GameManager.instance.tileMap = this;
+        //GameManager.instance.tileMap = this;
     }
 
 
@@ -164,21 +164,23 @@ public class TileMap : MonoBehaviour
 				}
 			}
 
-			Node current = open [indexOfSmallest];
+			//Node current = open [indexOfSmallest];
 
 			//Debug.Log ("found smallest");
-			if (current.getX () == targetx && current.getZ () == targetz) {
+			if (open [indexOfSmallest].getX () == targetx && open [indexOfSmallest].getZ () == targetz) {
 				Debug.Log ("Arrived at goal Node!!!");
 
 				path = new List<Node> ();
 				while (true) {
-					path.Add (current);
-					current.debugPrint ();
-					if (current.getZConnection () == -1 || current.getXConnection () == -1) {
+					path.Add (open [indexOfSmallest]);
+					open [indexOfSmallest].debugPrint ();
+					if (open [indexOfSmallest].getZConnection () == -1 || open [indexOfSmallest].getXConnection () == -1) {
 						Debug.Log ("Length of path: " + path.Count);
+						for (int n = 0; n < path.Count; n++)
+							path [n].debugPrint ();
 						return true;
 					}
-					current = psudoGridTwo [current.getZConnection (), current.getXConnection ()];
+					open [indexOfSmallest] = psudoGridTwo [open [indexOfSmallest].getZConnection (), open [indexOfSmallest].getXConnection ()];
 
 				}
 
@@ -187,76 +189,96 @@ public class TileMap : MonoBehaviour
 			}
 
 			//process this node
-			Node candidate;
+			//Node candidate;
 
 			//try to add all four possible nodes
-			int nextz = current.getZ() + 1;
-			int nextx = current.getX();
+			int nextz = open [indexOfSmallest].getZ() + 1;
+			int nextx = open [indexOfSmallest].getX();
 			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
 			{
-				candidate = psudoGridTwo[nextz, nextx];
-				if (!candidate.hasWall())
+				psudoGridTwo[nextz, nextx] = psudoGridTwo[nextz, nextx];
+				if (!psudoGridTwo[nextz, nextx].hasWall())
 				{
-					if (candidate.costSoFar () > current.costSoFar () + 1) {
-						candidate.setCost (current.costSoFar () + 1);
-						candidate.setConnection (current.getX (), current.getZ ());
-						open.Add (candidate);
-						candidate.debugPrint ();
+					if (psudoGridTwo[nextz, nextx].costSoFar () > open [indexOfSmallest].costSoFar () + 1) {
+						Debug.Log ("Before:");
+						psudoGridTwo[nextz, nextx].debugPrint ();
+
+						psudoGridTwo[nextz, nextx].setCost (open [indexOfSmallest].costSoFar () + 1);
+						psudoGridTwo[nextz, nextx].setConnection (open [indexOfSmallest].getX (), open [indexOfSmallest].getZ ());
+						open.Add (psudoGridTwo[nextz, nextx]);
+
+						Debug.Log ("After:");
+						psudoGridTwo[nextz, nextx].debugPrint ();
 					}
 				}
 			}
 
-			nextz = current.getZ() - 1;
-			nextx = current.getX();
+			nextz = open [indexOfSmallest].getZ() - 1;
+			nextx = open [indexOfSmallest].getX();
 			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
 			{
-				candidate = psudoGridTwo[nextz, nextx];
-				if (!candidate.hasWall())
+				psudoGridTwo[nextz, nextx] = psudoGridTwo[nextz, nextx];
+				if (!psudoGridTwo[nextz, nextx].hasWall())
 				{
-					if (candidate.costSoFar () > current.costSoFar () + 1) {
-						candidate.setCost (current.costSoFar () + 1);
-						candidate.setConnection (current.getX (), current.getZ ());
-						open.Add (candidate);
-						candidate.debugPrint ();
+					if (psudoGridTwo[nextz, nextx].costSoFar () > open [indexOfSmallest].costSoFar () + 1) {
+						Debug.Log ("Before:");
+						psudoGridTwo[nextz, nextx].debugPrint ();
+
+						psudoGridTwo[nextz, nextx].setCost (open [indexOfSmallest].costSoFar () + 1);
+						psudoGridTwo[nextz, nextx].setConnection (open [indexOfSmallest].getX (), open [indexOfSmallest].getZ ());
+						open.Add (psudoGridTwo[nextz, nextx]);
+
+						Debug.Log ("After:");
+						psudoGridTwo[nextz, nextx].debugPrint ();
 					}
 				}
 			}
 
-			nextz = current.getZ();
-			nextx = current.getX() + 1;
+			nextz = open [indexOfSmallest].getZ();
+			nextx = open [indexOfSmallest].getX() + 1;
 			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
 			{
-				candidate = psudoGridTwo[nextz, nextx];
-				if (!candidate.hasWall())
+				psudoGridTwo[nextz, nextx] = psudoGridTwo[nextz, nextx];
+				if (!psudoGridTwo[nextz, nextx].hasWall())
 				{
-					if (candidate.costSoFar () > current.costSoFar () + 1) {
-						candidate.setCost (current.costSoFar () + 1);
-						candidate.setConnection (current.getX (), current.getZ ());
-						open.Add (candidate);
-						candidate.debugPrint ();
+					if (psudoGridTwo[nextz, nextx].costSoFar () > open [indexOfSmallest].costSoFar () + 1) {
+						Debug.Log ("Before:");
+						psudoGridTwo[nextz, nextx].debugPrint ();
+
+						psudoGridTwo[nextz, nextx].setCost (open [indexOfSmallest].costSoFar () + 1);
+						psudoGridTwo[nextz, nextx].setConnection (open [indexOfSmallest].getX (), open [indexOfSmallest].getZ ());
+						open.Add (psudoGridTwo[nextz, nextx]);
+
+						Debug.Log ("After:");
+						psudoGridTwo[nextz, nextx].debugPrint ();
 					}
 				}
 			}
 
-			nextz = current.getZ();
-			nextx = current.getX() - 1;
+			nextz = open [indexOfSmallest].getZ();
+			nextx = open [indexOfSmallest].getX() - 1;
 			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
 			{
-				candidate = psudoGridTwo[nextz, nextx];
-				if (!candidate.hasWall())
+				psudoGridTwo[nextz, nextx] = psudoGridTwo[nextz, nextx];
+				if (!psudoGridTwo[nextz, nextx].hasWall())
 				{
-					if (candidate.costSoFar () > current.costSoFar () + 1) {
-						candidate.setCost (current.costSoFar () + 1);
-						candidate.setConnection (current.getX (), current.getZ ());
-						open.Add (candidate);
-						candidate.debugPrint ();
+					if (psudoGridTwo[nextz, nextx].costSoFar () > open [indexOfSmallest].costSoFar () + 1) {
+						Debug.Log ("Before:");
+						psudoGridTwo[nextz, nextx].debugPrint ();
+
+						psudoGridTwo[nextz, nextx].setCost (open [indexOfSmallest].costSoFar () + 1);
+						psudoGridTwo[nextz, nextx].setConnection (open [indexOfSmallest].getX (), open [indexOfSmallest].getZ ());
+						open.Add (psudoGridTwo[nextz, nextx]);
+
+						Debug.Log ("After:");
+						psudoGridTwo[nextz, nextx].debugPrint ();
 					}
 				}
 			}
 
 			//Debug.Log ("added candidates (hopefully)");
-			open.Remove (current);
-			closed.Add (current);
+			open.Remove (open [indexOfSmallest]);
+			closed.Add (open [indexOfSmallest]);
 
 			//Debug.Log ("moved current from open to closed");
 			
@@ -435,7 +457,7 @@ public class TileMap : MonoBehaviour
 					if (inPath != null && psudoGrid != null) {
 						if (inPath [z, x] || (z == startz && x == startx) || (z == targetz && x == targetx)) {
 							Gizmos.color = new Color (1f, 0f, 0f);
-							Gizmos.DrawCube (center, cubeSize / 2);
+							//Gizmos.DrawCube (center, cubeSize / 2);
 							Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 						}
 
@@ -448,6 +470,13 @@ public class TileMap : MonoBehaviour
 
 
 				}
+			}
+
+			for (int i = 0; i < path.Count; i++) {
+				Vector3 center = new Vector3 (tileWidth * path[i].getX(), tileWidth * 0.5f, tileWidth * path[i].getZ());
+				Gizmos.color = new Color (1f, 0f, 0f);
+				Gizmos.DrawCube (center, cubeSize / 2);
+				Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 			}
 		}
 	}
