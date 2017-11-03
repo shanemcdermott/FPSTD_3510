@@ -6,6 +6,7 @@ public class TileMap : MonoBehaviour
 {
 
 	public bool giz = true;
+
     protected GameObject[,] tileMap;
 
 
@@ -62,8 +63,8 @@ public class TileMap : MonoBehaviour
 		public int getEstimatedTotalCost(int tx, int tz)
 		{
 			if (estimate == -1)
-				estimate = costToGetHere + (Mathf.Abs (tx - xpos) + Mathf.Abs (tz - zpos));
-			return estimate;
+				estimate = (Mathf.Abs (tx - xpos) + Mathf.Abs (tz - zpos));
+			return estimate + costToGetHere;
 		}
 
 		public int getX()
@@ -138,6 +139,7 @@ public class TileMap : MonoBehaviour
 			
 
 		//create open and closed lists
+		path = new List<Node> ();
 		List<Node> open = new List<Node>(); //TODO: use a priority queue or something faster than a list
 		//List<Node> closed = new List<Node> ();
 
@@ -148,8 +150,6 @@ public class TileMap : MonoBehaviour
 
 		//while there are open nodes...
 		while (open.Count > 0) {
-
-			Debug.Log ("loop through open nodes");
 
 			int smallestTotalCost = 1000000000;
 			int smallest = 0;
@@ -172,9 +172,6 @@ public class TileMap : MonoBehaviour
 					path.Add (open [smallest]);
 					open [smallest].debugPrint ();
 					if (open [smallest].getZConnection () == -1 || open [smallest].getXConnection () == -1) {
-						Debug.Log ("Length of path: " + path.Count);
-						for (int n = 0; n < path.Count; n++)
-							path [n].debugPrint ();
 						return true;
 					}
 					open [smallest] = grid [open [smallest].getZConnection (), open [smallest].getXConnection ()];
@@ -250,11 +247,8 @@ public class TileMap : MonoBehaviour
 				}
 			}
 
-			//Debug.Log ("added candidates (hopefully)");
-			open.Remove (open [smallest]);
-			//closed.Add (open [smallest]);
 
-			//Debug.Log ("moved current from open to closed");
+			open.Remove (open [smallest]);
 			
 		}
 
@@ -315,9 +309,11 @@ public class TileMap : MonoBehaviour
 	//returns true as long as there is still a path through
 	public bool CanPlaceHere(int x, int z)
 	{
+		if (x == startx && z == startz || x == targetx && z == targetz)
+			return false;
 		//maybe speed things up
-		if (inPath[z, x] == false) 
-			return true;
+//		if (inPath[z, x] == false) 
+//			return true;
 		if (getTileAt (x, z).GetComponent<Tile> ().HasWall ())
 			return false;
 
@@ -330,7 +326,7 @@ public class TileMap : MonoBehaviour
 		else {
 			getTileAt (x, z).GetComponent<Tile> ().DestroyWall ();
 			Debug.Log ("Destroyed Wall!!!");
-			findPath ();
+			Debug.Log(findPath ());
 			return false;
 
 		}
