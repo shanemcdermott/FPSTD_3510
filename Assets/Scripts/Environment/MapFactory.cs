@@ -22,7 +22,7 @@ public class MapFactory : MonoBehaviour
     /// </summary>
     public int height;
 
-	public int wallsToAdd = 1;
+	public int wallsToAdd = 10;
 
     /// <summary>
     /// Tile size in meters in X direction.
