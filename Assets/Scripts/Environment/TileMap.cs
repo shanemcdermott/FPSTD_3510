@@ -111,8 +111,9 @@ public class TileMap : MonoBehaviour
 
     public void Start()
     {
-        //register self with the game manager.
-        //GameManager.instance.tileMap = this;
+        //register self with the game manager
+		if (GameManager.instance != null)
+       		GameManager.instance.tileMap = this;
     }
 
 	private void translateMapToGridOfNodes()
@@ -211,11 +212,6 @@ public class TileMap : MonoBehaviour
 		Debug.Log ("No path found.");
 		return false; //no path found
 
-	}
-
-	public Node[] getPath()
-	{
-		return path; //should this be vector3's
 	}
 		
 	public void initTileMap(int xSize, int zSize)
