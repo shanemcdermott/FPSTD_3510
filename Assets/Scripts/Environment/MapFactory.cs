@@ -74,6 +74,7 @@ public class MapFactory : MonoBehaviour
             }
         }
 
+		map.findPath (); 
 		addSomeWalls (wallsToAdd);
 
 

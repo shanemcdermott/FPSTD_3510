@@ -20,6 +20,7 @@ public class TileMap : MonoBehaviour
 
 	//path through tileMap
 	private Node[] path = null;
+	private bool[,] isPath = null;
 
 	struct Node
 	{
@@ -75,45 +76,38 @@ public class TileMap : MonoBehaviour
 
 	}
 
-	public void setStartTile (int x, int z)
+	public void Start()
 	{
-		startx = x;
-		startz = z;
-	}
-
-	public void setTargetTile (int x, int z)
-	{
-		targetx = x;
-		targetz = z;
-	}
-
-	public void setTileAt(int x, int z, GameObject tile)
-	{
-		tileMap[z, x] = tile;
-	}
-
-	public GameObject getTileAt(int x, int z)
-	{
-		return tileMap[z, x];
-	}
-
-	public int getWidth()
-	{
-		return xlen;
-	}
-
-	public int getLength()
-	{
-		return zlen;
-	}
-
-    public void Start()
-    {
-        //register self with the game manager
+		//register self with the game manager
 		if (GameManager.instance != null)
-       		GameManager.instance.tileMap = this;
-    }
+			GameManager.instance.tileMap = this;
+	}
 
+	public void initTileMap(int xSize, int zSize)
+	{
+		xlen = xSize;
+		zlen = zSize;
+		tileMap = new GameObject[zlen, xlen];
+
+		setStartTile(0, 0);
+		setTargetTile(xlen - 1, zlen - 1);
+
+		path = null;
+		isPath = new bool[zlen, xlen];
+	}
+
+	public bool findPath()
+	{
+		bool[,] psudoGrid = getBoolGridFromTileMap ();
+		path = AStar (psudoGrid, startx, startz, targetx, targetz);
+
+		isPath = new bool [zlen, xlen];
+		foreach (Node n in path)
+			isPath [n.zpos, n.xpos] = true;
+		
+		return path != null;
+	}
+		
 
 	//translates the tile map into an array of booleans
 	private bool [,]  getBoolGridFromTileMap()
@@ -190,7 +184,7 @@ public class TileMap : MonoBehaviour
 					localPath[currPathNode.costToGetHere] = currPathNode;
 
 					if (currPathNode.fromz == -1 || currPathNode.fromx == -1) {
-						return localPath;//TODO: will this work? or "out"?
+						return localPath;
 					}
 					currPathNode = nodeGrid [currPathNode.fromz, currPathNode.fromx];
 
@@ -228,14 +222,7 @@ public class TileMap : MonoBehaviour
 
 		return null;
 	}
-
-
-	public bool findPath()
-	{
-		bool[,] psudoGrid = getBoolGridFromTileMap ();
-		path = AStar (psudoGrid, startx, startz, targetx, targetz);
-		return path != null;
-	}
+		
 
 	//return the path but translated to realworld positions
 	public Vector3[] getVector3Path()
@@ -251,17 +238,7 @@ public class TileMap : MonoBehaviour
 		return v3path;
 	}
 		
-	public void initTileMap(int xSize, int zSize)
-	{
-		xlen = xSize;
-		zlen = zSize;
-		tileMap = new GameObject[zlen, xlen];
 
-		setStartTile(0, 0);
-		setTargetTile(xlen - 1, zlen - 1);
-
-		path = null;
-	}
 
 
 
@@ -275,14 +252,15 @@ public class TileMap : MonoBehaviour
 	{
 		if (CanPlaceHere (x, z)) {
 			tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
-			findPath ();
+			if (isPath[z, x])//only recalculate path if current path is blocked
+				findPath ();
 		}
 	}
 
 	public void DestroyWallHere (int x, int z)
 	{
 		tileMap [z, x].GetComponent<Tile> ().DestroyWall ();
-		findPath ();//update path
+		findPath ();//always update path
 	}
 		
 	//place a wall without asking nicely
@@ -299,14 +277,14 @@ public class TileMap : MonoBehaviour
 		if (x == startx && z == startz || x == targetx && z == targetz)
 			return false;	
 		
-//		//TODO: maybe speed things up
-//		if (inPath[z, x] == false) 
-//			return true;
-
 		//if there is already a wall there don't allow it
 		if (getTileAt (x, z).GetComponent<Tile> ().HasWall ())
 			return false;
 
+		//if it doesn't block the path, allow it
+		if (isPath[z, x] == false) 
+			return true;
+		
 		//create a fake grid and add a wall to it
 		bool[,] psudoGrid = getBoolGridFromTileMap ();
 		psudoGrid [z, x] = false;
@@ -315,6 +293,42 @@ public class TileMap : MonoBehaviour
 		Node[] tempPath = AStar (psudoGrid, startx, startz, targetx, targetz);
 		return tempPath != null;
 	}
+
+
+
+	public void setStartTile (int x, int z)
+	{
+		startx = x;
+		startz = z;
+	}
+
+	public void setTargetTile (int x, int z)
+	{
+		targetx = x;
+		targetz = z;
+	}
+
+	public void setTileAt(int x, int z, GameObject tile)
+	{
+		tileMap[z, x] = tile;
+	}
+
+	public GameObject getTileAt(int x, int z)
+	{
+		return tileMap[z, x];
+	}
+
+	public int getWidth()
+	{
+		return xlen;
+	}
+
+	public int getLength()
+	{
+		return zlen;
+	}
+
+
 		
 
 	public void OnDrawGizmos()
