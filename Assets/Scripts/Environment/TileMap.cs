@@ -260,7 +260,13 @@ public class TileMap : MonoBehaviour
 	public void DestroyWallHere (int x, int z)
 	{
 		tileMap [z, x].GetComponent<Tile> ().DestroyWall ();
-		findPath ();//always update path
+
+		//always recalc the path after wall removal
+		//findPath (); //this doesn't work for some reason, I think it's because of Destroy wall
+		//workaround:
+		bool[,] psudogrid = getBoolGridFromTileMap();
+		psudogrid [z, x] = true;
+		path = AStar(psudogrid, startx, startz, targetx, targetz);
 	}
 		
 	//place a wall without asking nicely

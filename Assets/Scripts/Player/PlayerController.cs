@@ -215,7 +215,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                     {
                         if (!tileTarget.HasWall())
                         {
-                            tileTarget.PlaceWall();
+                            //tell the tile map to place the wall
+							tileTarget.getParentTileMap().PlaceWallHere(tileTarget.getXPos(), tileTarget.getZPos());
                             currentFunds -= 10;
                         }
                     }
@@ -247,7 +248,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                         }
                         else
                         {
-                            tileHit.DestroyWall();
+							//tell the tileMap to destry the wall
+							tileHit.getParentTileMap().DestroyWallHere(tileHit.getXPos(), tileHit.getZPos());
                         }
                     }
                     if (hit.transform.tag == "Tower")
