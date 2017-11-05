@@ -19,10 +19,7 @@ public class MapFactoryEditor : Editor
 		if (GUILayout.Button ("Add Random Walls")) {
 			builder.addSomeWalls (5);
 		}
-
-		if (GUILayout.Button ("Try A*")) {
-			builder.getTileMap ().findPath ();
-		}
+			
     }
 		
 
