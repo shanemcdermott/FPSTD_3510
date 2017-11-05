@@ -15,6 +15,8 @@ public class MenuManager : MonoBehaviour {
     public Text waveCrystals;
     public Text levelCrystals1;
     public Text levelCrystals2;
+    public Text waveCountDefeat;
+    public Text waveCountVictory;
 	
     void Start()
     {

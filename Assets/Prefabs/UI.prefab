@@ -2343,6 +2343,8 @@ MonoBehaviour:
   waveCrystals: {fileID: 114203127866965556}
   levelCrystals1: {fileID: 114293635178628198}
   levelCrystals2: {fileID: 114218707781227086}
+  waveCountDefeat: {fileID: 114472270121977694}
+  waveCountVictory: {fileID: 114528375785813332}
 --- !u!114 &114388328221185774
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -9,6 +9,7 @@ public class DefeatState : GameState
         base.Enter();
         GameManager.instance.hud.phase.text = "Defeat!";
         //Tell hud to display rewards
+        GameManager.instance.menuManager.waveCountDefeat.text = "" + GameManager.instance.currentWave;
         GameManager.instance.menuManager.OpenWaveDefeat();
     }
 
