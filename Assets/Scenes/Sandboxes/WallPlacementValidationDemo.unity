@@ -610,6 +610,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
+        type: 2}
+      propertyPath: floorTiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4359254115434328, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -656,6 +661,22 @@ Prefab:
         type: 2}
       propertyPath: wallsToAdd
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
+        type: 2}
+      propertyPath: floorTiles.Array.data[1]
+      value: 
+      objectReference: {fileID: 1215070151678354, guid: 3ad11343f182c7d46a6dc74f353ac6a1,
+        type: 2}
+    - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
+        type: 2}
+      propertyPath: tileWidth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
+        type: 2}
+      propertyPath: tileHeight
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}

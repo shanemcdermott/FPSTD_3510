@@ -17,7 +17,7 @@ public class MapFactoryEditor : Editor
         }
 
 		if (GUILayout.Button ("Add Random Walls")) {
-			builder.addSomeWalls (5);
+			builder.addSomeWalls (builder.wallsToAdd);
 		}
 			
     }

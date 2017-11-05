@@ -27,11 +27,11 @@ public class MapFactory : MonoBehaviour
     /// <summary>
     /// Tile size in meters in X direction.
     /// </summary>
-    public int tileWidth = 1;
+    public float tileWidth = 1f;
     /// <summary>
     /// Tile height in meters in Z direction.
     /// </summary>
-    public int tileHeight = 1;
+    //public int tileHeight = 1;
 
     private Transform board;
     private TileMap map;
@@ -66,13 +66,15 @@ public class MapFactory : MonoBehaviour
             {
 				GameObject toInstantiate = floorTiles[Random.Range (0, floorTiles.Length)];
 				Vector3 p = this.transform.position;
-				GameObject instance = Instantiate(toInstantiate, new Vector3(x * tileWidth + p.x, 0f + p.y, z * tileHeight + p.z), Quaternion.identity) as GameObject;
+				GameObject instance = Instantiate(toInstantiate, new Vector3(x * tileWidth + p.x, 0f + p.y, z * tileWidth + p.z), Quaternion.identity) as GameObject;
                 instance.transform.SetParent(board);
 				instance.GetComponent<Tile>().setCoordinates (x, z);
                 map.setTileAt(x,z,instance);
 
             }
         }
+
+		map.setTileWidth (tileWidth);
 
 		map.findPath (); 
 		addSomeWalls (wallsToAdd);

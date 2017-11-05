@@ -334,6 +334,11 @@ public class TileMap : MonoBehaviour
 		return zlen;
 	}
 
+	public void setTileWidth(float width)
+	{
+		tileWidth = width;
+	}
+
 
 		
 
