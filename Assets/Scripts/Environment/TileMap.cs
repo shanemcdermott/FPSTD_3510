@@ -10,6 +10,8 @@ public class TileMap : MonoBehaviour
 	//display gizmos
 	public bool giz = true;
 
+	private float tileWidth = 1f;
+
 	//size of tile map
 	private int xlen, zlen;
 
@@ -229,6 +231,20 @@ public class TileMap : MonoBehaviour
 		path = AStar (psudoGrid, startx, startz, targetx, targetz);
 		return path != null;
 	}
+
+	//return the path but translated to realworld positions
+	public Vector3[] getVector3Path()
+	{
+		if (path == null)
+			return null;
+		
+		Vector3[] v3path = new Vector3[path.Length];
+
+		for (int i = 0; i < path.Length; i++)
+			v3path[i] = new Vector3 (path [i].xpos * tileWidth, 0, path [i].zpos * tileWidth); //this is temporary
+
+		return v3path;
+	}
 		
 	public void initTileMap(int xSize, int zSize)
 	{
@@ -261,6 +277,7 @@ public class TileMap : MonoBehaviour
 	public void DestroyWallHere (int x, int z)
 	{
 		tileMap [z, x].GetComponent<Tile> ().DestroyWall ();
+		findPath ();//update path
 	}
 		
 	//place a wall without asking nicely
@@ -277,7 +294,7 @@ public class TileMap : MonoBehaviour
 		if (x == startx && z == startz || x == targetx && z == targetz)
 			return false;	
 		
-		//maybe speed things up
+//		//maybe speed things up
 //		if (inPath[z, x] == false) 
 //			return true;
 
@@ -299,7 +316,6 @@ public class TileMap : MonoBehaviour
 	{
 		if (giz == true) {
 			
-			float tileWidth = 1f;
 			Vector3 cubeSize = new Vector3 (tileWidth, tileWidth, tileWidth);
 
 
@@ -317,11 +333,19 @@ public class TileMap : MonoBehaviour
 				}
 			}
 
-			if (path != null) {
-				for (int i = 0; i < path.Length; i++) {
-					Vector3 center = new Vector3 (tileWidth * path [i].xpos, tileWidth * 0.5f, tileWidth * path [i].zpos);
-					Gizmos.color = new Color (1f, 0f, 0f);
-					Gizmos.DrawCube (center, cubeSize / 2);
+//			if (path != null) {
+//				for (int i = 0; i < path.Length; i++) {
+//					Vector3 center = new Vector3 (tileWidth * path [i].xpos, tileWidth * 0.5f, tileWidth * path [i].zpos);
+//					Gizmos.color = new Color (1f, 0f, 0f);
+//					Gizmos.DrawCube (center, cubeSize / 2);
+//					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
+//				}
+//			}
+			Vector3[] v3path = getVector3Path();
+			if (v3path != null) {
+				for (int i = 0; i < v3path.Length; i++) {
+					Gizmos.color = new Color (1f, 1f, 0f);
+					Gizmos.DrawCube (v3path[i], cubeSize / 2);
 					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 				}
 			}
