@@ -15,6 +15,12 @@ public class MapFactoryEditor : Editor
         {
             builder.SetupScene();
         }
+
+		if (GUILayout.Button ("Add Random Walls")) {
+			builder.addSomeWalls (builder.wallsToAdd);
+		}
+			
     }
+		
 
 }

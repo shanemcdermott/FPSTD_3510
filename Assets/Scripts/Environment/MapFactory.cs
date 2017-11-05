@@ -22,14 +22,16 @@ public class MapFactory : MonoBehaviour
     /// </summary>
     public int height;
 
+	public int wallsToAdd = 10;
+
     /// <summary>
     /// Tile size in meters in X direction.
     /// </summary>
-    public int tileWidth = 1;
+    public float tileWidth = 1f;
     /// <summary>
     /// Tile height in meters in Z direction.
     /// </summary>
-    public int tileHeight = 1;
+    //public int tileHeight = 1;
 
     private Transform board;
     private TileMap map;
@@ -64,21 +66,29 @@ public class MapFactory : MonoBehaviour
             {
 				GameObject toInstantiate = floorTiles[Random.Range (0, floorTiles.Length)];
 				Vector3 p = this.transform.position;
-				GameObject instance = Instantiate(toInstantiate, new Vector3(x * tileWidth + p.x, 0f + p.y, z * tileHeight + p.z), Quaternion.identity) as GameObject;
+				GameObject instance = Instantiate(toInstantiate, new Vector3(x * tileWidth + p.x, 0f + p.y, z * tileWidth + p.z), Quaternion.identity) as GameObject;
                 instance.transform.SetParent(board);
+				instance.GetComponent<Tile>().setCoordinates (x, z);
                 map.setTileAt(x,z,instance);
 
             }
         }
 
-		addSomeWalls (10);
+		map.setTileWidth (tileWidth);
 
-		Debug.Log ("Path found = " + map.isPath ());
+		map.findPath (); 
+		addSomeWalls (wallsToAdd);
+
 
 
     }
 
-	void addSomeWalls(int numWalls)
+	public TileMap getTileMap()
+	{
+		return map;
+	}
+
+	public void addSomeWalls(int numWalls)
 	{
 		for (int i = 0; i < numWalls; i++) {
 			int x = Random.Range (0, width);

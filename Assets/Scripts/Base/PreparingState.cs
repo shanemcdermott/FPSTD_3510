@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class PreparingState : GameState
 {
-    public float preparationTime;
+    public float preparationTime = 10f;
     public GameState nextState;
-
-    private float _timer;
-	// Use this for initialization
-	void Start ()
-    {
-        _timer = 0f;
-	}
 
     public override void Enter()
     {
         base.Enter();
-        _timer = 0f;
-        GameManager.instance.HUD.phase.text = "Build";
+        Invoke("ConsiderStateTransition", preparationTime);
+        GameManager.instance.hud.phase.text = "Build";
         GameManager.instance.GetEnemyManager().enabled = false;
         Debug.Log("Starting Build Phase.");
     }
 
-    // Update is called once per frame
-    void Update ()
+    public override GameState GetNextState()
     {
-        _timer += Time.deltaTime;
-        if (_timer >= preparationTime)
-            GameManager.instance.SetState(nextState);    	
-	}
+        return nextState;
+    }
+
+    public override bool ShouldChangeState()
+    {
+        return true;
+
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        CancelInvoke();
+    }
 }

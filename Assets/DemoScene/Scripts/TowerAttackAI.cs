@@ -7,7 +7,7 @@ public class TowerAttackAI : MonoBehaviour {
     //The Tower's equipment/weapon
     public Equipment equipment;
 
-    private GameObject player;
+    private GameObject defenseTarget;
     private TowerAim towerAim;
 
 	static public float timeBetweenShots = 0.5f;
@@ -16,12 +16,14 @@ public class TowerAttackAI : MonoBehaviour {
 
 	void Start()
 	{
-        player = GameObject.FindGameObjectWithTag("Player");
         towerAim = this.GetComponent<TowerAim>();
         if (equipment == null)
             equipment = this.GetComponentInChildren<Equipment>();
+
+        defenseTarget = GameObject.FindGameObjectWithTag("Player");
         //this.GetComponentInChildren<LineRenderer> ().enabled = false;
-	}
+    }
+
 
     protected GameObject FindTargetClosestTo(Vector3 position)
     {
@@ -43,10 +45,10 @@ public class TowerAttackAI : MonoBehaviour {
 
 	void FixedUpdate ()
     {
-        GameObject target = FindTargetClosestTo(player.transform.position);
+        GameObject target = FindTargetClosestTo(defenseTarget.transform.position);
         towerAim.setTarget(target);
 
-        if (target != null)
+        if (target != null && equipment != null)
             equipment.Activate();
 
 	}

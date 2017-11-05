@@ -5,7 +5,6 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 {
     public Camera fpsCamera;
     public float placementRange;
-    public GameObject map;
 
     public GameObject[] weapons; //rifle, sniper, shotgun, rocket
     public GameObject currentWeapon; //rifle, cannon, rocket, aoe
@@ -216,7 +215,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                     {
                         if (!tileTarget.HasWall())
                         {
-                            tileTarget.PlaceWall();
+                            //tell the tile map to place the wall
+							tileTarget.getParentTileMap().PlaceWallHere(tileTarget.getXPos(), tileTarget.getZPos());
                             currentFunds -= 10;
                         }
                     }
@@ -248,7 +248,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                         }
                         else
                         {
-                            tileHit.DestroyWall();
+							//tell the tileMap to destry the wall
+							tileHit.getParentTileMap().DestroyWallHere(tileHit.getXPos(), tileHit.getZPos());
                         }
                     }
                     if (hit.transform.tag == "Tower")
@@ -275,6 +276,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     public void TogglePlacementMode()
     {
         isPlacing = !isPlacing;
+        GameObject map = GameManager.instance.GetTileMap().gameObject;
         Component[] tiles = map.GetComponentsInChildren<Tile>();
         if (isPlacing)
         {
