@@ -10,6 +10,8 @@ public class VictoryState : GameState
         base.Enter();
         GameManager.instance.hud.phase.text = "Victory!";
         //Tell hud to display rewards
+        GameManager.instance.menuManager.waveCrystals.text = "0";
+        GameManager.instance.menuManager.levelCrystals1.text = "0";
         GameManager.instance.menuManager.OpenWaveVictory();
     }
 

@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
         DontDestroyOnLoad(gameObject);
         player = GameObject.FindGameObjectWithTag("Player");
         enemyManager = GetComponent<EnemyManager>();
-        hud = player.GetComponentInChildren<HUDManager>();
-        menuManager = player.GetComponentInChildren<MenuManager>();
+        //hud = player.GetComponentInChildren<HUDManager>();
+        //menuManager = player.GetComponentInChildren<MenuManager>();
         InitGame();
     }
 
