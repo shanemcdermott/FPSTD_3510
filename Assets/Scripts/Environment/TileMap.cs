@@ -17,10 +17,6 @@ public class TileMap : MonoBehaviour
 	private int startx, startz, targetx, targetz;
 
 	//used for pathfinding
-	//private bool[,] psudoGrid = null;
-	private bool[,] visited = null; //unused
-	private bool[,] inPath = null; //unused
-
 	private Node[,] grid = null;
 	private Node[] path = null;
 
@@ -116,7 +112,7 @@ public class TileMap : MonoBehaviour
        		GameManager.instance.tileMap = this;
     }
 
-	private void translateMapToGridOfNodes()
+	private void updatePsudoGrid()
 	{
 		grid = new Node[zlen, xlen];
 		for (int i = 0; i < xlen; i++) {
@@ -133,10 +129,8 @@ public class TileMap : MonoBehaviour
 
 	public bool findPath()
 	{
-		visited = new bool[zlen, xlen];
-		
 		//initialize the grid (doing this every time might be costly)
-		translateMapToGridOfNodes();
+		updatePsudoGrid();
 			
 
 		//create open list
@@ -198,7 +192,6 @@ public class TileMap : MonoBehaviour
 							grid [nextz, nextx].costToGetHere = open [smallest].costToGetHere + 1;
 							grid [nextz, nextx].setConnection (open [smallest].xpos, open [smallest].zpos);
 							open.Add (grid [nextz, nextx]);
-							visited [nextz, nextx] = true;
 						}
 					}
 				}
@@ -222,10 +215,6 @@ public class TileMap : MonoBehaviour
 
 		setStartTile(0, 0);
 		setTargetTile(xlen - 1, zlen - 1);
-
-
-		visited = new bool[zlen, xlen];
-		inPath = new bool[zlen, xlen];
 
 		path = null;
 	}
@@ -298,12 +287,6 @@ public class TileMap : MonoBehaviour
 
 					Vector3 center = new Vector3 (tileWidth * x, tileWidth * 0.5f, tileWidth * z);
 					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
-
-					if (visited [z, x]) {
-						Gizmos.color = new Color (0f, 1f, 1f);
-						Gizmos.DrawWireCube (center, cubeSize);
-						Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
-					}
 
 					if (tileMap [z, x].GetComponent<Tile>().HasWall()) {
 						Gizmos.DrawCube (center, cubeSize);
