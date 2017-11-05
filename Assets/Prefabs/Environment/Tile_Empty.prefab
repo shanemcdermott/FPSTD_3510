@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 65472349718592974}
   m_Layer: 10
   m_Name: Tile_Empty
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -164,4 +164,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1769019368187682, guid: d28751d9907ea654f95055eb21a02479, type: 2}
-  blocksMovement: 0
