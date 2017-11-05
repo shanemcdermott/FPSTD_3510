@@ -53,9 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorTiles:
   - {fileID: 1215070151678354, guid: 3ad11343f182c7d46a6dc74f353ac6a1, type: 2}
+  - {fileID: 1485707655515874, guid: 3ceed5cf000828048b1a5711bcecc039, type: 2}
   wallTiles: []
   width: 50
   height: 50
-  wallsToAdd: 1000
+  wallsToAdd: 0
   tileWidth: 1
-  tileHeight: 1
