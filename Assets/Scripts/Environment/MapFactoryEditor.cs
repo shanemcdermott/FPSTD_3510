@@ -17,16 +17,9 @@ public class MapFactoryEditor : Editor
         }
 
 		if (GUILayout.Button ("Add Random Walls")) {
-			builder.addSomeWalls (5);
+			builder.addSomeWalls (builder.wallsToAdd);
 		}
-
-		if (GUILayout.Button ("Recalculate Path")) {
-			builder.getTileMap ().recursiveFindPath ();
-		}
-
-		if (GUILayout.Button ("Try A*")) {
-			builder.getTileMap ().findPath ();
-		}
+			
     }
 		
 

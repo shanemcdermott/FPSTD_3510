@@ -33,7 +33,6 @@ public class Tile : MonoBehaviour, IFocusable
 
     public void PlaceWall()
     {
-		//TODO: need to check if wall can be placed here
         wall.transform.position = transform.position + new Vector3(0, 0.25f, 0);
         GameObject wallInstance = GameObject.Instantiate(wall);
         wallInstance.transform.parent = transform;

@@ -5,36 +5,32 @@ using UnityEngine;
 public class TileMap : MonoBehaviour
 {
 
+	protected GameObject[,] tileMap;
+
+	//display gizmos
 	public bool giz = true;
-    protected GameObject[,] tileMap;
 
+	private float tileWidth = 1f;
 
-	private int xlen;
-	private int zlen;
-
+	//size of tile map
+	private int xlen, zlen;
 
 	//start point and target for pathfinding
-	private int startx;
-	private int startz;
-	private int targetx;
-	private int targetz;
+	private int startx, startz, targetx, targetz;
 
-	//used for pathfinding
-	private bool[,] psudoGrid = null;
-	private bool[,] visited = null;
-	private bool[,] inPath = null;
-
-	private Node[,] psudoGridTwo = null;
-	private List<Node> path = null;
+	//path through tileMap
+	private Node[] path = null;
+	private bool[,] isPath = null;
 
 	struct Node
 	{
-		int xpos;
-		int zpos;
-		int costToGetHere;
-		int fromx;
-		int fromz;
-		bool isWall;
+		public int xpos;
+		public int zpos;
+		public int costToGetHere;
+		public int fromx;
+		public int fromz;
+		public bool isWall;
+		int estimate;
 
 		public Node (int x, int z)
 		{
@@ -44,43 +40,27 @@ public class TileMap : MonoBehaviour
 			fromx = -1;
 			fromz = -1;
 			isWall = false;
+			estimate = -1;
 
 		}
 
 		public Node (bool wall)
 		{
 			isWall = wall;
-			xpos = -1;
-			zpos = -1;
+			xpos = -2;
+			zpos = -2;
 			costToGetHere = 10000;
-			fromx = -1;
-			fromz = -1;
+			fromx = -2;
+			fromz = -2;
+			estimate = -1;
 		}
 			
 		public int getEstimatedTotalCost(int tx, int tz)
 		{
-			//TODO: store estimated calculated value for efficiency
-			return costToGetHere + (Mathf.Abs (tx - xpos) + Mathf.Abs (tz - zpos));
-		}
-
-		public int getX()
-		{
-			return xpos;
-		}
-
-		public int getZ()
-		{
-			return zpos;
-		}
-
-		public int costSoFar()
-		{
-			return costToGetHere;
-		}
-
-		public void setCost(int cost)
-		{
-			costToGetHere = cost;
+			//this heuristic only really makes sense if you can only move in cardinal directions
+			if (estimate == -1)
+				estimate = (Mathf.Abs (tx - xpos) + Mathf.Abs (tz - zpos)); 
+			return estimate + costToGetHere;
 		}
 
 		public void setConnection(int x, int z)
@@ -88,176 +68,20 @@ public class TileMap : MonoBehaviour
 			fromx = x;
 			fromz = z;
 		}
-
-		public int getXConnection()
+			
+		public void debugPrint()
 		{
-			return fromx;
+			Debug.Log ("Node at (x=" + xpos + ", z=" + zpos + ")\nisWall=" + isWall + "\nCost to get here: " + costToGetHere + "\nEstimated cost to target: " + estimate + "\nfrom node at (x=" + fromx + ", z=" + fromz + ")");
 		}
 
-		public int getZConnection ()
-		{
-			return fromz;
-		}
-
-		public bool hasWall()
-		{
-			return isWall;
-		}
 	}
 
-    public void Start()
-    {
-        //register self with the game manager.
-        GameManager.instance.tileMap = this;
-    }
-
-
-	public bool findPath()
+	public void Start()
 	{
-		
-		//initialize the grid (doing this every time might be costly)
-		psudoGridTwo = new Node[zlen, xlen];
-		for (int i = 0; i < xlen; i++) {
-			for (int j = 0; j < zlen; j++) {
-				if (tileMap [j, i].GetComponent<Tile> ().HasWall()) {
-					psudoGridTwo [j, i] = new Node(true);
-				} else {
-					psudoGridTwo [j, i] = new Node (i, j);
-				}
-			}
-		}
-			
-
-		//create open and closed lists
-		List<Node> open = new List<Node>(); //TODO: use a priority queue or something faster than a list
-		List<Node> closed = new List<Node> ();
-
-		//set the cost of the start node to zero and add it to open list
-		psudoGridTwo [startz, startx].setCost (0);
-		open.Add (psudoGridTwo[startz, startx]);
-
-
-		Debug.Log ("init finished");
-
-		//while there are open nodes...
-		while (open.Count > 0) {
-
-			Debug.Log ("start of loop through open");
-
-			int smallestTotalCost = 1000000000;
-			int indexOfSmallest = 0;
-			for (int i = 0; i < open.Count; i++)
-			{
-				Node n = open [i];
-
-				if (n.getEstimatedTotalCost(targetx, targetz) < smallestTotalCost) {
-					indexOfSmallest = i;
-					smallestTotalCost = n.getEstimatedTotalCost(targetx, targetz);
-				}
-			}
-
-			Node current = open [indexOfSmallest];
-
-			Debug.Log ("found smallest");
-			if (current.getX () == targetx && current.getZ () == targetz) {
-				Debug.Log ("Arrived at goal Node!!!");
-
-				path = new List<Node> ();
-				while (true) {
-					path.Add (current);
-					if (current.getZConnection () == -1 || current.getXConnection () == -1) {
-						Debug.Log ("Length of path: " + path.Count);
-						return true;
-					}
-					current = psudoGridTwo [current.getZConnection (), current.getXConnection ()];
-
-				}
-
-				//shouldn't ever get here
-				return true;
-			}
-
-			//process this node
-			Node candidate;
-
-			//try to add all four possible nodes
-			int nextz = current.getZ() + 1;
-			int nextx = current.getX();
-			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
-			{
-				candidate = psudoGridTwo[nextz, nextx];
-				if (!candidate.hasWall())
-				{
-					if (candidate.costSoFar () > current.costSoFar () + 1) {
-						candidate.setCost (current.costSoFar () + 1);
-						candidate.setConnection (current.getX (), current.getZ ());
-						open.Add (candidate);
-					}
-				}
-			}
-
-			nextz = current.getZ() - 1;
-			nextx = current.getX();
-			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
-			{
-				candidate = psudoGridTwo[nextz, nextx];
-				if (!candidate.hasWall())
-				{
-					if (candidate.costSoFar () > current.costSoFar () + 1) {
-						candidate.setCost (current.costSoFar () + 1);
-						candidate.setConnection (current.getX (), current.getZ ());
-						open.Add (candidate);
-					}
-				}
-			}
-
-			nextz = current.getZ();
-			nextx = current.getX() + 1;
-			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
-			{
-				candidate = psudoGridTwo[nextz, nextx];
-				if (!candidate.hasWall())
-				{
-					if (candidate.costSoFar () > current.costSoFar () + 1) {
-						candidate.setCost (current.costSoFar () + 1);
-						candidate.setConnection (current.getX (), current.getZ ());
-						open.Add (candidate);
-					}
-				}
-			}
-
-			nextz = current.getZ();
-			nextx = current.getX() - 1;
-			if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen)
-			{
-				candidate = psudoGridTwo[nextz, nextx];
-				if (!candidate.hasWall())
-				{
-					if (candidate.costSoFar () > current.costSoFar () + 1) {
-						candidate.setCost (current.costSoFar () + 1);
-						candidate.setConnection (current.getX (), current.getZ ());
-						open.Add (candidate);
-					}
-				}
-			}
-
-			Debug.Log ("added candidates (hopefully)");
-			open.Remove (current);
-			closed.Add (current);
-
-			Debug.Log ("moved current from open to closed");
-			
-		}
-
-		return false; //no path found
-
+		//register self with the game manager
+		if (GameManager.instance != null)
+			GameManager.instance.tileMap = this;
 	}
-
-
-
-
-
-
 
 	public void initTileMap(int xSize, int zSize)
 	{
@@ -268,9 +92,175 @@ public class TileMap : MonoBehaviour
 		setStartTile(0, 0);
 		setTargetTile(xlen - 1, zlen - 1);
 
-		psudoGrid = new bool[zlen, xlen];
-		visited = new bool[zlen, xlen];
-		inPath = new bool[zlen, xlen];
+		path = null;
+		isPath = new bool[zlen, xlen];
+	}
+
+	public bool findPath()
+	{
+		bool[,] psudoGrid = getBoolGridFromTileMap ();
+		path = AStar (psudoGrid, startx, startz, targetx, targetz);
+
+		isPath = new bool [zlen, xlen];
+		foreach (Node n in path)
+			isPath [n.zpos, n.xpos] = true;
+		
+		return path != null;
+	}
+		
+
+	//translates the tile map into an array of booleans
+	public bool [,]  getBoolGridFromTileMap()
+	{
+		bool [,] psudoGrid = new bool[zlen, xlen];
+		for (int i = 0; i < xlen; i++) {
+			for (int j = 0; j < zlen; j++) {
+				if (tileMap [j, i].GetComponent<Tile> ().HasWall()) {
+					psudoGrid [j, i] = false;
+				} else {
+					psudoGrid [j, i] = true;
+				}
+			}
+		}
+
+		return psudoGrid;
+	}
+	public Vector3[] getAStarPath(bool [,] grid, int sx, int sz, int tx, int tz)
+	{
+		return getVector3Path (AStar (grid, sx, sz, tx, tz));
+	}
+
+	//preforms A* on the boolean grid passed to it trying to get from (sz, sx) to (tz, tx)
+	private Node[] AStar(bool [,] grid, int sx, int sz, int tx, int tz)
+	{
+		//get dimentions of grid passed in
+		int xlen = grid.GetLength (1);
+		int zlen = grid.GetLength (0);
+
+		//translate boolean grid to a grid of nodes
+		Node[,] nodeGrid = new Node[zlen, xlen];
+		for (int i = 0; i < xlen; i++) {
+			for (int j = 0; j < zlen; j++) {
+				if (grid[j,i] == false) {
+					nodeGrid [j, i] = new Node(true);
+				} else {
+					nodeGrid [j, i] = new Node (i, j);
+				}
+			}
+		}
+
+		//create open list
+		List<Node> open = new List<Node>(); //TODO: use something faster than a list
+
+		//start with null path
+		Node[] localPath = null;
+
+		//set the cost of the start node to zero and add it to open list
+		nodeGrid [sz, sx].costToGetHere = 0;
+		open.Add (nodeGrid[sz, sx]);
+
+
+		//while there are open nodes...
+		while (open.Count > 0) {
+
+			//find the smallest
+			int smallest = 0;
+			int smallestTotalCost = 1000000000; //something large
+			for (int i = 0; i < open.Count; i++)
+			{
+				Node n = open [i];
+
+				if (n.getEstimatedTotalCost(tx, tz) < smallestTotalCost) {
+					smallest = i;
+					smallestTotalCost = n.getEstimatedTotalCost(tx, tz);
+				}
+			}
+
+			//if we are at the target
+			if (open [smallest].xpos == tx && open [smallest].zpos == tz) {
+
+				Node currPathNode = open [smallest];
+				localPath = new Node[open [smallest].costToGetHere + 1];
+
+				//trace the nodes that formed the path
+				while (true) {
+					localPath[currPathNode.costToGetHere] = currPathNode;
+
+					if (currPathNode.fromz == -1 || currPathNode.fromx == -1) {
+						return localPath;
+					}
+					currPathNode = nodeGrid [currPathNode.fromz, currPathNode.fromx];
+
+				}
+			}
+
+			//try to add all four possible nodes (only cardinal directions)
+			int[] nextZs = new int[4] { 1, -1, 0, 0 };
+			int[] nextXs = new int[4] { 0, 0, 1, -1 };
+
+			for (int i = 0; i < 4; i++) {
+				int nextz = open [smallest].zpos + nextZs[i];
+				int nextx = open [smallest].xpos + nextXs[i];
+
+				//if node is within the array
+				if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen) {
+					//if not a wall
+					if (!nodeGrid [nextz, nextx].isWall) {
+						//if visiting this node creates a shorter path or (mostlikely) is an unvisited node
+						if (nodeGrid [nextz, nextx].costToGetHere > open [smallest].costToGetHere + 1) {
+
+							//set it's connection and cost and add it to the open list
+							nodeGrid [nextz, nextx].costToGetHere = open [smallest].costToGetHere + 1;
+							nodeGrid [nextz, nextx].setConnection (open [smallest].xpos, open [smallest].zpos);
+							open.Add (nodeGrid [nextz, nextx]);
+						}
+					}
+				}
+
+			}
+
+			open.Remove (open [smallest]);
+
+		}
+
+		return null;
+	}
+		
+
+	//return the path but translated to realworld positions
+	public Vector3[] getVector3Path()
+	{
+		return getVector3Path (path); //if no param, use tileMaps path
+	}
+		
+	private Vector3[] getVector3Path(Node[] path)
+	{
+		if (path == null)
+			return null;
+
+		Vector3[] v3path = new Vector3[path.Length];
+
+		for (int i = 0; i < path.Length; i++)
+			v3path[i] = new Vector3 (path [i].xpos * tileWidth, 0, path [i].zpos * tileWidth) + gameObject.transform.position;
+
+		return v3path;
+	}
+		
+	//TODO conversion function for tiles and vector3s
+
+	public void nodeAtLocation(Vector3 loc, out int x, out int z)
+	{
+		float xloc = (loc - gameObject.transform.position).x;
+		float zloc = (loc - gameObject.transform.position).z;
+
+		x = (int) Mathf.Floor (xloc / tileWidth);
+		z = (int) Mathf.Floor (zloc / tileWidth);
+
+		//set x and z to -1 if location is off grid
+		if (x >= xlen || z >= zlen || x < 0 || z < 0) {
+			x = -1;
+			z = -1;
+		}
 	}
 
 
@@ -283,14 +273,23 @@ public class TileMap : MonoBehaviour
 	//place wall if it maintains a path through
 	public void PlaceWallHere(int x, int z)
 	{
-		if (CanPlaceHere(x, z))
+		if (CanPlaceHere (x, z)) {
 			tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
-		
+			if (isPath[z, x])//only recalculate path if current path is blocked
+				findPath ();
+		}
 	}
 
 	public void DestroyWallHere (int x, int z)
 	{
 		tileMap [z, x].GetComponent<Tile> ().DestroyWall ();
+
+		//always recalc the path after wall removal
+		//findPath (); //this doesn't work for some reason, I think it's because of Destroy wall
+		//workaround:
+		bool[,] psudogrid = getBoolGridFromTileMap();
+		psudogrid [z, x] = true;
+		path = AStar(psudogrid, startx, startz, targetx, targetz);
 	}
 		
 	//place a wall without asking nicely
@@ -303,146 +302,28 @@ public class TileMap : MonoBehaviour
 	//returns true as long as there is still a path through
 	public bool CanPlaceHere(int x, int z)
 	{
-		//maybe speed things up
-		if (inPath[z, x] == false) 
-			return true;
-		if (getTileAt (x, z).GetComponent<Tile> ().HasWall ())
-			return false;
-
-		forceWallHere (x, z);
-
-
-		if (recursiveFindPath ()) {
-			return true;
-		}
-		else {
-			getTileAt (x, z).GetComponent<Tile> ().DestroyWall ();
-			Debug.Log ("Destroyed Wall!!!");
-			recursiveFindPath ();
-			return false;
-
-		}
-	}
-
-	private void redoPathfindingData()
-	{
-		psudoGrid = new bool[zlen, xlen];
-		visited = new bool[zlen, xlen];
-		inPath = new bool[zlen, xlen];
-
-		for (int x = 0; x < xlen; x++) {
-			for (int z = 0; z < zlen; z++) {
-				psudoGrid [z, x] = !(getTileAt (x, z).GetComponent<Tile> ().HasWall ());
-				visited[z, x] = false;
-				inPath [z, x] = false;
-			}
-		}
-	}
-
-
-
-
+		//don't allow placement on start or target nodes
+		if (x == startx && z == startz || x == targetx && z == targetz)
+			return false;	
 		
-
-	public bool recursiveFindPath()
-	{
-		redoPathfindingData ();
-
-		if (psudoGrid [startz, startx] == false || psudoGrid [targetz, targetx] == false)
+		//if there is already a wall there don't allow it
+		if (getTileAt (x, z).HasWall ())
 			return false;
 
-		return recursiveFindPathHelper(startx, startz);
-	}
-
-	public bool recursiveFindPathHelper(int x, int z)
-	{
-		visited [z, x] = true;
-
-		if (x == targetx && z == targetz)
+		//if it doesn't block the path, allow it
+		if (isPath[z, x] == false) 
 			return true;
+		
+		//create a fake grid and add a wall to it
+		bool[,] psudoGrid = getBoolGridFromTileMap ();
+		psudoGrid [z, x] = false;
 
-		if (visitable (x, z + 1) && !visited[z + 1, x]) {
-			if (recursiveFindPathHelper (x, z + 1)) {
-				inPath [z + 1, x] = true;
-				return true;
-			}
-		}
-
-		if (visitable (x + 1, z) && !visited[z, x + 1]) {
-			if (recursiveFindPathHelper (x + 1, z)) {
-				inPath [z, x + 1] = true;
-				return true;
-			}
-		}
-
-		if (visitable (x - 1, z) && !visited[z, x - 1]) {
-			if (recursiveFindPathHelper (x - 1, z)) {
-				inPath [z, x -1] = true;
-				return true;
-			}
-		}
-
-		if (visitable (x, z - 1) && !visited[z - 1, x]) {
-			if (recursiveFindPathHelper (x, z - 1)) {
-				inPath [z - 1, x] = true;
-				return true;
-			}
-		}
-
-
-		return false;
-
-	}
-
-	private bool visitable(int x, int z)
-	{
-		if (!(x < 0 || x >= xlen || z < 0 || z >= zlen))
-		{
-			return psudoGrid [z, x];
-		}
-		return false;
+		//find the path if there is one and return
+		Node[] tempPath = AStar (psudoGrid, startx, startz, targetx, targetz);
+		return tempPath != null;
 	}
 
 
-
-	public void OnDrawGizmos()
-	{
-		if (giz == true) {
-			float tileWidth = 1f;
-			Vector3 cubeSize = new Vector3 (tileWidth, tileWidth, tileWidth);
-
-
-			for (int x = 0; x < xlen; x++) {
-				for (int z = 0; z < zlen; z++) {
-
-
-					Vector3 center = new Vector3 (tileWidth * x, tileWidth * 0.5f, tileWidth * z);
-					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
-
-					if (inPath != null && psudoGrid != null) {
-						if (inPath [z, x] || (z == startz && x == startx) || (z == targetz && x == targetx)) {
-							Gizmos.color = new Color (1f, 0f, 0f);
-							Gizmos.DrawCube (center, cubeSize / 2);
-							Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
-						}
-
-						if (tileMap [z, x].GetComponent<Tile>().HasWall()) {
-							Gizmos.DrawCube (center, cubeSize);
-						} else {
-							Gizmos.DrawWireCube (center, cubeSize);
-						}
-					}
-
-
-				}
-			}
-		}
-	}
-
-
-
-
-	//getters and setters
 
 	public void setStartTile (int x, int z)
 	{
@@ -456,14 +337,26 @@ public class TileMap : MonoBehaviour
 		targetz = z;
 	}
 
+	public void getStartTile(out int x, out int z)
+	{
+		x = startx;
+		z = startz;
+	}
+
+	public void getTargetTile(out int x, out int z)
+	{
+		x = targetx;
+		z = targetz;
+	}
+
 	public void setTileAt(int x, int z, GameObject tile)
 	{
 		tileMap[z, x] = tile;
 	}
 
-	public GameObject getTileAt(int x, int z)
+	public Tile getTileAt(int x, int z)
 	{
-		return tileMap[z, x];
+		return tileMap[z, x].GetComponent<Tile>();
 	}
 
 	public int getWidth()
@@ -474,6 +367,59 @@ public class TileMap : MonoBehaviour
 	public int getLength()
 	{
 		return zlen;
+	}
+
+	public void setTileWidth(float width)
+	{
+		tileWidth = width;
+	}
+
+	public float getTileWidth()
+	{
+		return tileWidth;
+	}
+
+
+		
+
+	public void OnDrawGizmos()
+	{
+		if (giz == true) {
+
+			Vector3 cubeSize = new Vector3 (tileWidth, tileWidth, tileWidth);
+
+
+			for (int x = 0; x < xlen; x++) {
+				for (int z = 0; z < zlen; z++) {
+
+					Vector3 center = new Vector3 (tileWidth * x, tileWidth * 0.5f, tileWidth * z) + gameObject.transform.position;
+					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
+
+					if (tileMap [z, x].GetComponent<Tile>().HasWall()) {
+						Gizmos.DrawCube (center, cubeSize);
+					} else {
+						Gizmos.DrawWireCube (center, cubeSize);
+					}
+				}
+			}
+
+//			if (path != null) {
+//				for (int i = 0; i < path.Length; i++) {
+//					Vector3 center = new Vector3 (tileWidth * path [i].xpos, tileWidth * 0.5f, tileWidth * path [i].zpos);
+//					Gizmos.color = new Color (1f, 0f, 0f);
+//					Gizmos.DrawCube (center, cubeSize / 2);
+//					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
+//				}
+//			}
+			Vector3[] v3path = getVector3Path();
+			if (v3path != null) {
+				for (int i = 0; i < v3path.Length; i++) {
+					Gizmos.color = new Color (1f, 1f, 0f);
+					Gizmos.DrawCube (v3path[i], cubeSize / 2);
+					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
+				}
+			}
+		}
 	}
 			
 }
