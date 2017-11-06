@@ -5,7 +5,7 @@ using UnityEngine;
 public class TowerAttackAI : MonoBehaviour {
 
     //The Tower's equipment/weapon
-    public Equipment equipment;
+    public Weapon equipment;
 
     private GameObject defenseTarget;
     private TowerAim towerAim;
@@ -13,20 +13,14 @@ public class TowerAttackAI : MonoBehaviour {
 	static public float timeBetweenShots = 0.5f;
 
 	private float timeUntilNextShot = timeBetweenShots;
-
+  
 	void Start()
 	{
         towerAim = this.GetComponent<TowerAim>();
         if (equipment == null)
         {
-            equipment = this.GetComponentInChildren<Equipment>();
-            
-            Weapon w = (Weapon)equipment;
-            if (w != null)
-            {
-                w.SetCurrentState(WeaponState.Idle);
-                InvokeRepeating("Shoot", w.timeToShoot, w.timeToShoot);
-            }
+            equipment = this.GetComponentInChildren<Weapon>();
+            equipment.SetCurrentState(WeaponState.Idle);
         }
 
         defenseTarget = GameObject.FindGameObjectWithTag("Player");
@@ -56,6 +50,8 @@ public class TowerAttackAI : MonoBehaviour {
     {
         GameObject target = FindTargetClosestTo(defenseTarget.transform.position);
         towerAim.setTarget(target);
+        if (target != null && equipment.GetCurrentState() == WeaponState.Idle)
+            Shoot();
         /*
         if (target != null && equipment != null && equipment.CanActivate())
             equipment.Activate();

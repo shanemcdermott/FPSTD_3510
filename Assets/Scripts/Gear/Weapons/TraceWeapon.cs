@@ -82,7 +82,7 @@ public class TraceWeapon : Weapon
     public override void DisableEffects()
     {
         base.DisableEffects();
-        //traceLine.enabled = false;
+        traceLine.enabled = false;
     }
 
     public override void EnableEffects()
