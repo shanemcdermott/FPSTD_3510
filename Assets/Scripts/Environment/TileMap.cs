@@ -110,7 +110,7 @@ public class TileMap : MonoBehaviour
 		
 
 	//translates the tile map into an array of booleans
-	private bool [,]  getBoolGridFromTileMap()
+	public bool [,]  getBoolGridFromTileMap()
 	{
 		bool [,] psudoGrid = new bool[zlen, xlen];
 		for (int i = 0; i < xlen; i++) {
@@ -125,7 +125,10 @@ public class TileMap : MonoBehaviour
 
 		return psudoGrid;
 	}
-		
+	public Vector3[] getAStarPath(bool [,] grid, int sx, int sz, int tx, int tz)
+	{
+		return getVector3Path (AStar (grid, sx, sz, tx, tz));
+	}
 
 	//preforms A* on the boolean grid passed to it trying to get from (sz, sx) to (tz, tx)
 	private Node[] AStar(bool [,] grid, int sx, int sz, int tx, int tz)
@@ -227,18 +230,38 @@ public class TileMap : MonoBehaviour
 	//return the path but translated to realworld positions
 	public Vector3[] getVector3Path()
 	{
+		return getVector3Path (path); //if no param, use tileMaps path
+	}
+		
+	private Vector3[] getVector3Path(Node[] path)
+	{
 		if (path == null)
 			return null;
-		
+
 		Vector3[] v3path = new Vector3[path.Length];
 
 		for (int i = 0; i < path.Length; i++)
-			v3path[i] = new Vector3 (path [i].xpos * tileWidth, 0, path [i].zpos * tileWidth); //this is temporary
+			v3path[i] = new Vector3 (path [i].xpos * tileWidth, 0, path [i].zpos * tileWidth) + gameObject.transform.position;
 
 		return v3path;
 	}
 		
+	//TODO conversion function for tiles and vector3s
 
+	public void nodeAtLocation(Vector3 loc, out int x, out int z)
+	{
+		float xloc = (loc - gameObject.transform.position).x;
+		float zloc = (loc - gameObject.transform.position).z;
+
+		x = (int) Mathf.Floor (xloc / tileWidth);
+		z = (int) Mathf.Floor (zloc / tileWidth);
+
+		//set x and z to -1 if location is off grid
+		if (x >= xlen || z >= zlen || x < 0 || z < 0) {
+			x = -1;
+			z = -1;
+		}
+	}
 
 
 
@@ -314,6 +337,18 @@ public class TileMap : MonoBehaviour
 		targetz = z;
 	}
 
+	public void getStartTile(out int x, out int z)
+	{
+		x = startx;
+		z = startz;
+	}
+
+	public void getTargetTile(out int x, out int z)
+	{
+		x = targetx;
+		z = targetz;
+	}
+
 	public void setTileAt(int x, int z, GameObject tile)
 	{
 		tileMap[z, x] = tile;
@@ -339,20 +374,25 @@ public class TileMap : MonoBehaviour
 		tileWidth = width;
 	}
 
+	public float getTileWidth()
+	{
+		return tileWidth;
+	}
+
 
 		
 
 	public void OnDrawGizmos()
 	{
 		if (giz == true) {
-			
+
 			Vector3 cubeSize = new Vector3 (tileWidth, tileWidth, tileWidth);
 
 
 			for (int x = 0; x < xlen; x++) {
 				for (int z = 0; z < zlen; z++) {
 
-					Vector3 center = new Vector3 (tileWidth * x, tileWidth * 0.5f, tileWidth * z);
+					Vector3 center = new Vector3 (tileWidth * x, tileWidth * 0.5f, tileWidth * z) + gameObject.transform.position;
 					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 
 					if (tileMap [z, x].GetComponent<Tile>().HasWall()) {
