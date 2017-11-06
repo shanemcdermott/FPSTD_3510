@@ -216,8 +216,14 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                         if (!tileTarget.HasWall())
                         {
                             //tell the tile map to place the wall
-							tileTarget.getParentTileMap().PlaceWallHere(tileTarget.getXPos(), tileTarget.getZPos());
-                            currentFunds -= 10;
+
+//							int testx = tileTarget.getXPos();
+//							int testz = tileTarget.getZPos ();
+//							tileTarget = tileTarget.getParentTileMap ().getTileAt (testx, testz);
+//
+							tileTarget.getParentTileMap().PlaceWallHere(tileTarget.getXPos(), tileTarget.getZPos());                      
+
+							currentFunds -= 10;
                         }
                     }
                     else if (wallTarget != null)
