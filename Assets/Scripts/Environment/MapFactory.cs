@@ -23,6 +23,10 @@ public class MapFactory : MonoBehaviour
     public int height;
 
 	public int wallsToAdd = 10;
+	public int startx = 4;
+	public int startz = 4;
+	public int targetx = 34;
+	public int targetz = 4;
 
     /// <summary>
     /// Tile size in meters in X direction.
@@ -75,6 +79,8 @@ public class MapFactory : MonoBehaviour
         }
 
 		map.setTileWidth (tileWidth);
+		map.setStartTile (startx, startz);
+		map.setTargetTile (targetx, targetz);
 
 		map.findPath (); 
 		addSomeWalls (wallsToAdd);
