@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   radius: 10
-  power: 1000
+  power: 500
   lift: 30
 --- !u!135 &135862476600667928
 SphereCollider:

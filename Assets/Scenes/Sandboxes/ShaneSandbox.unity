@@ -397,6 +397,26 @@ Transform:
   m_PrefabParentObject: {fileID: 4416091760058988, guid: 20f6fe34f060e914db713958208b2381,
     type: 2}
   m_PrefabInternal: {fileID: 235015948}
+--- !u!1 &677079012 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1951085064100812, guid: 4677524ce52e97c4194acd527a2eac2d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1299827729}
+--- !u!114 &677079014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 677079012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f011ec3ea263e4c8688595009b7600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bEnableFriendlyFire: 0
+  id: 1
+  teamColor: {r: 0, g: 0, b: 1, a: 1}
+  role: 0
 --- !u!114 &712412139 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114452222401312114, guid: b43497a60ef165440850f9e96a4b8783,
@@ -727,11 +747,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1235175011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0db528302571144ba5c03bb38bc5cb5, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b004f44aa97b674d9743d668222ffdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bulletsPerMag: 100
-  timeToShoot: 0.15
+  timeToShoot: 2
   timeToReload: 1
   timeToDisplayEffects: 0.1
   timeToEquip: 0.5
@@ -742,9 +762,10 @@ MonoBehaviour:
   gunAudio: {fileID: 0}
   gunLight: {fileID: 0}
   state: 6
-  damagePerShot: 100
-  range: 100
-  traceLine: {fileID: 0}
+  projectileToLaunch: {fileID: 114346593594613844, guid: 191777523e33eb945af823cb4bbc810b,
+    type: 2}
+  launchSpeed: 50
+  fireOffset: 2
 --- !u!1001 &1299827729
 Prefab:
   m_ObjectHideFlags: 0
@@ -789,6 +810,26 @@ Prefab:
     - {fileID: 120236859907586392, guid: 4677524ce52e97c4194acd527a2eac2d, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 4677524ce52e97c4194acd527a2eac2d, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1442525677 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000012174300454, guid: 8a4fca54c9faa3449bcff12193992420,
+    type: 2}
+  m_PrefabInternal: {fileID: 172462991}
+--- !u!114 &1442525679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1442525677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f011ec3ea263e4c8688595009b7600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bEnableFriendlyFire: 0
+  id: 1
+  teamColor: {r: 0, g: 0, b: 1, a: 1}
+  role: 0
 --- !u!1 &1478128008 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1192630927194432, guid: bbfb0f69a9b210d4787b069a653ed8b5,
@@ -1286,6 +1327,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &1846802073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1846802064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f011ec3ea263e4c8688595009b7600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bEnableFriendlyFire: 0
+  id: 1
+  teamColor: {r: 0, g: 0, b: 1, a: 1}
+  role: 0
 --- !u!114 &1909203712 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114418847015827482, guid: de1422a6577f63546b8d143a2585364a,

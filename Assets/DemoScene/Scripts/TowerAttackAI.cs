@@ -50,7 +50,7 @@ public class TowerAttackAI : MonoBehaviour {
     {
         GameObject target = FindTargetClosestTo(defenseTarget.transform.position);
         towerAim.setTarget(target);
-        if (target != null && equipment.GetCurrentState() == WeaponState.Idle)
+        if (target != null)
             Shoot();
         /*
         if (target != null && equipment != null && equipment.CanActivate())

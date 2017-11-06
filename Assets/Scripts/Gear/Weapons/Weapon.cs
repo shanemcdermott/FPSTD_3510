@@ -13,7 +13,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     /*Amount of time it takes to replenish magazine*/
     public float timeToReload = 1.0f;
     /*Amount of time effects should persist for*/
-    public float timeToDisplayEffects = 0.2f;
+    public float timeToDisplayEffects = 0.1f;
     /*Amount of time it takes to equip weapon*/
     public float timeToEquip = 0.5f;
     /*Amount of time it takes to unequip weapon*/
