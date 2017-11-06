@@ -9,7 +9,7 @@ public class VictoryState : GameState
     public override void Enter()
     {
         base.Enter();
-        GameManager.instance.hud.phase.text = "Victory!";
+        GameManager.instance.UpdatePhaseText("Victory!");
         //Tell hud to display rewards
     }
 

@@ -65,6 +65,12 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
 		enemyManager.setTileMap (tileMap); //this is temporary; there is probably a better way.
 	}
 
+    public void UpdatePhaseText(string text)
+    {
+        if(hud!= null)
+            hud.phase.text = "Build";
+    }
+
     public int GetNumWavesRemaining()
     {
         return numWavesInLevel - currentWave;
