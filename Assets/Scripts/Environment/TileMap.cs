@@ -284,7 +284,7 @@ public class TileMap : MonoBehaviour
 			return false;	
 		
 		//if there is already a wall there don't allow it
-		if (getTileAt (x, z).GetComponent<Tile> ().HasWall ())
+		if (getTileAt (x, z).GetComponent<Tile> ().HasWall ())//TODO
 			return false;
 
 		//if it doesn't block the path, allow it
@@ -321,7 +321,7 @@ public class TileMap : MonoBehaviour
 
 	public GameObject getTileAt(int x, int z)
 	{
-		return tileMap[z, x];
+		return tileMap[z, x].GetComponent<Tile>();
 	}
 
 	public int getWidth()

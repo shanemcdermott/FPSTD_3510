@@ -7,6 +7,8 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
     public GameObject target;
     public float speed = 4f;
 
+	private Vector3[] pathToTarget;
+
     void Awake ()
     {
         GetComponent<HealthComponent>().RegisterDeathResponder(this);
