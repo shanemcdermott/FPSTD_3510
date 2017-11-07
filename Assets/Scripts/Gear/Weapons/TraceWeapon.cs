@@ -42,16 +42,9 @@ public class TraceWeapon : Weapon
 
         EnableEffects();
 
-        if (useRootTransform)
-        {
-            shootRay.origin = transform.root.position;
-            shootRay.direction = transform.root.forward;
-        }
-        else
-        {
-            shootRay.origin = mainCamera.transform.position;
-            shootRay.direction = mainCamera.transform.forward;
-        }
+        shootRay.origin = aimTransform.position;
+        shootRay.direction = aimTransform.forward;
+
         //transform.root works for player but not for towers...
 
             

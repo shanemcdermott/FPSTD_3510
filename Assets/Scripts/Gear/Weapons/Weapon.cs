@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour, Equipment
 {
-    public Camera mainCamera;
+    public Transform aimTransform;
     /*Maximum Number of bullets in a magazine*/
     public int bulletsPerMag = 100;
 
@@ -22,7 +22,6 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     /*Does this weapon consume ammo*/
     public bool usesAmmo = false;
-    public bool useRootTransform = false;
     public ParticleSystem gunParticles;
     public AudioSource gunAudio;
     public Light gunLight;

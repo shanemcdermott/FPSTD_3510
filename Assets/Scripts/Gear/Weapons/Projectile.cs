@@ -42,7 +42,7 @@ public class Projectile : MonoBehaviour
                 }
 
                 rbody.AddExplosionForce(power, transform.position, radius, lift);
-                Debug.Log("Collided with: " + other.gameObject.name);
+                Debug.Log(gameObject + " collided with: " + other.gameObject.name);
                 bDestroy = true;
             }
         }
