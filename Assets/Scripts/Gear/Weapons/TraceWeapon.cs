@@ -8,8 +8,7 @@ using UnityEngine;
 public class TraceWeapon : Weapon
 {
     public int damagePerShot = 20;
-    public float range = 100f;
-    public LineRenderer traceLine;
+    public float range = 10000f;
 
     protected Ray shootRay = new Ray();
     protected RaycastHit shootHit;
@@ -20,8 +19,6 @@ public class TraceWeapon : Weapon
     {
         base.Awake();
         shootableMask = LayerMask.GetMask("Shootable");
-        if(traceLine == null)
-            traceLine = GetComponent<LineRenderer>();
         if(gunParticles == null)
             gunParticles = GetComponent<ParticleSystem>();
         if(gunAudio == null)
@@ -32,6 +29,8 @@ public class TraceWeapon : Weapon
 
     public override void Activate()
     {
+        Debug.Log("traceActivate");
+        
         //if (!CanActivate()) return;
 
         SetCurrentState(WeaponState.HipFiring);
@@ -39,36 +38,24 @@ public class TraceWeapon : Weapon
         if (usesAmmo)
             bulletsInMag--;
 
-        timer = 0f;
+        shootTimer = 0f;
 
         EnableEffects();
-        traceLine.SetPosition(0, transform.position);
 
-        if (useRootTransform)
-        {
-            shootRay.origin = transform.root.position;
-            shootRay.direction = transform.root.forward;
-        }
-        else
-        {
-            shootRay.origin = transform.position;
-            shootRay.direction = transform.forward;
-        }
+        shootRay.origin = aimTransform.position;
+        shootRay.direction = aimTransform.forward;
+
         //transform.root works for player but not for towers...
 
             
         if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
         {
+            Debug.Log("traceHitTag" + shootHit.transform.tag);
             HealthComponent enemyHealth = shootHit.collider.GetComponent<HealthComponent>();
             if (enemyHealth != null)
             {
                 enemyHealth.TakeDamage(new DamageContext(transform.root.gameObject, damagePerShot, shootHit.point));
             }
-            traceLine.SetPosition(1, shootHit.point);
-        }
-        else
-        {
-            traceLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
         }
         
     }
@@ -82,13 +69,11 @@ public class TraceWeapon : Weapon
     public override void DisableEffects()
     {
         base.DisableEffects();
-        traceLine.enabled = false;
     }
 
     public override void EnableEffects()
     {
         base.EnableEffects();
-        traceLine.enabled = true;
     }
 
 }

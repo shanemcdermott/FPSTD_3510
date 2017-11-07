@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         currentTurret = turrets[0];
 
         SetupFocusables();
+        EquipWeapon(0);
         
     }
 
@@ -137,7 +138,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     {
         float waitTime = currentWeapon.StartUnEquipping();
         currentWeapon = weapons[index];
-        currentWeapon.useRootTransform = true;
+        //currentWeapon.useRootTransform = true;
         Invoke("FinishedUnequipping", waitTime);
     }
 
