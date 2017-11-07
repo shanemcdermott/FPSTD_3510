@@ -231,7 +231,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
             }
             else
             {
-                if(currentWeapon.CanActivate())
+                if (currentWeapon.CanActivate())
                     currentWeapon.Activate();
             }
         }
