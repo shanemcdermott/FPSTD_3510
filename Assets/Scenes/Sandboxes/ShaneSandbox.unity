@@ -281,6 +281,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20f6fe34f060e914db713958208b2381, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &271717660 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4339295530403320, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1670623111}
 --- !u!114 &329886668 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114519738450262554, guid: 1735a33296fb1cd458361b07e15591e6,
@@ -392,6 +397,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b43497a60ef165440850f9e96a4b8783, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &948545618 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4495121972092734, guid: 4677524ce52e97c4194acd527a2eac2d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1299827729}
 --- !u!1001 &1097727703
 Prefab:
   m_ObjectHideFlags: 0
@@ -582,7 +592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b004f44aa97b674d9743d668222ffdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
+  aimTransform: {fileID: 948545618}
   bulletsPerMag: 100
   timeToShoot: 2
   timeToReload: 1
@@ -590,7 +600,6 @@ MonoBehaviour:
   timeToEquip: 0.5
   timeToUnEquip: 0.5
   usesAmmo: 0
-  useRootTransform: 0
   gunParticles: {fileID: 0}
   gunAudio: {fileID: 0}
   gunLight: {fileID: 0}
@@ -640,7 +649,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1951085064100812, guid: 4677524ce52e97c4194acd527a2eac2d, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114857661060592676, guid: 4677524ce52e97c4194acd527a2eac2d, type: 2}
@@ -713,6 +722,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 1000
   currentHealth: 0
+  teamId: 0
 --- !u!114 &1505264287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -916,37 +926,37 @@ Prefab:
     - target: {fileID: 224132607978358134, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224132607978358134, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224439387290562186, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.632
       objectReference: {fileID: 0}
     - target: {fileID: 224439387290562186, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224747331586949562, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.632
       objectReference: {fileID: 0}
     - target: {fileID: 224747331586949562, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.632
       objectReference: {fileID: 0}
     - target: {fileID: 224747331586949562, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114657198933125856, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
@@ -1015,6 +1025,31 @@ Prefab:
       propertyPath: m_TagString
       value: Weapon
       objectReference: {fileID: 0}
+    - target: {fileID: 114657198933125856, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: useRootTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114855746670382066, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: aimTransform
+      value: 
+      objectReference: {fileID: 271717660}
+    - target: {fileID: 114232025391713402, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: aimTransform
+      value: 
+      objectReference: {fileID: 271717660}
+    - target: {fileID: 114292035753629464, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: aimTransform
+      value: 
+      objectReference: {fileID: 271717660}
+    - target: {fileID: 114657198933125856, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: aimTransform
+      value: 
+      objectReference: {fileID: 271717660}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
   m_IsPrefabParent: 0

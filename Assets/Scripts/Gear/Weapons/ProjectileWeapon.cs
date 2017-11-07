@@ -19,19 +19,13 @@ public class ProjectileWeapon : Weapon
 
         EnableEffects();
 
-        Transform t = transform;
-        if (useRootTransform)
-        {
-            //t = transform.root;
-            t = mainCamera.transform;
-        }
-        //Needs to use camera rotation!
-        Vector3 origin = t.position + t.TransformDirection(Vector3.forward * fireOffset);
-        Quaternion rot = t.rotation;
+         //Needs to use camera rotation!
+        Vector3 origin = aimTransform.position + aimTransform.TransformDirection(Vector3.forward * fireOffset);
+        Quaternion rot = aimTransform.rotation;
         Projectile proj = Instantiate(projectileToLaunch, origin, rot);
         proj.SetCreator(transform.root.gameObject);
         Rigidbody rigidBody = proj.GetComponent<Rigidbody>();
-        rigidBody.velocity = t.TransformDirection(Vector3.forward * launchSpeed);
+        rigidBody.velocity = aimTransform.TransformDirection(Vector3.forward * launchSpeed);
     }
 
     public override void Deactivate()

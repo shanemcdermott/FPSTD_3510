@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b004f44aa97b674d9743d668222ffdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimTransform: {fileID: 0}
   bulletsPerMag: 100
   timeToShoot: 1
   timeToReload: 1
@@ -100,11 +101,11 @@ MonoBehaviour:
   timeToEquip: 0.5
   timeToUnEquip: 0.5
   usesAmmo: 0
-  useRootTransform: 0
   gunParticles: {fileID: 0}
   gunAudio: {fileID: 0}
   gunLight: {fileID: 0}
-  state: 3
+  state: 6
   projectileToLaunch: {fileID: 114346593594613844, guid: 191777523e33eb945af823cb4bbc810b,
     type: 2}
   launchSpeed: 50
+  fireOffset: 2
