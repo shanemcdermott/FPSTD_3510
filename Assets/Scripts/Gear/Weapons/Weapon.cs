@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour, Equipment
 {
+    public Transform aimTransform;
     /*Maximum Number of bullets in a magazine*/
     public int bulletsPerMag = 100;
 
@@ -13,7 +14,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     /*Amount of time it takes to replenish magazine*/
     public float timeToReload = 1.0f;
     /*Amount of time effects should persist for*/
-    public float timeToDisplayEffects = 0.2f;
+    public float timeToDisplayEffects = 0.1f;
     /*Amount of time it takes to equip weapon*/
     public float timeToEquip = 0.5f;
     /*Amount of time it takes to unequip weapon*/
@@ -26,16 +27,17 @@ public abstract class Weapon : MonoBehaviour, Equipment
     public Light gunLight;
 
     /*Tracks current Weapon State*/
-    private WeaponState state;
+    public WeaponState state;
 
     protected int bulletsInMag;
-    protected float timer;
-
+    protected float shootTimer;
+    protected float reloadTimer;
 
 
     protected virtual void Awake()
     {
-        timer = 0f;
+        shootTimer = 0f;
+        reloadTimer = 0f;
         bulletsInMag = bulletsPerMag;
     }
 
@@ -44,17 +46,19 @@ public abstract class Weapon : MonoBehaviour, Equipment
     /// </summary>
     protected virtual void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= timeToDisplayEffects)
+        shootTimer += Time.deltaTime;
+        reloadTimer += Time.deltaTime;
+        if (shootTimer >= timeToDisplayEffects)
         {
             DisableEffects();
         }
-        if(IsReloading() && timer >= timeToReload)
+        if(IsReloading() && reloadTimer >= timeToReload)
         {
             StopReloading();
         }
-        if (timer >= timeToShoot && state == WeaponState.HipFiring)
+        if (shootTimer >= timeToShoot && state == WeaponState.HipFiring)
             SetCurrentState(WeaponState.Idle);
+        
     }
 
     public void SetCurrentState(WeaponState newState)
@@ -82,17 +86,17 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public virtual void StartReloading()
     {
-        timer = 0f;
+        reloadTimer = 0f;
         SetCurrentState(WeaponState.Reloading);
     }
 
     public virtual void StopReloading()
     {
-        if(IsReloading() && timer >= timeToReload)
+        if(IsReloading() && reloadTimer >= timeToReload)
         {
             bulletsInMag = bulletsPerMag;
+            SetCurrentState(WeaponState.Idle);
         }
-        SetCurrentState(WeaponState.Idle);
     }
 
     public bool HasBullets()
@@ -146,6 +150,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     {
         Deactivate();
         SetCurrentState(WeaponState.UnEquipping);
+        gameObject.SetActive(false);
         return timeToUnEquip;
     }
 

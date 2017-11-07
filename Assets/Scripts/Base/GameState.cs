@@ -22,16 +22,10 @@ public abstract class GameState : MonoBehaviour, IState
             GameManager.instance.SetState(GetNextState());
     }
 
-    public virtual bool ShouldChangeState()
-    {
-        return false;
-    }
+    public abstract bool ShouldChangeState();
 
     //Handled by children.
-    public virtual GameState GetNextState()
-    {
-        throw new NotImplementedException();
-    }
+    public abstract GameState GetNextState();
 
     public virtual void Exit()
     {

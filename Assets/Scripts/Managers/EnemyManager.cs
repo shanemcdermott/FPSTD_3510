@@ -11,6 +11,8 @@ public class EnemyManager : MonoBehaviour
     private int totalSpawned = 0;
     private GameObject[] spawnedEnemies;
 
+	private TileMap map;
+
     public void OnEnable()
     {
         totalSpawned = 0;
@@ -21,21 +23,24 @@ public class EnemyManager : MonoBehaviour
 
     public void OnDisable()
     {
-        CancelInvoke();
         bShouldSpawn = false;
+        CancelInvoke();
+        
     }
 
     void Spawn ()
     {
-        if(!bShouldSpawn)
-        {
-            return;
-        }
+        if (!bShouldSpawn) return;
+        
        
         int spawnPointIndex = Random.Range (0, spawnPoints.Length);
+        if (spawnPoints[spawnPointIndex] == null) return;
+
         int enemyIndex = Random.Range(0, enemyPrefabs.Length);
         GameObject enemy = enemyPrefabs[enemyIndex];
+       
         spawnedEnemies[totalSpawned] = Instantiate (enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+		spawnedEnemies [totalSpawned].GetComponent<EnemyMovement> ().setTileMap (map);
         totalSpawned++;
         if (totalSpawned >= waveSize)
             bShouldSpawn = false;
@@ -59,4 +64,11 @@ public class EnemyManager : MonoBehaviour
     {
         return totalSpawned;
     }
+
+	public void setTileMap(TileMap tm)
+	{
+		map = tm;
+	}
+
+
 }

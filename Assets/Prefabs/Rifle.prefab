@@ -195,10 +195,11 @@ MonoBehaviour:
   bulletsPerMag: 100
   timeToShoot: 0.15
   timeToReload: 1
-  timeToDisplayEffects: 0.2
+  timeToDisplayEffects: 0.1
   timeToEquip: 0.5
   timeToUnEquip: 0.5
   usesAmmo: 0
+  useRootTransform: 0
   gunParticles: {fileID: 0}
   gunAudio: {fileID: 82706102190044132}
   gunLight: {fileID: 0}

@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
     // Update is called once per frame
     void Update ()
     {
-		
+		enemyManager.setTileMap (tileMap); //this is temporary; there is probably a better way.
 	}
 
     public int GetNumWavesRemaining()

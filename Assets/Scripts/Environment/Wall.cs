@@ -14,8 +14,9 @@ public class Wall : MonoBehaviour, IFocusable {
 		
 	}
 
-    public void onBeginFocus(GameObject turretToShow)
+    public void onBeginFocus(PlayerController focuser)
     {
+        GameObject turretToShow = focuser.transparentStuff[(int)focuser.currentTurretType + 1];
         if (transform.parent.GetComponent<Tile>().HasWall())
         {
             if (placedTurret == null)
@@ -25,8 +26,9 @@ public class Wall : MonoBehaviour, IFocusable {
             }
         }
     }
-    public void onEndFocus(GameObject turretToHide)
+    public void onEndFocus(PlayerController focuser)
     {
+        GameObject turretToHide = focuser.transparentStuff[(int)focuser.currentTurretType + 1];
         turretToHide.SetActive(false);
     }
 

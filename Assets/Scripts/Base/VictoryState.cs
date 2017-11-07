@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,4 +17,13 @@ public class VictoryState : GameState
         GameManager.instance.menuManager.OpenWaveVictory();
     }
 
+    public override GameState GetNextState()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool ShouldChangeState()
+    {
+        return false;
+    }
 }

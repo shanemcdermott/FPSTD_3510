@@ -25,6 +25,7 @@ public class PlayerHealth : HealthComponent
         base.ResetHealth();
         anim = GetComponent <Animator> ();
         playerAudio = GetComponent <AudioSource> ();
+
         //healthSlider.value = currentHealth;
     }
 
@@ -41,7 +42,6 @@ public class PlayerHealth : HealthComponent
         }
         damaged = false;
     }
-
 
     public override void TakeDamage(DamageContext context)
     {

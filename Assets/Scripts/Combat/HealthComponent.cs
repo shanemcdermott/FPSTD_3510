@@ -12,7 +12,8 @@ public class HealthComponent : MonoBehaviour, IRespondsToDeath
     public int startingHealth = 100;
     public int currentHealth;
     bool bIsDead;
-
+    public int teamId;
+    bool bEnableFriendlyFire;
     //Array of components that need to do something when the object dies
     protected List<IRespondsToDeath> deathResponders = new List<IRespondsToDeath>();
 
@@ -27,6 +28,13 @@ public class HealthComponent : MonoBehaviour, IRespondsToDeath
         deathResponders.Add(deathResponder);
     }
 
+    public void RegisterTeam(int teamId, bool enableFriendlyFire)
+    {
+        this.teamId = teamId;
+        this.bEnableFriendlyFire = enableFriendlyFire;
+    }
+
+
     public void ResetHealth()
     {
         currentHealth = startingHealth;
@@ -35,7 +43,14 @@ public class HealthComponent : MonoBehaviour, IRespondsToDeath
 
     public virtual bool CanTakeDamage(DamageContext context)
     {
-        return !bIsDead;
+        if(!bIsDead)
+        {
+            if (bEnableFriendlyFire) return true;
+
+            Team sourceTeam = context.source.GetComponent<Team>();
+            return (sourceTeam == null || sourceTeam.id != teamId);
+        }
+        return false;
     }
 
     public bool IsDead()
@@ -48,6 +63,7 @@ public class HealthComponent : MonoBehaviour, IRespondsToDeath
         if(CanTakeDamage(context))
         {
             currentHealth -= context.amount;
+            Debug.Log(gameObject + " Took " + context.amount + " damage from " + context.source);
             if (currentHealth <= 0 && !bIsDead)
             {
                 OnDeath(context);
