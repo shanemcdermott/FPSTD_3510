@@ -21,7 +21,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     public float timeToUnEquip = 0.5f;
 
     /*Does this weapon consume ammo*/
-    public bool usesAmmo = false;
+    public bool usesAmmo = true;
     public ParticleSystem gunParticles;
     public AudioSource gunAudio;
     public Light gunLight;
@@ -39,6 +39,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
         shootTimer = 0f;
         reloadTimer = 0f;
         bulletsInMag = bulletsPerMag;
+        usesAmmo = true;
     }
 
     /// <summary>
@@ -74,7 +75,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public virtual bool CanShoot()
     {
-        return state >= WeaponState.Idle && (HasBullets() || !usesAmmo);
+        return state >= WeaponState.Idle && (HasBullets() || !usesAmmo) && shootTimer >= timeToShoot;
     }
 
 
@@ -92,11 +93,8 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public virtual void StopReloading()
     {
-        if(IsReloading() && reloadTimer >= timeToReload)
-        {
-            bulletsInMag = bulletsPerMag;
-            SetCurrentState(WeaponState.Idle);
-        }
+        bulletsInMag = bulletsPerMag;
+        SetCurrentState(WeaponState.Idle);
     }
 
     public bool HasBullets()

@@ -18,18 +18,14 @@ public class Sniper : TraceWeapon
 
 	// Use this for initialization
     
-	void Start () {
+	void Start() {
         isScoped = false;
-       /* damage = 1000;
+        damagePerShot = 1000;
         range = 1000;
         timeToReload = 2;
-        magazineCapacity = 5;
-        fireRate = .75f;
-        bIsReloading = false;
-        bIsBusy = false;
-        bulletsInMag = magazineCapacity;
-        timer = 0f;
-        */
+        bulletsPerMag = 5;
+        timeToShoot = 0.9f;
+        bulletsInMag = bulletsPerMag;
     }
     public override void StartReloading()
     {

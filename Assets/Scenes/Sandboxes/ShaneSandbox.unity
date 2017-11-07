@@ -24465,7 +24465,7 @@ Prefab:
       objectReference: {fileID: 1875191535}
     - target: {fileID: 1579448993164116, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1192630927194432, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_IsActive
@@ -24474,6 +24474,10 @@ Prefab:
     - target: {fileID: 1383297884834002, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950418077542688, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
+      propertyPath: m_Name
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}

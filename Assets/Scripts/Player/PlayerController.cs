@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     public Weapon[] weapons; //rifle, sniper, shotgun, rocket
     public Weapon currentWeapon; //rifle, cannon, rocket, aoe
-
+    public int currentWeaponType;
     public GameObject[] turrets;
 
     public Material canPlace;
@@ -58,10 +58,29 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     void Update()
     {
+        HandleShooting();
         SetCursorFocus();
         HandlePlacement();
         SwitchWeapon();
         SwitchTurret();
+    }
+    private void HandleShooting()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            if (!isPlacing && currentWeapon.CanActivate())
+            {
+                    currentWeapon.Activate();
+            }
+        }
+        if (Input.GetKey(KeyCode.R))
+        {
+            currentWeapon.StartReloading();
+            EquipWeapon(currentWeaponType);
+        }
+            
+        
+        
     }
     private void SetupFocusables()
     {
@@ -125,17 +144,16 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     {
         if (!isPlacing)
         {
-
             if (Input.GetKeyDown(KeyCode.Alpha1)) EquipWeapon(0);
             if (Input.GetKeyDown(KeyCode.Alpha2)) EquipWeapon(1);
             if (Input.GetKeyDown(KeyCode.Alpha3)) EquipWeapon(2);
             if (Input.GetKeyDown(KeyCode.Alpha4)) EquipWeapon(3);
-            
         }
     }
 
     private void EquipWeapon(int index)
     {
+        currentWeaponType = index;
         float waitTime = currentWeapon.StartUnEquipping();
         currentWeapon = weapons[index];
         //currentWeapon.useRootTransform = true;
@@ -228,11 +246,6 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
                     }
                 }   
-            }
-            else
-            {
-                if (currentWeapon.CanActivate())
-                    currentWeapon.Activate();
             }
         }
         if (Input.GetMouseButtonDown(1))
