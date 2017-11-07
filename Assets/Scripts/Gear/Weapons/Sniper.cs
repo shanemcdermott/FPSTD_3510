@@ -51,11 +51,11 @@ public class Sniper : TraceWeapon
             {
                 enemyHealth.TakeDamage(new DamageContext(gameObject, damagePerShot, shootHit.point));
             }
-            traceLine.SetPosition(1, shootHit.point);
+            //traceLine.SetPosition(1, shootHit.point);
         }
         else
         {
-            traceLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
+            //traceLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
         }
     }
 

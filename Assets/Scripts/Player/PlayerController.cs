@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     {
         float waitTime = currentWeapon.StartUnEquipping();
         currentWeapon = weapons[index];
-        currentWeapon.useRootTransform = true;
+        //currentWeapon.useRootTransform = true;
         Invoke("FinishedUnequipping", waitTime);
     }
 

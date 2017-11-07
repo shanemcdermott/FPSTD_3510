@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Wall
   - Tile
+  - Weapon
   layers:
   - Default
   - TransparentFX

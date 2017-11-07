@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour, Equipment
 {
+    public Camera mainCamera;
     /*Maximum Number of bullets in a magazine*/
     public int bulletsPerMag = 100;
 
@@ -30,13 +31,14 @@ public abstract class Weapon : MonoBehaviour, Equipment
     public WeaponState state;
 
     protected int bulletsInMag;
-    protected float timer;
-
+    protected float shootTimer;
+    protected float reloadTimer;
 
 
     protected virtual void Awake()
     {
-        timer = 0f;
+        shootTimer = 0f;
+        reloadTimer = 0f;
         bulletsInMag = bulletsPerMag;
     }
 
@@ -45,16 +47,17 @@ public abstract class Weapon : MonoBehaviour, Equipment
     /// </summary>
     protected virtual void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= timeToDisplayEffects)
+        shootTimer += Time.deltaTime;
+        reloadTimer += Time.deltaTime;
+        if (shootTimer >= timeToDisplayEffects)
         {
             DisableEffects();
         }
-        if(IsReloading() && timer >= timeToReload)
+        if(IsReloading() && reloadTimer >= timeToReload)
         {
             StopReloading();
         }
-        if (timer >= timeToShoot && state == WeaponState.HipFiring)
+        if (shootTimer >= timeToShoot && state == WeaponState.HipFiring)
             SetCurrentState(WeaponState.Idle);
         
     }
@@ -84,17 +87,17 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public virtual void StartReloading()
     {
-        timer = 0f;
+        reloadTimer = 0f;
         SetCurrentState(WeaponState.Reloading);
     }
 
     public virtual void StopReloading()
     {
-        if(IsReloading() && timer >= timeToReload)
+        if(IsReloading() && reloadTimer >= timeToReload)
         {
             bulletsInMag = bulletsPerMag;
+            SetCurrentState(WeaponState.Idle);
         }
-        SetCurrentState(WeaponState.Idle);
     }
 
     public bool HasBullets()
