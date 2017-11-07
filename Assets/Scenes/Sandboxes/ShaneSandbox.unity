@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b004f44aa97b674d9743d668222ffdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
+  aimTransform: {fileID: 0}
   bulletsPerMag: 100
   timeToShoot: 2
   timeToReload: 1
@@ -595,7 +595,6 @@ MonoBehaviour:
   timeToEquip: 0.5
   timeToUnEquip: 0.5
   usesAmmo: 0
-  useRootTransform: 0
   gunParticles: {fileID: 0}
   gunAudio: {fileID: 0}
   gunLight: {fileID: 0}
@@ -718,6 +717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 1000
   currentHealth: 0
+  teamId: 0
 --- !u!114 &1505264287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1048,6 +1048,26 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114232025391713402, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: aimTransform
+      value: 
+      objectReference: {fileID: 1670623114}
+    - target: {fileID: 114855746670382066, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: aimTransform
+      value: 
+      objectReference: {fileID: 1670623114}
+    - target: {fileID: 114292035753629464, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: aimTransform
+      value: 
+      objectReference: {fileID: 1670623114}
+    - target: {fileID: 114657198933125856, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: aimTransform
+      value: 
+      objectReference: {fileID: 1670623114}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
   m_IsPrefabParent: 0
@@ -1059,6 +1079,11 @@ GameObject:
 --- !u!95 &1670623113 stripped
 Animator:
   m_PrefabParentObject: {fileID: 95187398150214010, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1670623111}
+--- !u!4 &1670623114 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4339295530403320, guid: bbfb0f69a9b210d4787b069a653ed8b5,
     type: 2}
   m_PrefabInternal: {fileID: 1670623111}
 --- !u!1 &1846802064 stripped

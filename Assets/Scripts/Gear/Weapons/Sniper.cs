@@ -14,7 +14,7 @@ public class Sniper : TraceWeapon
     private float normalFOV;
 
     private bool isScoped = false;
-    public Camera fpsCam;
+    public Camera mainCamera;
 
 	// Use this for initialization
     
@@ -31,28 +31,6 @@ public class Sniper : TraceWeapon
         timer = 0f;
         */
     }
-
-    public void ZoomedShoot()
-    {
-        shootRay.origin = fpsCam.transform.position;
-        shootRay.direction = fpsCam.transform.forward;
-
-        if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
-        {
-            Debug.Log("Object Hit: " + shootHit.transform.name);
-            HealthComponent enemyHealth = shootHit.collider.GetComponent<HealthComponent>();
-            if (enemyHealth != null)
-            {
-                enemyHealth.TakeDamage(new DamageContext(gameObject, damagePerShot, shootHit.point));
-            }
-            //traceLine.SetPosition(1, shootHit.point);
-        }
-        else
-        {
-            //traceLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
-        }
-    }
-
     public override void StartReloading()
     {
         base.StartReloading();
