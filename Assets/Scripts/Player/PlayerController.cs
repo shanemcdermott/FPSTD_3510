@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         currentTurret = turrets[0];
 
         SetupFocusables();
+        EquipWeapon(0);
         
     }
 
