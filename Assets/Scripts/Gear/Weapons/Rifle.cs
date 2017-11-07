@@ -16,21 +16,4 @@ public class Rifle : TraceWeapon {
         //bulletsInMag = magazineCapacity;
         //timer = 0f;
     }
-
-    // Update is called once per frame
-    /*
-    public override void Activate()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
-        {
-            Debug.Log("Object Hit: " + hit.transform.name);
-            MonsterController enemy = hit.transform.GetComponent<MonsterController>();
-            enemy.TakeDamage(damage);
-        }
-        //TraceWeapon trace = this.GetComponent<TraceWeapon>();
-        //trace.Activate();
-    }
-    */
-
 }
