@@ -26,6 +26,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     public bool usesAmmo = true;
     public ParticleSystem gunParticles;
     public AudioSource gunAudio;
+    public AudioSource reloadAudio;
     public Light gunLight;
 
     /*Tracks current Weapon State*/
@@ -119,6 +120,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
         reloadTimer = 0f;
         SetCurrentState(WeaponState.Reloading);
         animator.SetBool("IsReloading", true);
+        reloadAudio.Play();
     }
 
     public virtual void StopReloading()
@@ -126,6 +128,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
         bulletsInMag = bulletsPerMag;
         SetCurrentState(WeaponState.Idle);
         animator.SetBool("IsReloading", false);
+        reloadAudio.Stop();
     }
 
     public bool HasBullets()

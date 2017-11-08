@@ -12,4 +12,14 @@ public class LevelVictoryState : GameState {
         GameManager.instance.menuManager.levelCrystals2.text = "0";
         GameManager.instance.menuManager.OpenLevelVictory();
     }
+
+    public override GameState GetNextState()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override bool ShouldChangeState()
+    {
+        throw new System.NotImplementedException();
+    }
 }
