@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
     public Animator mainMenu;
@@ -8,6 +9,14 @@ public class MenuManager : MonoBehaviour {
     public Animator levelSelect;
     public Animator pause;
     public Animator pauseSettings;
+    public Animator waveDefeat;
+    public Animator waveVictory;
+    public Animator levelVictory;
+    public Text waveCrystals;
+    public Text levelCrystals1;
+    public Text levelCrystals2;
+    public Text waveCountDefeat;
+    public Text waveCountVictory;
 	
     void Start()
     {
@@ -82,6 +91,42 @@ public class MenuManager : MonoBehaviour {
     public void ClosePause()
     {
         pause.SetBool("isHidden", true);
+        Time.timeScale = 1.0f;
+    }
+
+    public void OpenWaveDefeat()
+    {
+        waveDefeat.SetBool("isHidden", false);
+        Time.timeScale = 0.0f;
+    }
+
+    public void CloseWaveDefeat()
+    {
+        waveDefeat.SetBool("isHidden", true);
+        Time.timeScale = 1.0f;
+    }
+
+    public void OpenWaveVictory()
+    {
+        waveVictory.SetBool("isHidden", false);
+        Time.timeScale = 0.0f;
+    }
+
+    public void CloseWaveVictory()
+    {
+        waveVictory.SetBool("isHidden", true);
+        Time.timeScale = 1.0f;
+    }
+
+    public void OpenLevelVictory()
+    {
+        levelVictory.SetBool("isHidden", false);
+        Time.timeScale = 0.0f;
+    }
+
+    public void CloseLevelVictory()
+    {
+        levelVictory.SetBool("isHidden", true);
         Time.timeScale = 1.0f;
     }
 }
