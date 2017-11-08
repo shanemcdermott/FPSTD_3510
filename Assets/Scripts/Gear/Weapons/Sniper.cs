@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Sniper : TraceWeapon
 {
-    public Animator animator;
-
     public GameObject scopeOverlay;
     public GameObject crosshair;
     public GameObject weaponCamera;
@@ -14,7 +12,6 @@ public class Sniper : TraceWeapon
     private float normalFOV;
 
     private bool isScoped = false;
-    public Camera mainCamera;
 
 	// Use this for initialization
     
@@ -30,7 +27,6 @@ public class Sniper : TraceWeapon
     public override void StartReloading()
     {
         base.StartReloading();
-        OnUnscoped();
     }
 
 

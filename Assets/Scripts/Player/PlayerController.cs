@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     public IFocusable currentFocusable;
     public GameObject currentFocusedGameObject;
 
-
+    
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -70,18 +70,17 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         {
             if (!isPlacing && currentWeapon.CanActivate())
             {
-                    currentWeapon.Activate();
+                currentWeapon.Recoil();
+                currentWeapon.Activate();
             }
         }
         if (Input.GetKey(KeyCode.R))
         {
             currentWeapon.StartReloading();
-            EquipWeapon(currentWeaponType);
         }
-            
-        
-        
     }
+
+    
     private void SetupFocusables()
     {
         transparentStuff = new GameObject[turrets.Length+1];

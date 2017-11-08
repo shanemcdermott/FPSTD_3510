@@ -20459,7 +20459,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b004f44aa97b674d9743d668222ffdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
   aimTransform: {fileID: 0}
+  animator: {fileID: 0}
   bulletsPerMag: 100
   timeToShoot: 2
   timeToReload: 1
@@ -20471,6 +20473,7 @@ MonoBehaviour:
   gunAudio: {fileID: 0}
   gunLight: {fileID: 0}
   state: 6
+  bulletsInMag: 0
   projectileToLaunch: {fileID: 114346593594613844, guid: 191777523e33eb945af823cb4bbc810b,
     type: 2}
   launchSpeed: 50
@@ -24400,11 +24403,6 @@ Prefab:
       propertyPath: aimTransform
       value: 
       objectReference: {fileID: 1670623114}
-    - target: {fileID: 114855746670382066, guid: bbfb0f69a9b210d4787b069a653ed8b5,
-        type: 2}
-      propertyPath: aimTransform
-      value: 
-      objectReference: {fileID: 1670623114}
     - target: {fileID: 114292035753629464, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
       propertyPath: aimTransform
@@ -24465,7 +24463,7 @@ Prefab:
       objectReference: {fileID: 1875191535}
     - target: {fileID: 1579448993164116, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1192630927194432, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_IsActive
@@ -24478,6 +24476,52 @@ Prefab:
     - target: {fileID: 1950418077542688, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 114855746670382066, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: aimTransform
+      value: 
+      objectReference: {fileID: 1670623114}
+    - target: {fileID: 4739543170575366, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4739543170575366, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4739543170575366, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114855746670382066, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1670623113}
+    - target: {fileID: 114292035753629464, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1670623113}
+    - target: {fileID: 114657198933125856, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1670623113}
+    - target: {fileID: 4739543170575366, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 20922455534097054, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20852702995624558, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: orthographic
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}

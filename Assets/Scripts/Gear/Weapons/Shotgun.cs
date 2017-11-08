@@ -8,7 +8,7 @@ public class Shotgun : TraceWeapon {
 	void Start() {
         damagePerShot = 500;
         range = 250;
-        timeToReload = 3;
+        timeToReload = 2;
         bulletsPerMag = 8;
         timeToShoot = 0.7f;
         bulletsInMag = bulletsPerMag;
