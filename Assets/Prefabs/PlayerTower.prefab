@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 65190096097233014}
   - component: {fileID: 114761376651782446}
   - component: {fileID: 114243247533433536}
+  - component: {fileID: 114741743488321110}
   m_Layer: 9
   m_Name: PlayerTower
   m_TagString: Tower
@@ -152,6 +153,19 @@ MonoBehaviour:
   id: 1
   teamColor: {r: 0, g: 0, b: 1, a: 1}
   role: 0
+--- !u!114 &114741743488321110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1384148278857994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51f54bf5acbd3644bbec06f5f92c8362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
+  currentHealth: 0
 --- !u!114 &114761376651782446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,8 +174,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1384148278857994}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bb67e44bafe5334d87a081c72f5551a, type: 3}
+  m_Script: {fileID: 11500000, guid: 11706fce6f590a64f9f26c027e157094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 100
-  currentHealth: 0

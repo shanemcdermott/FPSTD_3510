@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,4 +14,13 @@ public class DefeatState : GameState
         GameManager.instance.menuManager.OpenWaveDefeat();
     }
 
+    public override GameState GetNextState()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool ShouldChangeState()
+    {
+        return false;
+    }
 }

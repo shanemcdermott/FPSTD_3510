@@ -67,6 +67,8 @@ public class EnemyAttack : MonoBehaviour, IRespondsToDeath
         
         if(targetHealth != null && targetHealth.IsDead())
         {
+            controller.FindNextTarget();
+            /*
             if (target.tag == "Player")
             {
                 anim.SetTrigger("PlayerDead");
@@ -75,6 +77,7 @@ public class EnemyAttack : MonoBehaviour, IRespondsToDeath
             {
                 controller.FindNextTarget();
             }
+            */
         }
         
     }

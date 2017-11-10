@@ -5,6 +5,9 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour, Equipment
 {
+    public Camera mainCamera;
+    public Transform aimTransform;
+    public Animator animator;
     /*Maximum Number of bullets in a magazine*/
     public int bulletsPerMag = 100;
 
@@ -13,30 +16,40 @@ public abstract class Weapon : MonoBehaviour, Equipment
     /*Amount of time it takes to replenish magazine*/
     public float timeToReload = 1.0f;
     /*Amount of time effects should persist for*/
-    public float timeToDisplayEffects = 0.2f;
+    public float timeToDisplayEffects = 0.1f;
     /*Amount of time it takes to equip weapon*/
     public float timeToEquip = 0.5f;
     /*Amount of time it takes to unequip weapon*/
     public float timeToUnEquip = 0.5f;
 
     /*Does this weapon consume ammo*/
-    public bool usesAmmo = false;
+    public bool usesAmmo = true;
     public ParticleSystem gunParticles;
     public AudioSource gunAudio;
+    public AudioSource reloadAudio;
     public Light gunLight;
 
     /*Tracks current Weapon State*/
-    private WeaponState state;
+    public WeaponState state;
 
-    protected int bulletsInMag;
-    protected float timer;
+    public int bulletsInMag;
+    protected float shootTimer;
+    protected float reloadTimer;
 
+    private Transform recoilMod;
+    private float maxRecoil_x = -20;
+    private float recoilSpeed = 10;
+    private float recoil = 0.0f;
 
 
     protected virtual void Awake()
     {
-        timer = 0f;
+        shootTimer = 0f;
+        reloadTimer = 0f;
         bulletsInMag = bulletsPerMag;
+        usesAmmo = true;
+        recoilMod = new GameObject().transform;
+        aimTransform = mainCamera.transform;
     }
 
     /// <summary>
@@ -44,17 +57,39 @@ public abstract class Weapon : MonoBehaviour, Equipment
     /// </summary>
     protected virtual void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= timeToDisplayEffects)
+        shootTimer += Time.deltaTime;
+        reloadTimer += Time.deltaTime;
+        if (shootTimer >= timeToDisplayEffects)
         {
             DisableEffects();
         }
-        if(IsReloading() && timer >= timeToReload)
+        if(IsReloading() && reloadTimer >= timeToReload)
         {
             StopReloading();
         }
-        if (timer >= timeToShoot && state == WeaponState.HipFiring)
+        if (shootTimer >= timeToShoot && state == WeaponState.HipFiring)
             SetCurrentState(WeaponState.Idle);
+        
+    }
+
+    public void Recoil()
+    {
+        recoil += 0.05f; 
+        if (recoil > 0)
+        {
+            var maxRecoil = Quaternion.Euler(maxRecoil_x, 0, 0);
+            // Dampen towards the target rotation
+            recoilMod.rotation = Quaternion.Slerp(recoilMod.rotation, maxRecoil, Time.deltaTime * recoilSpeed);
+            mainCamera.transform.Rotate(recoilMod.rotation.eulerAngles);
+            recoil -= Time.deltaTime;
+        }
+        else
+        {
+            recoil = 0;
+            var minRecoil = Quaternion.Euler(0, 0, 0);
+            recoilMod.rotation = Quaternion.Slerp(recoilMod.rotation, minRecoil, Time.deltaTime * recoilSpeed / 2);
+            mainCamera.transform.Rotate(recoilMod.rotation.eulerAngles);
+        }
     }
 
     public void SetCurrentState(WeaponState newState)
@@ -70,7 +105,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public virtual bool CanShoot()
     {
-        return state >= WeaponState.Idle && (HasBullets() || !usesAmmo);
+        return state >= WeaponState.Idle && (HasBullets() || !usesAmmo) && shootTimer >= timeToShoot;
     }
 
 
@@ -82,17 +117,18 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public virtual void StartReloading()
     {
-        timer = 0f;
+        reloadTimer = 0f;
         SetCurrentState(WeaponState.Reloading);
+        animator.SetBool("IsReloading", true);
+        reloadAudio.Play();
     }
 
     public virtual void StopReloading()
     {
-        if(IsReloading() && timer >= timeToReload)
-        {
-            bulletsInMag = bulletsPerMag;
-        }
+        bulletsInMag = bulletsPerMag;
         SetCurrentState(WeaponState.Idle);
+        animator.SetBool("IsReloading", false);
+        reloadAudio.Stop();
     }
 
     public bool HasBullets()
@@ -146,6 +182,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     {
         Deactivate();
         SetCurrentState(WeaponState.UnEquipping);
+        gameObject.SetActive(false);
         return timeToUnEquip;
     }
 

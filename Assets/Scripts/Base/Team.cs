@@ -16,6 +16,14 @@ public class Team : MonoBehaviour
     public Color teamColor = new Color(0f,0f,1f);
     public TeamRole role = TeamRole.Grunt;
 
+    void Awake()
+    {
+        HealthComponent health = GetComponentInChildren<HealthComponent>();
+        if(health)
+        {
+            health.RegisterTeam(id, bEnableFriendlyFire);
+        }
+    }
 	// Use this for initialization
 	void Start () {
 		

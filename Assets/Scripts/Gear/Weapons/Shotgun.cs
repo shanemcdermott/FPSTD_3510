@@ -5,19 +5,12 @@ using UnityEngine;
 public class Shotgun : TraceWeapon {
 
 	// Use this for initialization
-/*	void Start () {
-        
-        damage = 200;
-        range = 200;
-        timeToReload = 1;
-        magazineCapacity = 30;
-        fireRate = .3f;
-        bIsReloading = false;
-        bIsBusy = false;
-        bulletsInMag = magazineCapacity;
-        timer = 0f;
-        
+	void Start() {
+        damagePerShot = 500;
+        range = 250;
+        timeToReload = 2;
+        bulletsPerMag = 8;
+        timeToShoot = 0.7f;
+        bulletsInMag = bulletsPerMag;
     }
-	*/
-	// Update is called once per frame
 }

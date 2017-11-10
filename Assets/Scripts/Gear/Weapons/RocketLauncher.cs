@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RocketLauncher : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class RocketLauncher : ProjectileWeapon
+{
+    void Start()
+    {
+        timeToReload = 3;
+        bulletsPerMag = 5;
+        timeToShoot = .50f;
+        bulletsInMag = bulletsPerMag;
+    }
 }
