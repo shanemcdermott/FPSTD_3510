@@ -18,6 +18,17 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
     //The current Wave Number
     public int currentWave = 0;
 
+    public int upgrades = 100;
+    public int crystals = 100;
+
+    public int fireRate = 0;
+    public int reload = 0;
+    public int damage = 0;
+    public int equipTime = 0;
+    public int turretCost = 0;
+    public int turretDamage = 0;
+    public int turretRadius = 0;
+    public int RocketRadius = 0;
 
     //TODO- Implement
     public float difficultyScale = 1;
