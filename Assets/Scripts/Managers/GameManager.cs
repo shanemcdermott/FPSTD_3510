@@ -18,9 +18,11 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
     //The current Wave Number
     public int currentWave = 0;
 
+    // Current amount of upgrades and crytals
     public int upgrades = 100;
     public int crystals = 100;
 
+    // Holds the percent increase of each upgrade type
     public int fireRate = 0;
     public int reload = 0;
     public int damage = 0;

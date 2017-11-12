@@ -159,11 +159,11 @@ public class MenuManager : MonoBehaviour {
     {
         if (GameManager.instance.upgrades > 0)
         {
-            b2.interactable = true;
+            b2.interactable = true; // Enable next upgrade
             b1.GetComponent<Image>().color = b1.colors.pressedColor;
-            b1.interactable = false;
-            upg += 10;
-            GameManager.instance.upgrades--;
+            b1.interactable = false; // Disable current upgrade
+            upg += 10; // Increase by 10 percent
+            GameManager.instance.upgrades--; //Remove one upgrade point
         }
     }
 

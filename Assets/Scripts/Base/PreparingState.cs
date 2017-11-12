@@ -18,6 +18,7 @@ public class PreparingState : GameState
 
     public void Update()
     {
+        // Display time left
         GameManager.instance.hud.time.text = preparationTime.ToString("F2");
         if (preparationTime <= 0)
         {
