@@ -16,6 +16,19 @@ public class PreparingState : GameState
         Debug.Log("Starting Build Phase.");
     }
 
+    public void Update()
+    {
+        GameManager.instance.hud.time.text = preparationTime.ToString("F2");
+        if (preparationTime <= 0)
+        {
+            GameManager.instance.hud.time.text = "";
+        }
+        else
+        {
+            preparationTime -= Time.deltaTime;
+        }
+    }
+
     public override GameState GetNextState()
     {
         return nextState;

@@ -10,6 +10,7 @@ public class HUDManager : MonoBehaviour {
     public Text crystals;
     public Text upgrades;
     public Text phase;
+    public Text time;
     private GameObject player;
 
     void Start()
