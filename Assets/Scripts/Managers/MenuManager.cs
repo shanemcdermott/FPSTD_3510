@@ -17,6 +17,7 @@ public class MenuManager : MonoBehaviour {
     public Text levelCrystals2;
     public Text waveCountDefeat;
     public Text waveCountVictory;
+    public Animator upgradeMenu;
 	
     void Start()
     {
@@ -37,6 +38,21 @@ public class MenuManager : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.P) && !pause.GetBool("isHidden"))
         {
             pause.SetBool("isHidden", true);
+            Cursor.visible = false;
+            Time.timeScale = 1.0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab) && upgradeMenu.GetBool("isHidden"))
+        {
+            upgradeMenu.SetBool("isHidden", false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Time.timeScale = 0.0f;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Tab) && !upgradeMenu.GetBool("isHidden"))
+        {
+            upgradeMenu.SetBool("isHidden", true);
             Cursor.visible = false;
             Time.timeScale = 1.0f;
         }
