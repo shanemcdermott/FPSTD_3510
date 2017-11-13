@@ -10,6 +10,7 @@ public class HUDManager : MonoBehaviour {
     public Text crystals;
     public Text upgrades;
     public Text phase;
+    public Text time;
     private GameObject player;
 
     void Start()
@@ -22,6 +23,8 @@ public class HUDManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         healthSlider.value = player.GetComponent<PlayerHealth>().currentHealth;
+        upgrades.text = "" + GameManager.instance.upgrades;
+        crystals.text = "" + GameManager.instance.crystals;
 	}
 
 
