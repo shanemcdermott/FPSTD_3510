@@ -20555,8 +20555,7 @@ MonoBehaviour:
   gunLight: {fileID: 0}
   state: 6
   bulletsInMag: 0
-  projectileToLaunch: {fileID: 114346593594613844, guid: 191777523e33eb945af823cb4bbc810b,
-    type: 2}
+  projectileToLaunch: {fileID: 0}
   launchSpeed: 50
   fireOffset: 2
 --- !u!1 &1290612764
@@ -24233,7 +24232,7 @@ Transform:
   m_Children:
   - {fileID: 119685216}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 5.906, z: 0}
 --- !u!1 &1646410581 stripped
 GameObject:
@@ -24491,23 +24490,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0.2710926
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.9625533
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 224132607978358134, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
@@ -24548,7 +24547,7 @@ Prefab:
         type: 2}
       propertyPath: projectileToLaunch
       value: 
-      objectReference: {fileID: 114346593594613844, guid: 191777523e33eb945af823cb4bbc810b,
+      objectReference: {fileID: 1784687609608882, guid: 191777523e33eb945af823cb4bbc810b,
         type: 2}
     - target: {fileID: 114855746670382066, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
@@ -24784,6 +24783,10 @@ Prefab:
       propertyPath: reloadAudio
       value: 
       objectReference: {fileID: 1374672831}
+    - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
   m_IsPrefabParent: 0
