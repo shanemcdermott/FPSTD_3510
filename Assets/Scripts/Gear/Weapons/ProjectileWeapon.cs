@@ -6,8 +6,10 @@ using UnityEngine;
 public class ProjectileWeapon : Weapon
 {
     public GameObject projectileToLaunch;
+    public GameObject rocketSpawner;
     public float launchSpeed = 50;
     public float fireOffset = 2;
+
     
 
     public override void Activate()
@@ -20,14 +22,15 @@ public class ProjectileWeapon : Weapon
 
         EnableEffects();
 
-        //Needs to use camera rotation!
-        Vector3 origin = gameObject.transform.position + new Vector3(0.25f, 0, 0.5f);
-        Quaternion rot = mainCamera.transform.rotation;
+        Vector3 origin = rocketSpawner.transform.position;
+        Quaternion rot = rocketSpawner.transform.rotation;
         GameObject proj = Instantiate(projectileToLaunch, origin, rot);
         Projectile projectile = proj.GetComponent<Projectile>();
         projectile.SetCreator(transform.root.gameObject);
         Rigidbody rigidBody = proj.GetComponent<Rigidbody>();
-        rigidBody.velocity = mainCamera.transform.TransformVector(Vector3.forward * launchSpeed);
+        Vector3 velocity = rocketSpawner.transform.TransformVector(Vector3.forward * launchSpeed);
+        rigidBody.velocity = velocity;
+        Debug.Log("v: " + velocity + " rgv: " + rigidBody.velocity);
     }
 
     public override void Deactivate()
