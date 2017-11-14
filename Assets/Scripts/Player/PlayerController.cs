@@ -64,13 +64,14 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         SwitchWeapon();
         SwitchTurret();
     }
+    private Quaternion t;
     private void HandleShooting()
     {
         if (Input.GetMouseButton(0))
         {
             if (!isPlacing && currentWeapon.CanActivate())
             {
-                currentWeapon.Recoil();
+                currentWeapon.recoil += 0.001f;
                 currentWeapon.Activate();
             }
         }
@@ -78,6 +79,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         {
             currentWeapon.StartReloading();
         }
+        currentWeapon.Recoil();
     }
 
     

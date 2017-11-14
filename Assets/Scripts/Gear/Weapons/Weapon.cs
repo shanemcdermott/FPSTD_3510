@@ -39,7 +39,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     private Transform recoilMod;
     private float maxRecoil_x = -20;
     private float recoilSpeed = 10;
-    private float recoil = 0.0f;
+    public float recoil = 0.0f;
 
 
     protected virtual void Awake()
@@ -74,7 +74,6 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public void Recoil()
     {
-        recoil += 0.05f; 
         if (recoil > 0)
         {
             var maxRecoil = Quaternion.Euler(maxRecoil_x, 0, 0);
