@@ -83,7 +83,15 @@ public class MapFactory : MonoBehaviour
 
 		map.findPath (); 
 		addBorder ();
-		addSomeWalls (wallsToAdd);
+
+		addBlockOfWalls (10, 0, 10, 10);
+		//addBlockOfWalls (15, 5, 15, 14);
+		//addBlockOfWalls (20, 0, 20, 10);
+		addBlockOfWalls (25, 5, 25, 14);
+
+
+
+		//addSomeWalls (wallsToAdd);
 
 
 
@@ -101,6 +109,16 @@ public class MapFactory : MonoBehaviour
 			int z = Random.Range (0, height);
 
 			map.PlaceWallHere (x, z);
+		}
+	}
+
+	public void addBlockOfWalls(int sx, int sz, int tx, int tz)
+	{
+		//s must be smaller than t!
+		for (int x = sx; x <= tx; x++) {
+			for (int z = sz; z <= tz; z++) {
+				map.PlaceWallHere (x, z);
+			}
 		}
 	}
 
