@@ -232,6 +232,14 @@ public class TileMap : MonoBehaviour
 	{
 		return getVector3Path (path); //if no param, use tileMaps path
 	}
+
+	public Vector3[] getVector3Path(Vector3 start, Vector3 target)
+	{
+		int sx, sz, tx, tz;
+		nodeAtLocation (start, out sx, out sz);
+		nodeAtLocation (target, out tx, out tz);
+		return getVector3Path (AStar (getBoolGridFromTileMap (), sx, sz, tx, tz));
+	}
 		
 	private Vector3[] getVector3Path(Node[] path)
 	{
