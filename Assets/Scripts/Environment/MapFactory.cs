@@ -43,13 +43,12 @@ public class MapFactory : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        SetupScene();
+        //SetupScene();
 	}
 
 	public void SetupScene()
 	{
 		SetupBoard();
-		//this.GetComponentInChildren<PathFinder> ().setMap (this.map);
 	}
 
     /// <summary>
