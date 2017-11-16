@@ -9,6 +9,8 @@ TagManager:
   - Wall
   - Tile
   - Weapon
+  - TileMap
+  - MapMaker
   layers:
   - Default
   - TransparentFX

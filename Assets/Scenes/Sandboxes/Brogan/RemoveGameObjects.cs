@@ -5,7 +5,7 @@ using UnityEngine;
 public class RemoveGameObjects : MonoBehaviour {
 
 	public float removalDistance = 1f;
-	Vector3 target = new Vector3(34f, 0f, 4f);
+	public Vector3 target = new Vector3(34f, 0f, 4f);
 
 	// Use this for initialization
 	void Start () {
@@ -16,8 +16,6 @@ public class RemoveGameObjects : MonoBehaviour {
 	void Update () {
 
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-		Debug.Log ("Num enemies: " + enemies.Length);
 
 		foreach (GameObject go in enemies) {
 			if (removalDistance > (target - go.gameObject.transform.position).magnitude)

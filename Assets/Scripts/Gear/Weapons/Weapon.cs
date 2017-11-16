@@ -39,7 +39,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     private Transform recoilMod;
     private float maxRecoil_x = -20;
     private float recoilSpeed = 10;
-    private float recoil = 0.0f;
+    public float recoil = 0.0f;
 
 
     protected virtual void Awake()
@@ -49,8 +49,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
         bulletsInMag = bulletsPerMag;
         usesAmmo = true;
         recoilMod = new GameObject().transform;
-        if(aimTransform  == null)
-            aimTransform = mainCamera.transform;
+        aimTransform = mainCamera.transform;
     }
 
     /// <summary>
@@ -75,8 +74,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public void Recoil()
     {
-        /*
-        recoil += 0.05f; 
+		return; //temporary fix!!
         if (recoil > 0)
         {
             var maxRecoil = Quaternion.Euler(maxRecoil_x, 0, 0);
@@ -92,7 +90,6 @@ public abstract class Weapon : MonoBehaviour, Equipment
             recoilMod.rotation = Quaternion.Slerp(recoilMod.rotation, minRecoil, Time.deltaTime * recoilSpeed / 2);
             mainCamera.transform.Rotate(recoilMod.rotation.eulerAngles);
         }
-        */
     }
 
     public void SetCurrentState(WeaponState newState)

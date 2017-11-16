@@ -43,13 +43,12 @@ public class MapFactory : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        SetupScene();
+        //SetupScene();
 	}
 
 	public void SetupScene()
 	{
 		SetupBoard();
-		//this.GetComponentInChildren<PathFinder> ().setMap (this.map);
 	}
 
     /// <summary>
@@ -83,6 +82,7 @@ public class MapFactory : MonoBehaviour
 		map.setTargetTile (targetx, targetz);
 
 		map.findPath (); 
+		addBorder ();
 		addSomeWalls (wallsToAdd);
 
 
@@ -102,6 +102,25 @@ public class MapFactory : MonoBehaviour
 
 			map.PlaceWallHere (x, z);
 		}
+	}
+
+	private void addBorder()
+	{
+		Debug.Log ("addBorder1");
+		for (int i = 0; i < width; i++)
+		{
+			map.PlaceWallHere (i, 0);
+			map.PlaceWallHere (i, height - 1);
+			Debug.Log ("addBorder width + i");
+		}
+
+		for (int i = 0; i < height; i++)
+		{
+			map.PlaceWallHere (0, i);
+			map.PlaceWallHere (width - 1, i);
+			Debug.Log ("addBorder height" + i);
+		}
+
 	}
  
 }
