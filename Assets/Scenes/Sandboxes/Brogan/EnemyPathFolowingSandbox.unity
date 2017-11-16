@@ -184,8 +184,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 139559318}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30, y: 1, z: 10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 30, y: 3, z: 10}
+  m_LocalScale: {x: 1, y: 6, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -408,6 +408,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
+        type: 2}
+      propertyPath: floorTiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4359254115434328, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -461,12 +466,28 @@ Prefab:
     - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
         type: 2}
       propertyPath: wallsToAdd
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1527705108798808, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
       propertyPath: m_TagString
       value: MapMaker
       objectReference: {fileID: 0}
+    - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
+        type: 2}
+      propertyPath: targetx
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
+        type: 2}
+      propertyPath: targetz
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
+        type: 2}
+      propertyPath: floorTiles.Array.data[1]
+      value: 
+      objectReference: {fileID: 1485707655515874, guid: 3ceed5cf000828048b1a5711bcecc039,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
   m_IsPrefabParent: 0
@@ -479,7 +500,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.413
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalPosition.y
@@ -487,7 +508,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.311
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalRotation.x
@@ -582,7 +603,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6700a10763b4e489465bd1b083d40e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  removalDistance: 1
+  removalDistance: 2
+  target: {x: 30, y: 1, z: 10}
 --- !u!4 &1623738049
 Transform:
   m_ObjectHideFlags: 0

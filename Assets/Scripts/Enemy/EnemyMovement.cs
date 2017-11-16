@@ -14,6 +14,9 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 
 	public float playerTargetingDistance = 10f;
 
+	GameObject player;
+	GameObject tower;
+
     void Awake ()
     {
         GetComponent<HealthComponent>().RegisterDeathResponder(this);
@@ -70,10 +73,11 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 	private void selectTarget()
 	{
 
-
-		GameObject player = GameObject.FindGameObjectWithTag ("Player");
-		//Debug.Log (player);
-		GameObject tower = GameObject.FindGameObjectWithTag ("Tower");
+		if (player == null)
+			player = GameObject.FindGameObjectWithTag ("Player");
+		if (tower == null)
+			tower = GameObject.FindGameObjectWithTag ("Tower");
+		
 		if ((player.transform.position - this.transform.position).sqrMagnitude < playerTargetingDistance * playerTargetingDistance) {
 			target = player;
 			Debug.Log ("Player selected as target");

@@ -5,7 +5,7 @@ using UnityEngine;
 public class RemoveGameObjects : MonoBehaviour {
 
 	public float removalDistance = 1f;
-	Vector3 target = new Vector3(34f, 0f, 4f);
+	public Vector3 target = new Vector3(34f, 0f, 4f);
 
 	// Use this for initialization
 	void Start () {
