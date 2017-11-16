@@ -74,7 +74,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public void Recoil()
     {
-		return; //brogan: temporary fix, remove me later!
+		return; //temporary fix!!
         if (recoil > 0)
         {
             var maxRecoil = Quaternion.Euler(maxRecoil_x, 0, 0);
