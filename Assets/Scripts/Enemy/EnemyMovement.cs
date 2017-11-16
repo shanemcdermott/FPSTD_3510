@@ -4,8 +4,9 @@ using System;
 
 public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 {
-    
-    public float speed	;
+	private int framenum;
+
+    public float speed;
 	public float nodeChangeValue;
 
 	private TileMap map;
@@ -17,9 +18,12 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 	GameObject player;
 	GameObject tower;
 
+	private int pathIndex;
+
     void Awake ()
     {
         GetComponent<HealthComponent>().RegisterDeathResponder(this);
+		framenum = 0;
     }
 
     public void AssignTarget(GameObject targetObject)
@@ -36,8 +40,10 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 		selectTarget ();
 
 		if (map != null && target != null) {
-			Debug.Log ("Enemy Pos:" + this.transform.position);
-			pathToTarget = map.getVector3Path(this.transform.position, target.transform.position);
+			//Debug.Log ("Enemy Pos:" + this.transform.position);
+			if (framenum % 20 == 0)
+				pathToTarget = map.getVector3Path(this.transform.position, target.transform.position);
+			pathIndex = 1;
 		}
 
 		if (pathToTarget == null) {
@@ -57,8 +63,7 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 
 		//we have a path to the target
 		//TODO edge cases //TODO squared mag
-		int pathIndex = 1;
-		if (pathToTarget.Length >= pathIndex + 1 && (gameObject.transform.position - pathToTarget[pathIndex]).magnitude < map.getTileWidth () * nodeChangeValue)
+		while (pathToTarget.Length >= pathIndex + 1 && (gameObject.transform.position - pathToTarget[pathIndex]).magnitude < map.getTileWidth () * nodeChangeValue)
 			pathIndex++;
 		Vector3 nextPosition = pathToTarget [pathIndex]; //enemy will move towards this location
         
@@ -80,10 +85,10 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 		
 		if ((player.transform.position - this.transform.position).sqrMagnitude < playerTargetingDistance * playerTargetingDistance) {
 			target = player;
-			Debug.Log ("Player selected as target");
+			//Debug.Log ("Player selected as target");
 		} else {
 			target = tower;
-			Debug.Log ("Tower selected as target");
+			//Debug.Log ("Tower selected as target");
 		}
 		
 

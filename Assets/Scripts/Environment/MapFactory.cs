@@ -106,19 +106,16 @@ public class MapFactory : MonoBehaviour
 
 	private void addBorder()
 	{
-		Debug.Log ("addBorder1");
 		for (int i = 0; i < width; i++)
 		{
 			map.PlaceWallHere (i, 0);
 			map.PlaceWallHere (i, height - 1);
-			Debug.Log ("addBorder width + i");
 		}
 
 		for (int i = 0; i < height; i++)
 		{
 			map.PlaceWallHere (0, i);
 			map.PlaceWallHere (width - 1, i);
-			Debug.Log ("addBorder height" + i);
 		}
 
 	}
