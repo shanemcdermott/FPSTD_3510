@@ -52,7 +52,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46a40e0d17051f419a2cee666669032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phase: 0
+  state: {fileID: 0}
+  hud: {fileID: 0}
+  menuManager: {fileID: 0}
+  tileMap: {fileID: 0}
+  currentWave: 0
+  upgrades: 100
+  crystals: 100
+  fireRate: 0
+  reload: 0
+  damage: 0
+  equipTime: 0
+  turretCost: 0
+  turretDamage: 0
+  turretRadius: 0
+  RocketRadius: 0
+  difficultyScale: 1
+  numWavesInLevel: 10
+  endlessMode: 0
 --- !u!114 &114928587232897940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 1350807989951994, guid: bfbd90f439039b9469119860f3db4a99, type: 2}
+  spawnPoints: []
   bShouldSpawn: 0
   spawnTime: 3
-  spawnPoints: []
+  waveSize: 10

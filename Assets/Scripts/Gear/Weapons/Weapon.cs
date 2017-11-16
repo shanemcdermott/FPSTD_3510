@@ -49,7 +49,8 @@ public abstract class Weapon : MonoBehaviour, Equipment
         bulletsInMag = bulletsPerMag;
         usesAmmo = true;
         recoilMod = new GameObject().transform;
-        aimTransform = mainCamera.transform;
+        if(aimTransform  == null)
+            aimTransform = mainCamera.transform;
     }
 
     /// <summary>
@@ -74,6 +75,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public void Recoil()
     {
+        /*
         recoil += 0.05f; 
         if (recoil > 0)
         {
@@ -90,6 +92,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
             recoilMod.rotation = Quaternion.Slerp(recoilMod.rotation, minRecoil, Time.deltaTime * recoilSpeed / 2);
             mainCamera.transform.Rotate(recoilMod.rotation.eulerAngles);
         }
+        */
     }
 
     public void SetCurrentState(WeaponState newState)
