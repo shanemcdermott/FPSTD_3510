@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Sniper : TraceWeapon
 {
-    public Animator animator;
-
     public GameObject scopeOverlay;
     public GameObject crosshair;
     public GameObject weaponCamera;
@@ -14,27 +12,21 @@ public class Sniper : TraceWeapon
     private float normalFOV;
 
     private bool isScoped = false;
-    public Camera mainCamera;
 
 	// Use this for initialization
     
-	void Start () {
+	void Start() {
         isScoped = false;
-       /* damage = 1000;
+        damagePerShot = 1000;
         range = 1000;
         timeToReload = 2;
-        magazineCapacity = 5;
-        fireRate = .75f;
-        bIsReloading = false;
-        bIsBusy = false;
-        bulletsInMag = magazineCapacity;
-        timer = 0f;
-        */
+        bulletsPerMag = 5;
+        timeToShoot = 0.9f;
+        bulletsInMag = bulletsPerMag;
     }
     public override void StartReloading()
     {
         base.StartReloading();
-        OnUnscoped();
     }
 
 
@@ -42,6 +34,7 @@ public class Sniper : TraceWeapon
     // Update is called once per frame
     protected override void Update()
     {
+        animator.SetBool("IsScoped", isScoped);
         base.Update();
         if (Input.GetButtonDown("Fire2"))
         {
@@ -56,10 +49,6 @@ public class Sniper : TraceWeapon
                 OnUnscoped();
             }
         }
-            
-
-            //animator.SetBool("IsScoped", isScoped);
-        
     }
 
     void OnUnscoped()

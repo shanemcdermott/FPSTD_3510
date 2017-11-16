@@ -29,9 +29,6 @@ public class TraceWeapon : Weapon
 
     public override void Activate()
     {
-        Debug.Log("traceActivate");
-        
-        //if (!CanActivate()) return;
 
         SetCurrentState(WeaponState.HipFiring);
 
@@ -44,20 +41,15 @@ public class TraceWeapon : Weapon
 
         shootRay.origin = aimTransform.position;
         shootRay.direction = aimTransform.forward;
-
-        //transform.root works for player but not for towers...
-
             
         if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
         {
-            Debug.Log("traceHitTag" + shootHit.transform.tag);
             HealthComponent enemyHealth = shootHit.collider.GetComponent<HealthComponent>();
             if (enemyHealth != null)
             {
                 enemyHealth.TakeDamage(new DamageContext(transform.root.gameObject, damagePerShot, shootHit.point));
             }
         }
-        
     }
 
     public override void Deactivate()
