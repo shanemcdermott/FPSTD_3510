@@ -137,6 +137,13 @@ public class TileMap : MonoBehaviour
 		int xlen = grid.GetLength (1);
 		int zlen = grid.GetLength (0);
 
+		if (sx > xlen || sx < 0 || sz > zlen || sz < 0 || tx > xlen || tx < 0 || tz > zlen || tz < 0) {
+			Debug.Log ("Start and or target out of bounds");
+			Debug.Log (sx + ", " + sz + ", " + ", " + tx + ", " + tz);
+			return null;
+		}
+
+
 		//translate boolean grid to a grid of nodes
 		Node[,] nodeGrid = new Node[zlen, xlen];
 		for (int i = 0; i < xlen; i++) {
