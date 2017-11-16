@@ -11,7 +11,8 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 	private TileMap map;
 	public GameObject target;
 	private Vector3[] pathToTarget; //path to target
-	//private Vector3 nextPosition; //position of the next node to travel to
+
+	public float playerTargetingDistance = 10f;
 
     void Awake ()
     {
@@ -25,8 +26,11 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 
 
     //Move Towards Target
-    void Update ()
+    void FixedUpdate ()
     {
+
+		//choose between the tower and the player based on player targeting distance
+		selectTarget ();
 
 		if (map != null && target != null) {
 			Debug.Log ("Enemy Pos:" + this.transform.position);
@@ -43,23 +47,17 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 			
 			if (map != null && target != null)
 				Debug.Log ("No path to target");
+			GetComponent<Animator>().SetBool("isWalking", false);
 			return;
 
 		}
 
 		//we have a path to the target
-		//TODO edge cases
+		//TODO edge cases //TODO squared mag
 		int pathIndex = 1;
-		if ((gameObject.transform.position - pathToTarget[pathIndex]).magnitude < map.getTileWidth () * nodeChangeValue)
+		if (pathToTarget.Length >= pathIndex + 1 && (gameObject.transform.position - pathToTarget[pathIndex]).magnitude < map.getTileWidth () * nodeChangeValue)
 			pathIndex++;
 		Vector3 nextPosition = pathToTarget [pathIndex]; //enemy will move towards this location
-
-		//if past the threshold, target next node in path
-		//TODO: use square mag
-//		while (pathIndex + 1 < pathToTarget.Length && (gameObject.transform.position - nextPosition).magnitude < map.getTileWidth () * nodeChangeValue)
-//			pathIndex++;
-		
-		nextPosition = pathToTarget [pathIndex];
         
 		float zDiff = nextPosition.z - this.transform.position.z;
 		float xDiff = nextPosition.x - this.transform.position.x;
@@ -68,6 +66,24 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 		GetComponent<Animator>().SetBool("isWalking", true);
  
     }
+
+	private void selectTarget()
+	{
+
+
+		GameObject player = GameObject.FindGameObjectWithTag ("Player");
+		//Debug.Log (player);
+		GameObject tower = GameObject.FindGameObjectWithTag ("Tower");
+		if ((player.transform.position - this.transform.position).sqrMagnitude < playerTargetingDistance * playerTargetingDistance) {
+			target = player;
+			Debug.Log ("Player selected as target");
+		} else {
+			target = tower;
+			Debug.Log ("Tower selected as target");
+		}
+		
+
+	}
 
     public void OnDeath(DamageContext context)
     {

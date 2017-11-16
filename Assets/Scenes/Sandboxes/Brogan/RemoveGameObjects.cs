@@ -17,8 +17,6 @@ public class RemoveGameObjects : MonoBehaviour {
 
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-		Debug.Log ("Num enemies: " + enemies.Length);
-
 		foreach (GameObject go in enemies) {
 			if (removalDistance > (target - go.gameObject.transform.position).magnitude)
 				Destroy (go);
