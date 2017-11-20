@@ -947,7 +947,7 @@ Transform:
   m_GameObject: {fileID: 1350807989951994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.092}
-  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_Children:
   - {fileID: 4755627008457342}
   - {fileID: 4086247110183854}
@@ -1386,7 +1386,7 @@ BoxCollider:
   m_GameObject: {fileID: 1350807989951994}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 20, y: 30, z: 20}
   m_Center: {x: -10, y: 20, z: 20}
@@ -1473,9 +1473,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f6618a0da65fa45b24d5105d5d8422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  nodeChangeValue: 0.75
+  speed: 1.75
+  nodeChangeValue: 0.6
   target: {fileID: 0}
+  playerTargetingDistance: 6
 --- !u!114 &114948111292025126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1489,6 +1490,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 200
   currentHealth: 0
+  teamId: 0
   sinkSpeed: 2.5
   scoreValue: 10
   deathClip: {fileID: 8300000, guid: 1d3bfb9269f136947bf8ac164cace1ff, type: 3}

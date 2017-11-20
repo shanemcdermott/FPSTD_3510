@@ -137,6 +137,13 @@ public class TileMap : MonoBehaviour
 		int xlen = grid.GetLength (1);
 		int zlen = grid.GetLength (0);
 
+		if (sx > xlen || sx < 0 || sz > zlen || sz < 0 || tx > xlen || tx < 0 || tz > zlen || tz < 0) {
+			Debug.Log ("Start and or target out of bounds");
+			Debug.Log (sx + ", " + sz + ", " + ", " + tx + ", " + tz);
+			return null;
+		}
+
+
 		//translate boolean grid to a grid of nodes
 		Node[,] nodeGrid = new Node[zlen, xlen];
 		for (int i = 0; i < xlen; i++) {
@@ -231,6 +238,14 @@ public class TileMap : MonoBehaviour
 	public Vector3[] getVector3Path()
 	{
 		return getVector3Path (path); //if no param, use tileMaps path
+	}
+
+	public Vector3[] getVector3Path(Vector3 start, Vector3 target)
+	{
+		int sx, sz, tx, tz;
+		nodeAtLocation (start, out sx, out sz);
+		nodeAtLocation (target, out tx, out tz);
+		return getVector3Path (AStar (getBoolGridFromTileMap (), sx, sz, tx, tz));
 	}
 		
 	private Vector3[] getVector3Path(Node[] path)

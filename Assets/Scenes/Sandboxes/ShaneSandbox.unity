@@ -6914,6 +6914,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &604025798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 604025799}
+  m_Layer: 11
+  m_Name: RocketSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &604025799
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 604025798}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.14837885, y: -0.1268448, z: 0.5274282}
+  m_LocalScale: {x: 0.8447194, y: 0.8447199, z: 0.8447199}
+  m_Children: []
+  m_Father: {fileID: 1670623114}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &636464338 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4416091760058988, guid: 20f6fe34f060e914db713958208b2381,
@@ -7134,7 +7162,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1100101457
+  randomSeed: 159575483
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -20555,8 +20583,8 @@ MonoBehaviour:
   gunLight: {fileID: 0}
   state: 6
   bulletsInMag: 0
-  projectileToLaunch: {fileID: 114346593594613844, guid: 191777523e33eb945af823cb4bbc810b,
-    type: 2}
+  projectileToLaunch: {fileID: 0}
+  rocketSpawner: {fileID: 0}
   launchSpeed: 50
   fireOffset: 2
 --- !u!1 &1290612764
@@ -24233,7 +24261,7 @@ Transform:
   m_Children:
   - {fileID: 119685216}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 5.906, z: 0}
 --- !u!1 &1646410581 stripped
 GameObject:
@@ -24491,23 +24519,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0.2710926
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.9625533
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 224132607978358134, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
@@ -24548,7 +24576,7 @@ Prefab:
         type: 2}
       propertyPath: projectileToLaunch
       value: 
-      objectReference: {fileID: 114346593594613844, guid: 191777523e33eb945af823cb4bbc810b,
+      objectReference: {fileID: 1784687609608882, guid: 191777523e33eb945af823cb4bbc810b,
         type: 2}
     - target: {fileID: 114855746670382066, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
@@ -24752,7 +24780,7 @@ Prefab:
       objectReference: {fileID: 1670623113}
     - target: {fileID: 4739543170575366, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 20922455534097054, guid: bbfb0f69a9b210d4787b069a653ed8b5,
         type: 2}
@@ -24784,6 +24812,15 @@ Prefab:
       propertyPath: reloadAudio
       value: 
       objectReference: {fileID: 1374672831}
+    - target: {fileID: 4302062027715702, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114657198933125856, guid: bbfb0f69a9b210d4787b069a653ed8b5,
+        type: 2}
+      propertyPath: rocketSpawner
+      value: 
+      objectReference: {fileID: 604025798}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bbfb0f69a9b210d4787b069a653ed8b5, type: 2}
   m_IsPrefabParent: 0
@@ -25063,7 +25100,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 393912435
+  randomSeed: 269859574
   InitialModule:
     serializedVersion: 3
     enabled: 1

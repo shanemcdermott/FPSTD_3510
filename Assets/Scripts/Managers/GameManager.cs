@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
     public GameState state;
     public HUDManager hud;
     public MenuManager menuManager;
+	public MapFactory mapFactory;
     public TileMap tileMap;
 
     //The current Wave Number
@@ -57,9 +58,14 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
             Destroy(gameObject);
         }
 
+		mapFactory = GameObject.FindGameObjectWithTag ("MapMaker").GetComponent<MapFactory>();
+		mapFactory.SetupScene();
+		tileMap = mapFactory.getTileMap ();
+
         DontDestroyOnLoad(gameObject);
         player = GameObject.FindGameObjectWithTag("Player");
         enemyManager = GetComponent<EnemyManager>();
+		enemyManager.setTileMap (tileMap);
         //hud = player.GetComponentInChildren<HUDManager>();
         //menuManager = player.GetComponentInChildren<MenuManager>();
         InitGame();
@@ -75,7 +81,7 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
     // Update is called once per frame
     void Update ()
     {
-		enemyManager.setTileMap (tileMap); //this is temporary; there is probably a better way.
+		
 	}
 
     public int GetNumWavesRemaining()
