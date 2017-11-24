@@ -4476,10 +4476,21 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.632
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114317960884988272}
+        m_MethodName: setVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114005976874160864
@@ -6780,9 +6791,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10321b129bd482b479f7a9e239b3bd9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenu: {fileID: 0}
-  volumeSlider: {fileID: 0}
-  levelSelect: {fileID: 0}
   pause: {fileID: 95580219048211142}
   pauseSettings: {fileID: 95377882433202380}
   waveDefeat: {fileID: 95433180156109620}
@@ -6793,6 +6801,7 @@ MonoBehaviour:
   levelCrystals2: {fileID: 114603764483807806}
   waveCountDefeat: {fileID: 114239323769056350}
   waveCountVictory: {fileID: 114335897211716532}
+  volume: {fileID: 114002696949121338}
   upgradeMenu: {fileID: 95038718385258274}
   f10: {fileID: 114322018011322810}
   f20: {fileID: 114294393644331350}
