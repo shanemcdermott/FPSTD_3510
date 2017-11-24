@@ -84,6 +84,12 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
 		
 	}
 
+    public void UpdatePhaseText(string text)
+    {
+        if(hud!= null)
+            hud.phase.text = "Build";
+    }
+
     public int GetNumWavesRemaining()
     {
         return numWavesInLevel - currentWave;
