@@ -11,7 +11,7 @@ public class PreparingState : GameState
     {
         base.Enter();
         Invoke("ConsiderStateTransition", preparationTime);
-        GameManager.instance.hud.phase.text = "Build";
+        GameManager.instance.UpdatePhaseText("Build");
         GameManager.instance.GetEnemyManager().enabled = false;
         Debug.Log("Starting Build Phase.");
     }

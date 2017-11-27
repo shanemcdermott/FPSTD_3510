@@ -49,7 +49,8 @@ public abstract class Weapon : MonoBehaviour, Equipment
         bulletsInMag = bulletsPerMag;
         usesAmmo = true;
         recoilMod = new GameObject().transform;
-        aimTransform = mainCamera.transform;
+        if(aimTransform == null)
+            aimTransform = mainCamera.transform;
     }
 
     /// <summary>
@@ -69,7 +70,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
         }
         if (shootTimer >= timeToShoot && state == WeaponState.HipFiring)
             SetCurrentState(WeaponState.Idle);
-        
+
     }
 
     public void Recoil()
