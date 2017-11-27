@@ -48,14 +48,18 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
     //Move Towards Target
     void FixedUpdate ()
     {
+		Vector3 realpos = this.transform.position + new Vector3(0.5f, 0, 0.5f);
+
+
+		bool poschanged = false;
 		framenum++;
 		//set current position in relation to the tilemap
 		if (map != null)
-			map.nodeAtLocation(this.transform.position, out currentx, out currentz);
+			map.nodeAtLocation(realpos, out currentx, out currentz);
 
 		if (lastx != currentx && lastz != currentz)
 		{
-			
+			poschanged = true;
 			lastx = currentx;
 			lastz = currentz;
 		}
@@ -66,7 +70,7 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 		if (map != null && target != null) {
 			//Debug.Log ("Enemy Pos:" + this.transform.position);
 			if (framenum % 20 == 0 || pathToTarget == null)
-				pathToTarget = map.getVector3Path(this.transform.position, target.transform.position);
+				pathToTarget = map.getVector3Path(realpos, target.transform.position);
 			pathIndex = 1;
 		}
 
@@ -145,5 +149,15 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 				Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 			}
 		}
+
+//		Gizmos.color = new Color (1f, 1f, 0f);
+//		Gizmos.DrawCube (this.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+		Gizmos.color = new Color (1f, 0f, 0f);
+
+		int x, z;
+		map.nodeAtLocation(this.transform.position + new Vector3(0.5f, 0, 0.5f), out x, out z);
+		Gizmos.DrawCube (new Vector3(x, 0, z), new Vector3(0.5f, 0.5f, 0.5f));
+
+
 	}
 }
