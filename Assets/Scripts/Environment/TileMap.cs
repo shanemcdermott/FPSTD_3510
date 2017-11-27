@@ -104,37 +104,26 @@ public class TileMap : MonoBehaviour
 		}
 
 		//create open list
-		List<Node> open = new List<Node>(); //TODO: use something faster than a list
+		NodePriorityQueue open = new NodePriorityQueue(); 
 
 		//start with null path
 		Node[] localPath = null;
 
 		//set the cost of the start node to zero and add it to open list
 		nodeGrid [sz, sx].costToGetHere = 0;
-		open.Add (nodeGrid[sz, sx]);
+		open.push(nodeGrid[sz, sx]); 
 
 
 		//while there are open nodes...
-		while (open.Count > 0) {
+		while (open.getCount() > 0) { 
 
-			//find the smallest
-			int smallest = 0;
-			int smallestTotalCost = 1000000000; //something large
-			for (int i = 0; i < open.Count; i++)
-			{
-				Node n = open [i];
-
-				if (n.estimatedTotalCost() < smallestTotalCost) {
-					smallest = i;
-					smallestTotalCost = n.estimatedTotalCost();
-				}
-			}
+			Node n = open.pop(); 
 
 			//if we are at the target
-			if (open [smallest].xpos == tx && open [smallest].zpos == tz) {
+			if (n.xpos == tx && n.zpos == tz) {
 
-				Node currPathNode = open [smallest];
-				localPath = new Node[open [smallest].costToGetHere + 1];
+				Node currPathNode = n;
+				localPath = new Node[n.costToGetHere + 1];
 
 				//trace the nodes that formed the path
 				while (true) {
@@ -153,27 +142,25 @@ public class TileMap : MonoBehaviour
 			int[] nextXs = new int[4] { 0, 0, 1, -1 };
 
 			for (int i = 0; i < 4; i++) {
-				int nextz = open [smallest].zpos + nextZs[i];
-				int nextx = open [smallest].xpos + nextXs[i];
+				int nextz = n.zpos + nextZs[i];
+				int nextx = n.xpos + nextXs[i];
 
 				//if node is within the array
 				if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen) {
 					//if not a wall
 					if (!nodeGrid [nextz, nextx].isWall) {
 						//if visiting this node creates a shorter path or (mostlikely) is an unvisited node
-						if (nodeGrid [nextz, nextx].costToGetHere > open [smallest].costToGetHere + 1) {
+						if (nodeGrid [nextz, nextx].costToGetHere > n.costToGetHere + 1) {
 
 							//set it's connection and cost and add it to the open list
-							nodeGrid [nextz, nextx].costToGetHere = open [smallest].costToGetHere + 1;
-							nodeGrid [nextz, nextx].setConnection (open [smallest].xpos, open [smallest].zpos);
-							open.Add (nodeGrid [nextz, nextx]);
+							nodeGrid [nextz, nextx].costToGetHere = n.costToGetHere + 1;
+							nodeGrid [nextz, nextx].setConnection (n.xpos, n.zpos);
+							open.push(nodeGrid [nextz, nextx]);
 						}
 					}
 				}
 
 			}
-
-			open.Remove (open [smallest]);
 
 		}
 
