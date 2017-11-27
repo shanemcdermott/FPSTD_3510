@@ -13,20 +13,6 @@ public struct Node
 
 	public string strname;
 
-	public Node (int x, int z)
-	{
-		Debug.Log("Depricate this shit...");
-		xpos = x;
-		zpos = z;
-		costToGetHere = 10000;
-		fromx = -1;
-		fromz = -1;
-		isWall = false;
-		estimate = -1;
-
-		strname = "(" + xpos + ", " + zpos + ")";
-	}
-
 	public Node (int x, int z, int est)
 	{
 		xpos = x;

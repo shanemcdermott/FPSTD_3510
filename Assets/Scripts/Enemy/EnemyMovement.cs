@@ -15,6 +15,12 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 
 	public float playerTargetingDistance = 10f;
 
+
+	private int lastx;
+	private int lastz;
+	private int currentx;
+	private int currentz;
+
 	GameObject player;
 	GameObject tower;
 
@@ -24,6 +30,13 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
     {
         GetComponent<HealthComponent>().RegisterDeathResponder(this);
 		framenum = 0;
+
+		lastx = 0;
+		lastz = 0;
+		currentx = 0;
+		currentz = 0;
+
+
     }
 
     public void AssignTarget(GameObject targetObject)
@@ -35,28 +48,46 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
     //Move Towards Target
     void FixedUpdate ()
     {
+		framenum++;
+		//set current position in relation to the tilemap
+		if (map != null)
+			map.nodeAtLocation(this.transform.position, out currentx, out currentz);
+
+		if (lastx != currentx && lastz != currentz)
+		{
+			
+			lastx = currentx;
+			lastz = currentz;
+		}
 
 		//choose between the tower and the player based on player targeting distance
 		selectTarget ();
 
 		if (map != null && target != null) {
 			//Debug.Log ("Enemy Pos:" + this.transform.position);
-			if (framenum % 20 == 0)
+			if (framenum % 20 == 0 || pathToTarget == null)
 				pathToTarget = map.getVector3Path(this.transform.position, target.transform.position);
 			pathIndex = 1;
 		}
 
 		if (pathToTarget == null) {
 
-			if (target == null)
-				Debug.Log ("null target!!");
+				if (target == null)
+					Debug.Log ("null target!!");
 
-			if (map == null)
-				Debug.Log ("null map!!");
-			
-			if (map != null && target != null)
-				Debug.Log ("No path to target");
-			GetComponent<Animator>().SetBool("isWalking", false);
+				if (map == null)
+					Debug.Log ("null map!!");
+				
+				if (map != null && target != null)
+				{
+					Debug.Log ("No path to target");
+					Debug.Log("(" + currentx + ", "  + currentz + ")");
+				}
+
+				GetComponent<Animator>().SetBool("isWalking", false);
+
+
+
 			return;
 
 		}

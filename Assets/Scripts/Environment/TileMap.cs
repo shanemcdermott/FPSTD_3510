@@ -77,7 +77,7 @@ public class TileMap : MonoBehaviour
 		return getVector3Path (AStar (grid, sx, sz, tx, tz));
 	}
 
-	//preforms A* on the boolean grid passed to it trying to get from (sz, sx) to (tz, tx)
+	//performs A* on the boolean grid passed to it trying to get from (sz, sx) to (tz, tx)
 	private Node[] AStar(bool [,] grid, int sx, int sz, int tx, int tz)
 	{
 		//get dimentions of grid passed in
@@ -204,6 +204,8 @@ public class TileMap : MonoBehaviour
 
 		x = (int) Mathf.Floor (xloc / tileWidth);
 		z = (int) Mathf.Floor (zloc / tileWidth);
+
+		Debug.Log("real: " + xloc + "," + zloc + "\ncalc: " + x + "," + z);
 
 		//set x and z to -1 if location is off grid
 		if (x >= xlen || z >= zlen || x < 0 || z < 0) {
