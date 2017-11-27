@@ -204,9 +204,7 @@ public class TileMap : MonoBehaviour
 
 		x = (int) Mathf.Floor (xloc / tileWidth);
 		z = (int) Mathf.Floor (zloc / tileWidth);
-
-		Debug.Log("real: " + xloc + "," + zloc + "\ncalc: " + x + "," + z);
-
+		
 		//set x and z to -1 if location is off grid
 		if (x >= xlen || z >= zlen || x < 0 || z < 0) {
 			x = -1;

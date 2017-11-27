@@ -7,13 +7,12 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 	private int framenum;
 
     public float speed;
-	public float nodeChangeValue;
 
 	private TileMap map;
 	public GameObject target;
-	private Vector3[] pathToTarget; //path to target
+	private Vector3[] pathToTarget;
 
-	public float playerTargetingDistance = 10f;
+	public float playerTargetingDistance;
 
 
 	private int lastx;
@@ -23,8 +22,6 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 
 	GameObject player;
 	GameObject tower;
-
-	private int pathIndex;
 
     void Awake ()
     {
@@ -45,34 +42,34 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
     }
 
 
-    //Move Towards Target
     void FixedUpdate ()
-    {
+	{
+		//increment framenum
+		framenum++;
+
+		//this might change if the enemy changes or if the size of the tiles are changed
 		Vector3 realpos = this.transform.position + new Vector3(0.5f, 0, 0.5f);
 
-
+		//check to see if the enemies position has changed
 		bool poschanged = false;
-		framenum++;
-		//set current position in relation to the tilemap
 		if (map != null)
 			map.nodeAtLocation(realpos, out currentx, out currentz);
-
-		if (lastx != currentx && lastz != currentz)
+		if (lastx != currentx || lastz != currentz)
 		{
 			poschanged = true;
 			lastx = currentx;
 			lastz = currentz;
 		}
 
-		//choose between the tower and the player based on player targeting distance
-		selectTarget ();
+		//select target if target is null or every 10 frames (10 was arbitrarily chosen)
+		if (framenum % 10 == 0 || target == null)
+			selectTarget ();
 
-		if (map != null && target != null) {
-			//Debug.Log ("Enemy Pos:" + this.transform.position);
-			if (framenum % 20 == 0 || pathToTarget == null)
+		//calculate the path when things arent null and node position has changed (or there is no path)
+		if (map != null && target != null)
+			if (poschanged || pathToTarget == null)
 				pathToTarget = map.getVector3Path(realpos, target.transform.position);
-			pathIndex = 1;
-		}
+		
 
 		if (pathToTarget == null) {
 
@@ -83,25 +80,21 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 					Debug.Log ("null map!!");
 				
 				if (map != null && target != null)
-				{
 					Debug.Log ("No path to target");
-					Debug.Log("(" + currentx + ", "  + currentz + ")");
-				}
 
 				GetComponent<Animator>().SetBool("isWalking", false);
 
 
-
 			return;
-
 		}
 
-		//we have a path to the target
-		//TODO edge cases //TODO squared mag
-		pathIndex = 1;
-		if (pathToTarget.Length > pathIndex + 1 && (gameObject.transform.position - pathToTarget[pathIndex]).magnitude < map.getTileWidth () * nodeChangeValue)
-			pathIndex++;
-		Vector3 nextPosition = pathToTarget [pathIndex]; //enemy will move towards this location
+
+		//if the path is less than 3, we want to move straight there
+		Vector3 nextPosition = target.transform.position;
+
+		//if the path is 3 or greater, move to the second path location (path is recalculated every time location changes)
+		if (pathToTarget.Length > 2)
+			nextPosition = pathToTarget[1];
         
 		float zDiff = nextPosition.z - this.transform.position.z;
 		float xDiff = nextPosition.x - this.transform.position.x;
@@ -143,7 +136,7 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 	public void OnDrawGizmos()
 	{
 		if (pathToTarget != null) {
-			for (int i = 0; i < pathToTarget.Length; i++) {
+			for (int i = 1; i < pathToTarget.Length; i++) {
 				Gizmos.color = new Color (1f, 1f, 0f);
 				Gizmos.DrawCube (pathToTarget[i], new Vector3(0.5f, 0.5f, 0.5f));
 				Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
