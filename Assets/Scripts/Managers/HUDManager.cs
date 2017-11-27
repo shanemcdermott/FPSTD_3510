@@ -11,6 +11,8 @@ public class HUDManager : MonoBehaviour {
     public Text upgrades;
     public Text phase;
     public Text time;
+    public Text ammo;
+    public Text enemies;
     private GameObject player;
 
     void Start()
@@ -26,6 +28,8 @@ public class HUDManager : MonoBehaviour {
         healthSlider.value = player.GetComponent<PlayerHealth>().currentHealth;
         upgrades.text = "" + GameManager.instance.upgrades;
         crystals.text = "" + GameManager.instance.crystals;
+        ammo.text = player.GetComponent<PlayerController>().currentWeapon.bulletsInMag + "/" + player.GetComponent<PlayerController>().currentWeapon.bulletsPerMag;
+        enemies.text = "" + GameManager.instance.GetEnemyManager().waveSize;
 	}
 
 
