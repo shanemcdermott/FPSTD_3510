@@ -360,14 +360,14 @@ public class TileMap : MonoBehaviour
 //					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 //				}
 //			}
-			Vector3[] v3path = getVector3Path();
-			if (v3path != null) {
-				for (int i = 0; i < v3path.Length; i++) {
-					Gizmos.color = new Color (1f, 1f, 0f);
-					Gizmos.DrawCube (v3path[i], cubeSize / 2);
-					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
-				}
-			}
+//			Vector3[] v3path = getVector3Path();
+//			if (v3path != null) {
+//				for (int i = 0; i < v3path.Length; i++) {
+//					Gizmos.color = new Color (1f, 1f, 0f);
+//					Gizmos.DrawCube (v3path[i], cubeSize / 2);
+//					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
+//				}
+//			}
 		}
 	}
 			

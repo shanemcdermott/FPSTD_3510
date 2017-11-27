@@ -63,7 +63,7 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 
 		//we have a path to the target
 		//TODO edge cases //TODO squared mag
-		int pathIndex = 1;
+		pathIndex = 1;
 		if (pathToTarget.Length > pathIndex + 1 && (gameObject.transform.position - pathToTarget[pathIndex]).magnitude < map.getTileWidth () * nodeChangeValue)
 			pathIndex++;
 		Vector3 nextPosition = pathToTarget [pathIndex]; //enemy will move towards this location
@@ -103,5 +103,16 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 	public void setTileMap(TileMap tm)
 	{
 		map = tm;
+	}
+
+	public void OnDrawGizmos()
+	{
+		if (pathToTarget != null) {
+			for (int i = 0; i < pathToTarget.Length; i++) {
+				Gizmos.color = new Color (1f, 1f, 0f);
+				Gizmos.DrawCube (pathToTarget[i], new Vector3(0.5f, 0.5f, 0.5f));
+				Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
+			}
+		}
 	}
 }
