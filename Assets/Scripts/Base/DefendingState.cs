@@ -18,7 +18,7 @@ public class DefendingState : GameState
         enemyManager = GameManager.instance.GetEnemyManager();
         enemyManager.waveSize = waveSize;
         enemyManager.enabled = true;
-        GameManager.instance.hud.phase.text = "Defend!";
+        GameManager.instance.UpdatePhaseText("Defend!");
         GameManager.instance.currentWave++;
         GameManager.instance.hud.wave.text = GameManager.instance.currentWave.ToString();
         Debug.Log("Starting Defend Phase.");

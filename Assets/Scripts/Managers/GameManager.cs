@@ -66,8 +66,8 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
         player = GameObject.FindGameObjectWithTag("Player");
         enemyManager = GetComponent<EnemyManager>();
 		enemyManager.setTileMap (tileMap);
-        //hud = player.GetComponentInChildren<HUDManager>();
-        //menuManager = player.GetComponentInChildren<MenuManager>();
+        hud = player.GetComponentInChildren<HUDManager>();
+        menuManager = player.GetComponentInChildren<MenuManager>();
         InitGame();
     }
 
@@ -83,6 +83,12 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
     {
 		
 	}
+
+    public void UpdatePhaseText(string text)
+    {
+        if(hud!= null)
+            hud.phase.text = "Build";
+    }
 
     public int GetNumWavesRemaining()
     {

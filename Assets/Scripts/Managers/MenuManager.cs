@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
-    public Animator mainMenu;
-    public Animator volumeSlider;
-    public Animator levelSelect;
     public Animator pause;
     public Animator pauseSettings;
     public Animator waveDefeat;
@@ -17,6 +14,7 @@ public class MenuManager : MonoBehaviour {
     public Text levelCrystals2;
     public Text waveCountDefeat;
     public Text waveCountVictory;
+    public Slider volume;
     public Animator upgradeMenu;
 
     public Button f10;
@@ -152,7 +150,6 @@ public class MenuManager : MonoBehaviour {
             Cursor.visible = false;
             Time.timeScale = 1.0f;
         }
-        
     }
 
     public void buttonUpgrade(Button b1, Button b2, int upg)
@@ -174,30 +171,6 @@ public class MenuManager : MonoBehaviour {
     public void Exit()
     {
         Application.Quit();
-    }
-
-    public void OpenSettings()
-    {
-        mainMenu.SetBool("isHidden", true);
-        volumeSlider.SetBool("isHidden", false);
-    }
-
-    public void SettingsBack()
-    {
-        mainMenu.SetBool("isHidden", false);
-        volumeSlider.SetBool("isHidden", true);
-    }
-
-    public void OpenLevelSelect()
-    {
-        mainMenu.SetBool("isHidden", true);
-        levelSelect.SetBool("isHidden", false);
-    }
-
-    public void LevelSelectBack()
-    {
-        mainMenu.SetBool("isHidden", false);
-        levelSelect.SetBool("isHidden", true);
     }
 
     public void OpenPauseSettings()
@@ -252,5 +225,11 @@ public class MenuManager : MonoBehaviour {
     {
         levelVictory.SetBool("isHidden", true);
         Time.timeScale = 1.0f;
+    }
+
+    public void setVolume()
+    {
+        GameManager.instance.GetPlayer().GetComponent<PlayerController>().currentWeapon.gunAudio.volume = volume.value;
+        GameManager.instance.GetPlayer().GetComponent<PlayerController>().currentWeapon.reloadAudio.volume = volume.value;
     }
 }

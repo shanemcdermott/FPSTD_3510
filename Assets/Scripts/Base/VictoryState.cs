@@ -9,7 +9,7 @@ public class VictoryState : GameState
     public override void Enter()
     {
         base.Enter();
-        GameManager.instance.hud.phase.text = "Victory!";
+        GameManager.instance.UpdatePhaseText("Victory!");
         //Tell hud to display rewards
         GameManager.instance.menuManager.waveCountVictory.text = "" + GameManager.instance.currentWave;
         GameManager.instance.menuManager.waveCrystals.text = "0";

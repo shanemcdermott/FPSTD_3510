@@ -157,6 +157,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         currentWeaponType = index;
         float waitTime = currentWeapon.StartUnEquipping();
         currentWeapon = weapons[index];
+        currentWeapon.mainCamera = fpsCamera;
+        currentWeapon.aimTransform = fpsCamera.transform;
         //currentWeapon.useRootTransform = true;
         Invoke("FinishedUnequipping", waitTime);
     }

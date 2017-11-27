@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : HealthComponent
 {
@@ -6,7 +7,7 @@ public class EnemyHealth : HealthComponent
     public float sinkSpeed = 2.5f;
     public int scoreValue = 10;
     public AudioClip deathClip;
-
+    public Text health;
 
     Animator anim;
     AudioSource enemyAudio;
@@ -34,6 +35,7 @@ public class EnemyHealth : HealthComponent
         {
             transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
         }
+        health.text = this.currentHealth + "/" + this.startingHealth;
     }
 
 
@@ -60,9 +62,8 @@ public class EnemyHealth : HealthComponent
     {
         base.OnDeath(context);
 
-        if(anim != null)
-            //anim.SetTrigger ("Dead");
-            GetComponent<Animator>().SetBool("isDead", true);
+        
+        GetComponent<Animator>().SetBool("isDead", true);
 
         if (enemyAudio != null)
         {

@@ -58,7 +58,7 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 		//we have a path to the target
 		//TODO edge cases //TODO squared mag
 		int pathIndex = 1;
-		if (pathToTarget.Length >= pathIndex + 1 && (gameObject.transform.position - pathToTarget[pathIndex]).magnitude < map.getTileWidth () * nodeChangeValue)
+		if (pathToTarget.Length > pathIndex + 1 && (gameObject.transform.position - pathToTarget[pathIndex]).magnitude < map.getTileWidth () * nodeChangeValue)
 			pathIndex++;
 		Vector3 nextPosition = pathToTarget [pathIndex]; //enemy will move towards this location
         

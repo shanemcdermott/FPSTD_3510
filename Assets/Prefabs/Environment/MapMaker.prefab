@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114846558751118274}
   m_Layer: 0
   m_Name: MapMaker
-  m_TagString: Untagged
+  m_TagString: MapMaker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,4 +58,8 @@ MonoBehaviour:
   width: 50
   height: 50
   wallsToAdd: 0
+  startx: 4
+  startz: 4
+  targetx: 34
+  targetz: 4
   tileWidth: 1
