@@ -9,10 +9,13 @@ public struct Node
 	public int fromx;
 	public int fromz;
 	public bool isWall;
-	int estimate;
+	int estimate; //this is an int... (float?)
+
+	public string strname;
 
 	public Node (int x, int z)
 	{
+		Debug.Log("Depricate this shit...");
 		xpos = x;
 		zpos = z;
 		costToGetHere = 10000;
@@ -20,6 +23,21 @@ public struct Node
 		fromz = -1;
 		isWall = false;
 		estimate = -1;
+
+		strname = "(" + xpos + ", " + zpos + ")";
+	}
+
+	public Node (int x, int z, int est)
+	{
+		xpos = x;
+		zpos = z;
+		costToGetHere = 10000;
+		fromx = -1;
+		fromz = -1;
+		isWall = false;
+		estimate = est;
+
+		strname = "(" + xpos + ", " + zpos + ")";
 
 	}
 
@@ -32,13 +50,12 @@ public struct Node
 		fromx = -2;
 		fromz = -2;
 		estimate = -1;
+
+		strname = "(wall.)";
 	}
 
-	public int getEstimatedTotalCost(int tx, int tz)
+	public int estimatedTotalCost()
 	{
-		//this heuristic only really makes sense if you can only move in cardinal directions
-		if (estimate == -1)
-			estimate = (Mathf.Abs (tx - xpos) + Mathf.Abs (tz - zpos)); 
 		return estimate + costToGetHere;
 	}
 

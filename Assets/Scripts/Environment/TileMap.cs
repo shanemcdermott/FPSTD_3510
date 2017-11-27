@@ -98,7 +98,7 @@ public class TileMap : MonoBehaviour
 				if (grid[j,i] == false) {
 					nodeGrid [j, i] = new Node(true);
 				} else {
-					nodeGrid [j, i] = new Node (i, j);
+					nodeGrid [j, i] = new Node (i, j, (Mathf.Abs (tx - i) + Mathf.Abs (tz - j))); //new; supreme arson; 
 				}
 			}
 		}
@@ -124,9 +124,9 @@ public class TileMap : MonoBehaviour
 			{
 				Node n = open [i];
 
-				if (n.getEstimatedTotalCost(tx, tz) < smallestTotalCost) {
+				if (n.estimatedTotalCost() < smallestTotalCost) {
 					smallest = i;
-					smallestTotalCost = n.getEstimatedTotalCost(tx, tz);
+					smallestTotalCost = n.estimatedTotalCost();
 				}
 			}
 
