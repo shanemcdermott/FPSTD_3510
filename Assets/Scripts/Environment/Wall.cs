@@ -5,6 +5,12 @@ using UnityEngine;
 public class Wall : MonoBehaviour, IFocusable {
     GameObject turret;
     GameObject placedTurret;
+
+    public Weapon rifle;
+    public Weapon cannon;
+    public Weapon rocket;
+    public Weapon aoePulse;
+    public Camera aimTransform;
 	// Use this for initialization
 	void Start () {
 	}
@@ -36,14 +42,20 @@ public class Wall : MonoBehaviour, IFocusable {
     {
         turret = turretToPlace;
         Vector3 turPosition = new Vector3(0,0.25f,0);
+        
         placedTurret = Instantiate(turret, turPosition+transform.position, Quaternion.identity);
+        placedTurret.SetActive(false);
         placedTurret.transform.parent = transform;
         placedTurret.AddComponent<BoxCollider>();
+
+        placedTurret.AddComponent<TowerAim>();
+        placedTurret.AddComponent<TowerAttackAI>();
+        TowerAttackAI towerAtkAI = placedTurret.GetComponent<TowerAttackAI>();
+        SetTowerAttackAI(towerAtkAI, type);
+
         BoxCollider turretCollider = placedTurret.GetComponent<BoxCollider>();
         turretCollider.center += new Vector3(0, 0.5f, 0);
-        placedTurret.AddComponent<Turret>();
-        Turret turretComponent = placedTurret.GetComponent<Turret>();
-        turretComponent.SetupTurret(type);
+
         placedTurret.transform.tag = "Tower";
         placedTurret.SetActive(true);
     }
@@ -55,6 +67,25 @@ public class Wall : MonoBehaviour, IFocusable {
     public bool HasTurret()
     {
         return placedTurret != null;
+    }
+    private void SetTowerAttackAI(TowerAttackAI tai, TurretType turType) {
+        switch (turType)
+        {
+            case TurretType.rifleTurret:
+                tai.equipment = rifle;
+                break;
+            case TurretType.cannonTurret:
+                tai.equipment = cannon;
+                break;
+            case TurretType.rocketTurret:
+                tai.equipment = rocket;
+                break;
+            case TurretType.aoeTurret:
+                tai.equipment = aoePulse;
+                break;
+        }
+        tai.equipment.usesAmmo = false;
+        tai.equipment.aimTransform = placedTurret.transform;
     }
 }
 public enum TurretType

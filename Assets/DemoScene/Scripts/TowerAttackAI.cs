@@ -19,12 +19,12 @@ public class TowerAttackAI : MonoBehaviour {
         towerAim = this.GetComponent<TowerAim>();
         if (equipment == null)
         {
-            equipment = this.GetComponentInChildren<Weapon>();
+            //equipment = this.GetComponentInChildren<Weapon>();
             equipment.SetCurrentState(WeaponState.Idle);
         }
 
         defenseTarget = GameObject.FindGameObjectWithTag("Player");
-        
+        Debug.Log("defense target: " + defenseTarget + "parent: " + gameObject.name);
         //this.GetComponentInChildren<LineRenderer> ().enabled = false;
     }
 
@@ -41,6 +41,7 @@ public class TowerAttackAI : MonoBehaviour {
             {
                 closestDist = currDist;
                 target = enemies[i];
+                Debug.Log("target aquired: " + target.name + " at: " + target.transform.position);
             }
         }
         return target;
@@ -50,8 +51,13 @@ public class TowerAttackAI : MonoBehaviour {
     {
         GameObject target = FindTargetClosestTo(defenseTarget.transform.position);
         towerAim.setTarget(target);
+
+        equipment.aimTransform = gameObject.transform;
         if (target != null)
+        {
+            Debug.Log("Name:" + gameObject.name + "Transform: " + gameObject.transform.localEulerAngles + " local: " + gameObject.transform.localRotation);
             Shoot();
+        }
         /*
         if (target != null && equipment != null && equipment.CanActivate())
             equipment.Activate();
@@ -62,7 +68,10 @@ public class TowerAttackAI : MonoBehaviour {
 	private void Shoot()
 	{
         if (towerAim.getTarget() != null && equipment != null)
+        {
+            Debug.Log("activating weapon");
             equipment.Activate();
+        }
         /*
 		this.GetComponentInChildren<LineRenderer> ().enabled = true; //this might not be the best way to do this...
 		yield return new WaitForSeconds (0.2f);
@@ -72,4 +81,5 @@ public class TowerAttackAI : MonoBehaviour {
 		this.GetComponentInChildren<LineRenderer> ().enabled = false;
         */
 	}
+    
 }

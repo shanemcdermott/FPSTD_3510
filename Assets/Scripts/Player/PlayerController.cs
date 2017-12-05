@@ -188,29 +188,24 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                 prevTurretType = (int)currentTurretType + 1;
                 currentTurret = turrets[0];
                 currentTurretType = TurretType.rifleTurret;
-                 
-
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 prevTurretType = (int)currentTurretType + 1;
                 currentTurret = turrets[1];
                 currentTurretType = TurretType.cannonTurret;
-
             }
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 prevTurretType = (int)currentTurretType + 1;
                 currentTurret = turrets[2];
                 currentTurretType = TurretType.rocketTurret;
-
             }
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 prevTurretType = (int)currentTurretType + 1;
                 currentTurret = turrets[3];    
                 currentTurretType = TurretType.aoeTurret;
-
             }
             if (prevTurretType != -1)
             {

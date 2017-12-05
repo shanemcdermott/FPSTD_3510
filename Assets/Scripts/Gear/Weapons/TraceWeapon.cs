@@ -29,7 +29,6 @@ public class TraceWeapon : Weapon
 
     public override void Activate()
     {
-
         SetCurrentState(WeaponState.HipFiring);
 
         if (usesAmmo)
@@ -38,12 +37,13 @@ public class TraceWeapon : Weapon
         shootTimer = 0f;
 
         EnableEffects();
-
+        Debug.Log("activating turret at: " + aimTransform.position + " facing: " + aimTransform.localEulerAngles);
         shootRay.origin = aimTransform.position;
         shootRay.direction = aimTransform.forward;
             
         if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
         {
+            Debug.Log("found enemy");
             HealthComponent enemyHealth = shootHit.collider.GetComponent<HealthComponent>();
             if (enemyHealth != null)
             {
