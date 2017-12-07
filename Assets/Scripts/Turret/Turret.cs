@@ -13,6 +13,10 @@ public class Turret : MonoBehaviour, IFocusable
     float attackRange;
     float fireRate;
     TurretFocus focusType;
+
+
+
+
     // Use this for initialization
     void Start()
     {
@@ -24,6 +28,43 @@ public class Turret : MonoBehaviour, IFocusable
     {
 
     }
+
+	void FixedUpdate()
+	{
+		GameObject [] gos = GameObject.FindGameObjectsWithTag("Enemy");
+		GameObject target = null;
+		float closestdist = 0f;
+		foreach (GameObject go in gos)
+		{
+			Vector3 temp = this.transform.position - go.transform.position;
+			if (target == null)
+			{
+				target = go;
+				closestdist = temp.x * temp.x + temp.z * temp.z;
+			}
+			else
+			{
+				float candidatedist = temp.x * temp.x + temp.z * temp.z;
+				if (candidatedist < closestdist)
+				{
+					closestdist = candidatedist;
+					target = go;
+				}
+			}
+				
+
+			float zDiff = target.transform.position.z - this.transform.position.z;
+			float yDiff = target.transform.position.y - this.transform.position.y;
+			float xDiff = target.transform.position.x - this.transform.position.x;
+			float xAngle = (Mathf.Atan2 (Mathf.Abs(yDiff), Mathf.Sqrt(xDiff * xDiff + zDiff * zDiff)) / Mathf.PI * 180);
+			float yAngle = (Mathf.Atan2 (xDiff, zDiff) / Mathf.PI * 180);
+
+			this.transform.localEulerAngles = new Vector3 (xAngle, yAngle, 0);
+
+			//TODO: shoot at target
+		}
+
+	}
 
     public void SetupTurret(TurretType turrType)
     {
@@ -69,6 +110,7 @@ public class Turret : MonoBehaviour, IFocusable
         //hide the turret upgrade menu
     }
 }
+
 public enum TurretFocus
 {
     first, last, strongest, weakest
