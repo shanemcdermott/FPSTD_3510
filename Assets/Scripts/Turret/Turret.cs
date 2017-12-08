@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour, IFocusable
 {
+
     public Equipment equipment;
     public TurretType turretType;
-    //public Equipment equipment;
+
     float damage;
     int cost;
     float attackRadius;
@@ -15,6 +16,7 @@ public class Turret : MonoBehaviour, IFocusable
     TurretFocus focusType;
 
 	Transform head;
+	GameObject target;
 
 
     // Use this for initialization
@@ -38,53 +40,132 @@ public class Turret : MonoBehaviour, IFocusable
 					head = h;
 		}
 
+
+		this.gameObject.AddComponent<Rifle>();
+		Rifle r = this.gameObject.GetComponent<Rifle>();
+
+		if (head != null)
+			r.aimTransform = head;
+		else
+			r.aimTransform = this.transform;
+
+
+		equipment = r;
+
 	}
 
     // Update is called once per frame
     void Update()
     {
-
     }
 
 	void FixedUpdate()
 	{
+		//temporary
+		focusType = TurretFocus.closest;
+
+
+		selectTarget();
+
+		float zDiff = target.transform.position.z - this.transform.position.z;
+		float yDiff = target.transform.position.y - this.transform.position.y;
+		float xDiff = target.transform.position.x - this.transform.position.x;
+		float xAngle = (Mathf.Atan2 (Mathf.Abs(yDiff), Mathf.Sqrt(xDiff * xDiff + zDiff * zDiff)) / Mathf.PI * 180);
+		float yAngle = (Mathf.Atan2 (xDiff, zDiff) / Mathf.PI * 180);
+
+		this.transform.localEulerAngles = new Vector3 (0, yAngle, 0);
+
+		if (head != null)
+			head.transform.localEulerAngles = new Vector3(xAngle, 0, 0);
+
+		//TODO: better shooting at target
+		equipment.Activate();
+
+	}
+
+	public void selectTarget()
+	{
 		GameObject [] gos = GameObject.FindGameObjectsWithTag("Enemy");
-		GameObject target = null;
-		float closestdist = 0f;
-		foreach (GameObject go in gos)
+
+		if (focusType == TurretFocus.first)
 		{
-			Vector3 temp = this.transform.position - go.transform.position;
-			if (target == null)
+			int shortestPath = int.MaxValue;
+
+			foreach (GameObject go in gos)
 			{
-				target = go;
-				closestdist = temp.x * temp.x + temp.z * temp.z;
-			}
-			else
-			{
-				float candidatedist = temp.x * temp.x + temp.z * temp.z;
-				if (candidatedist < closestdist)
+				int pathlen = go.GetComponent<EnemyMovement>().getPathLen();
+				if (pathlen < shortestPath)
 				{
-					closestdist = candidatedist;
 					target = go;
+					shortestPath = pathlen;
+				}
+
+			}
+		}
+		else if (focusType == TurretFocus.last)
+		{
+			int longestPath = 0;
+
+			foreach (GameObject go in gos)
+			{
+				int pathlen = go.GetComponent<EnemyMovement>().getPathLen();
+				if (pathlen > longestPath)
+				{
+					target = go;
+					longestPath = pathlen;
+				}
+
+			}
+		}
+		else if (focusType == TurretFocus.strongest)
+		{
+			int strongest = 0;
+			foreach (GameObject go in gos)
+			{
+				int temphealth = go.GetComponent<EnemyHealth>().currentHealth;
+				if (temphealth > strongest)
+				{
+					target = go;
+					strongest = temphealth;
 				}
 			}
-				
 
-			float zDiff = target.transform.position.z - this.transform.position.z;
-			float yDiff = target.transform.position.y - this.transform.position.y;
-			float xDiff = target.transform.position.x - this.transform.position.x;
-			float xAngle = (Mathf.Atan2 (Mathf.Abs(yDiff), Mathf.Sqrt(xDiff * xDiff + zDiff * zDiff)) / Mathf.PI * 180);
-			float yAngle = (Mathf.Atan2 (xDiff, zDiff) / Mathf.PI * 180);
+		}
+		else if (focusType == TurretFocus.weakest)
+		{
+			int weakest = int.MaxValue;
+			foreach (GameObject go in gos)
+			{
+				int temphealth = go.GetComponent<EnemyHealth>().currentHealth;
+				if (temphealth < weakest)
+				{
+					target = go;
+					weakest = temphealth;
+				}
+			}
+		}
+		else if (focusType == TurretFocus.closest)
+		{
+			float closestdist = 0f;
+			foreach (GameObject go in gos)
+			{
+				Vector3 temp = this.transform.position - go.transform.position;
+				if (target == null)
+				{
+					target = go;
+					closestdist = temp.x * temp.x + temp.z * temp.z;
+				}
+				else
+				{
+					float candidatedist = temp.x * temp.x + temp.z * temp.z;
+					if (candidatedist < closestdist)
+					{
+						closestdist = candidatedist;
+						target = go;
+					}
+				}
 
-			this.transform.localEulerAngles = new Vector3 (0, yAngle, 0);
-
-			if (head != null)
-				head.transform.localEulerAngles = new Vector3(xAngle, 0, 0);
-
-			//TODO: shoot at target
-
-
-
+			}
 		}
 
 	}
@@ -136,5 +217,5 @@ public class Turret : MonoBehaviour, IFocusable
 
 public enum TurretFocus
 {
-    first, last, strongest, weakest
+    first, last, strongest, weakest, closest
 }

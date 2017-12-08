@@ -153,4 +153,11 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 
 
 	}
+
+	public int getPathLen()
+	{
+		if (pathToTarget == null)
+			return 0;
+		return pathToTarget.Length;
+	}
 }
