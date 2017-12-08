@@ -59,7 +59,12 @@ public class Turret : MonoBehaviour, IFocusable
 			float xAngle = (Mathf.Atan2 (Mathf.Abs(yDiff), Mathf.Sqrt(xDiff * xDiff + zDiff * zDiff)) / Mathf.PI * 180);
 			float yAngle = (Mathf.Atan2 (xDiff, zDiff) / Mathf.PI * 180);
 
-			this.transform.localEulerAngles = new Vector3 (xAngle, yAngle, 0);
+			this.transform.localEulerAngles = new Vector3 (0, yAngle, 0);
+
+			Transform [] transforms = this.GetComponentsInChildren<Transform>();
+			foreach (Transform head in transforms)
+				if (head.name.Equals("Head"))
+					head.transform.localEulerAngles = new Vector3(xAngle, 0, 0);
 
 			//TODO: shoot at target
 		}
