@@ -14,14 +14,31 @@ public class Turret : MonoBehaviour, IFocusable
     float fireRate;
     TurretFocus focusType;
 
-
+	Transform head;
 
 
     // Use this for initialization
     void Start()
     {
-        
+		
     }
+
+	void Awake()
+	{
+		Debug.Log(turretType);
+		if (turretType == TurretType.aoeTurret)
+		{
+			head = null;
+		}
+		else
+		{
+			Transform [] transforms = this.GetComponentsInChildren<Transform>();
+			foreach (Transform h in transforms)
+				if (h.name.Equals("Head"))
+					head = h;
+		}
+
+	}
 
     // Update is called once per frame
     void Update()
@@ -61,12 +78,13 @@ public class Turret : MonoBehaviour, IFocusable
 
 			this.transform.localEulerAngles = new Vector3 (0, yAngle, 0);
 
-			Transform [] transforms = this.GetComponentsInChildren<Transform>();
-			foreach (Transform head in transforms)
-				if (head.name.Equals("Head"))
-					head.transform.localEulerAngles = new Vector3(xAngle, 0, 0);
+			if (head != null)
+				head.transform.localEulerAngles = new Vector3(xAngle, 0, 0);
 
 			//TODO: shoot at target
+
+
+
 		}
 
 	}
