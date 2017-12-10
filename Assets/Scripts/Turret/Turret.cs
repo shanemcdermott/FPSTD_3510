@@ -15,56 +15,51 @@ public class Turret : MonoBehaviour, IFocusable
     float fireRate;
     TurretFocus focusType;
 
-	Transform main;
-	Transform head;
+	Transform mainTransform;//yAngle controls main transform
+	Transform headTransform; //xAngle controls head transform
+
+	float xCurrRot;
+	float yCurrRot;
+	float xTargRot;
+	float yTargRot;
+
+	float rotationSpeed = 120f;
+
 	GameObject target;
 
-	//correctly assigns the main and head transforms to turrets for realistic rotation
-	void setupTransforms()
-	{
-		main = this.transform;
 
-		if (turretType == TurretType.aoeTurret)
-		{
-			head = null;
-		}
-		else if (turretType == TurretType.cannonTurret)
-		{
-			Transform [] transforms = this.GetComponentsInChildren<Transform>();
-			foreach (Transform h in transforms)
-				if (h.name.Equals("Head001"))
-					head = h;
-		}
-		else
-		{
-			Transform [] transforms = this.GetComponentsInChildren<Transform>();
-			foreach (Transform h in transforms)
-				if (h.name.Equals("Head"))
-					head = h;
-		}
-	}
 
     // Use this for initialization
     void Start()
     {
-		main = null;
-		head = null;
+		
     }
 
 	void Awake()
 	{
+		mainTransform = null;
+		headTransform = null;
+		xTargRot = 0f;
+		yTargRot = 0f;
+		xCurrRot = 0f;
+		yCurrRot = 0f;
 
-//		this.gameObject.AddComponent<Rifle>();
-//		Rifle r = this.gameObject.GetComponent<Rifle>();
-//
-//		if (head != null)
-//			r.aimTransform = head;
-//		else
-//			r.aimTransform = this.transform;
-//
-//
-//		equipment = r;
+		this.gameObject.AddComponent<Rifle>();
+		Rifle r = this.gameObject.GetComponent<Rifle>();
 
+		if (headTransform != null)
+			r.aimTransform = headTransform;
+		else
+			r.aimTransform = this.transform;
+
+
+		equipment = r;
+
+	}
+
+	public void setFocus(TurretFocus foc)
+	{
+		focusType = foc;
 	}
 
     // Update is called once per frame
@@ -74,25 +69,43 @@ public class Turret : MonoBehaviour, IFocusable
 
 	void FixedUpdate()
 	{
-		//temporary
-		focusType = TurretFocus.closest;
-
 
 		selectTarget();
 
-		float zDiff = target.transform.position.z - this.transform.position.z;
-		float yDiff = target.transform.position.y - this.transform.position.y;
-		float xDiff = target.transform.position.x - this.transform.position.x;
-		float xAngle = (Mathf.Atan2 (Mathf.Abs(yDiff), Mathf.Sqrt(xDiff * xDiff + zDiff * zDiff)) / Mathf.PI * 180);
-		float yAngle = (Mathf.Atan2 (xDiff, zDiff) / Mathf.PI * 180);
+		//aim turret
+		if (target != null)
+		{
+			float zDiff = target.transform.position.z - this.transform.position.z;
+			float yDiff = target.transform.position.y - this.transform.position.y;
+			float xDiff = target.transform.position.x - this.transform.position.x;
+			xTargRot = (Mathf.Atan2 (Mathf.Abs(yDiff), Mathf.Sqrt(xDiff * xDiff + zDiff * zDiff)) / Mathf.PI * 180);
+			yTargRot = (Mathf.Atan2 (xDiff, zDiff) / Mathf.PI * 180);
 
-		if (main == null)
-			setupTransforms();
 
-		main.localEulerAngles = new Vector3 (0, yAngle, 0);
+			float xtemp = xTargRot - xCurrRot;
+			if (xtemp > 180)
+				xtemp -= 360;
 
-		if (head != null)
-			head.transform.localEulerAngles = new Vector3(xAngle, 0, 0);
+			float ytemp = yTargRot - yCurrRot;
+			if (ytemp > 180)
+				ytemp -= 360;
+
+			xtemp = Mathf.Clamp(xtemp, rotationSpeed * Time.deltaTime * -1, rotationSpeed * Time.deltaTime);
+			ytemp = Mathf.Clamp(ytemp, rotationSpeed * Time.deltaTime * -1, rotationSpeed * Time.deltaTime);
+
+
+			xCurrRot += xtemp;
+			yCurrRot += ytemp;
+									
+			if (mainTransform != null)
+				mainTransform.localEulerAngles = new Vector3 (0, yCurrRot, 0);
+			
+			if (headTransform != null)
+				headTransform.transform.localEulerAngles = new Vector3(xCurrRot, 0, 0);
+
+
+		}
+
 
 		//TODO: better shooting at target
 		//equipment.Activate();
@@ -189,7 +202,10 @@ public class Turret : MonoBehaviour, IFocusable
     public void SetupTurret(TurretType turrType)
     {
         focusType = TurretFocus.first;
-		turretType = turrType;
+
+		turretType = turrType; //set the turret type
+		setupTransforms(); //set main and head transforms for proper rotation
+
         switch (turretType)
         {
             case TurretType.rifleTurret:
@@ -221,7 +237,35 @@ public class Turret : MonoBehaviour, IFocusable
                 damage = 500;
                 break;
         }
+
     }
+
+	//correctly assigns the main and head transforms to turrets for realistic rotation
+	void setupTransforms()
+	{
+		Debug.Log("Hello123");
+		mainTransform = this.transform;
+
+		if (turretType == TurretType.aoeTurret)
+		{
+			headTransform = null;
+		}
+		else if (turretType == TurretType.cannonTurret)
+		{
+			Transform [] transforms = this.GetComponentsInChildren<Transform>();
+			foreach (Transform h in transforms)
+				if (h.name.Equals("Head001"))
+					headTransform = h;
+		}
+		else
+		{
+			Transform [] transforms = this.GetComponentsInChildren<Transform>();
+			foreach (Transform h in transforms)
+				if (h.name.Equals("Head"))
+					headTransform = h;
+		}
+	}
+
     public void onBeginFocus(PlayerController focuser)
     {
         //pop up the turret upgrade menu
