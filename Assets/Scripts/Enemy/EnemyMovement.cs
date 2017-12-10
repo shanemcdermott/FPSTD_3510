@@ -4,15 +4,21 @@ using System;
 
 public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 {
-    
-    public float speed	;
-	public float nodeChangeValue;
+	private int framenum;
+
+    public float speed;
 
 	private TileMap map;
 	public GameObject target;
-	private Vector3[] pathToTarget; //path to target
+	private Vector3[] pathToTarget;
 
-	public float playerTargetingDistance = 10f;
+	public float playerTargetingDistance;
+
+
+	private int lastx;
+	private int lastz;
+	private int currentx;
+	private int currentz;
 
 	GameObject player;
 	GameObject tower;
@@ -20,6 +26,14 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
     void Awake ()
     {
         GetComponent<HealthComponent>().RegisterDeathResponder(this);
+		framenum = 0;
+
+		lastx = 0;
+		lastz = 0;
+		currentx = 0;
+		currentz = 0;
+
+
     }
 
     public void AssignTarget(GameObject targetObject)
@@ -28,39 +42,59 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
     }
 
 
-    //Move Towards Target
     void FixedUpdate ()
-    {
+	{
+		//increment framenum
+		framenum++;
 
-		//choose between the tower and the player based on player targeting distance
-		selectTarget ();
+		//this might change if the enemy changes or if the size of the tiles are changed
+		Vector3 realpos = this.transform.position + new Vector3(0.5f, 0, 0.5f);
 
-		if (map != null && target != null) {
-			Debug.Log ("Enemy Pos:" + this.transform.position);
-			pathToTarget = map.getVector3Path(this.transform.position, target.transform.position);
+		//check to see if the enemies position has changed
+		bool poschanged = false;
+		if (map != null)
+			map.nodeAtLocation(realpos, out currentx, out currentz);
+		if (lastx != currentx || lastz != currentz)
+		{
+			poschanged = true;
+			lastx = currentx;
+			lastz = currentz;
 		}
+
+		//select target if target is null or every 10 frames (10 was arbitrarily chosen)
+		if (framenum % 10 == 0 || target == null)
+			selectTarget ();
+
+		//calculate the path when things arent null and node position has changed (or there is no path)
+		if (map != null && target != null)
+			if (poschanged || pathToTarget == null)
+				pathToTarget = map.getVector3Path(realpos, target.transform.position);
+		
 
 		if (pathToTarget == null) {
 
-			if (target == null)
-				Debug.Log ("null target!!");
+				if (target == null)
+					Debug.Log ("null target!!");
 
-			if (map == null)
-				Debug.Log ("null map!!");
-			
-			if (map != null && target != null)
-				Debug.Log ("No path to target");
-			GetComponent<Animator>().SetBool("isWalking", false);
+				if (map == null)
+					Debug.Log ("null map!!");
+				
+				if (map != null && target != null)
+					Debug.Log ("No path to target");
+
+				GetComponent<Animator>().SetBool("isWalking", false);
+
+
 			return;
-
 		}
 
-		//we have a path to the target
-		//TODO edge cases //TODO squared mag
-		int pathIndex = 1;
-		if (pathToTarget.Length > pathIndex + 1 && (gameObject.transform.position - pathToTarget[pathIndex]).magnitude < map.getTileWidth () * nodeChangeValue)
-			pathIndex++;
-		Vector3 nextPosition = pathToTarget [pathIndex]; //enemy will move towards this location
+
+		//if the path is less than 3, we want to move straight there
+		Vector3 nextPosition = target.transform.position;
+
+		//if the path is 3 or greater, move to the second path location (path is recalculated every time location changes)
+		if (pathToTarget.Length > 2)
+			nextPosition = pathToTarget[1];
         
 		float zDiff = nextPosition.z - this.transform.position.z;
 		float xDiff = nextPosition.x - this.transform.position.x;
@@ -80,10 +114,10 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 		
 		if ((player.transform.position - this.transform.position).sqrMagnitude < playerTargetingDistance * playerTargetingDistance) {
 			target = player;
-			Debug.Log ("Player selected as target");
+			//Debug.Log ("Player selected as target");
 		} else {
 			target = tower;
-			Debug.Log ("Tower selected as target");
+			//Debug.Log ("Tower selected as target");
 		}
 		
 
@@ -97,5 +131,33 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 	public void setTileMap(TileMap tm)
 	{
 		map = tm;
+	}
+
+	public void OnDrawGizmos()
+	{
+		if (pathToTarget != null) {
+			for (int i = 1; i < pathToTarget.Length; i++) {
+				Gizmos.color = new Color (1f, 1f, 0f);
+				Gizmos.DrawCube (pathToTarget[i], new Vector3(0.5f, 0.5f, 0.5f));
+				Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
+			}
+		}
+
+//		Gizmos.color = new Color (1f, 1f, 0f);
+//		Gizmos.DrawCube (this.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+		Gizmos.color = new Color (1f, 0f, 0f);
+
+		int x, z;
+		map.nodeAtLocation(this.transform.position + new Vector3(0.5f, 0, 0.5f), out x, out z);
+		Gizmos.DrawCube (new Vector3(x, 0, z), new Vector3(0.5f, 0.5f, 0.5f));
+
+
+	}
+
+	public int getPathLen()
+	{
+		if (pathToTarget == null)
+			return 0;
+		return pathToTarget.Length;
 	}
 }

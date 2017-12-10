@@ -22,59 +22,6 @@ public class TileMap : MonoBehaviour
 	private Node[] path = null;
 	private bool[,] isPath = null;
 
-	struct Node
-	{
-		public int xpos;
-		public int zpos;
-		public int costToGetHere;
-		public int fromx;
-		public int fromz;
-		public bool isWall;
-		int estimate;
-
-		public Node (int x, int z)
-		{
-			xpos = x;
-			zpos = z;
-			costToGetHere = 10000;
-			fromx = -1;
-			fromz = -1;
-			isWall = false;
-			estimate = -1;
-
-		}
-
-		public Node (bool wall)
-		{
-			isWall = wall;
-			xpos = -2;
-			zpos = -2;
-			costToGetHere = 10000;
-			fromx = -2;
-			fromz = -2;
-			estimate = -1;
-		}
-			
-		public int getEstimatedTotalCost(int tx, int tz)
-		{
-			//this heuristic only really makes sense if you can only move in cardinal directions
-			if (estimate == -1)
-				estimate = (Mathf.Abs (tx - xpos) + Mathf.Abs (tz - zpos)); 
-			return estimate + costToGetHere;
-		}
-
-		public void setConnection(int x, int z)
-		{
-			fromx = x;
-			fromz = z;
-		}
-			
-		public void debugPrint()
-		{
-			Debug.Log ("Node at (x=" + xpos + ", z=" + zpos + ")\nisWall=" + isWall + "\nCost to get here: " + costToGetHere + "\nEstimated cost to target: " + estimate + "\nfrom node at (x=" + fromx + ", z=" + fromz + ")");
-		}
-
-	}
 
 	public void Start()
 	{
@@ -130,7 +77,7 @@ public class TileMap : MonoBehaviour
 		return getVector3Path (AStar (grid, sx, sz, tx, tz));
 	}
 
-	//preforms A* on the boolean grid passed to it trying to get from (sz, sx) to (tz, tx)
+	//performs A* on the boolean grid passed to it trying to get from (sz, sx) to (tz, tx)
 	private Node[] AStar(bool [,] grid, int sx, int sz, int tx, int tz)
 	{
 		//get dimentions of grid passed in
@@ -151,43 +98,32 @@ public class TileMap : MonoBehaviour
 				if (grid[j,i] == false) {
 					nodeGrid [j, i] = new Node(true);
 				} else {
-					nodeGrid [j, i] = new Node (i, j);
+					nodeGrid [j, i] = new Node (i, j, (Mathf.Abs (tx - i) + Mathf.Abs (tz - j))); //new; supreme arson; 
 				}
 			}
 		}
 
 		//create open list
-		List<Node> open = new List<Node>(); //TODO: use something faster than a list
+		NodePriorityQueue open = new NodePriorityQueue(); 
 
 		//start with null path
 		Node[] localPath = null;
 
 		//set the cost of the start node to zero and add it to open list
 		nodeGrid [sz, sx].costToGetHere = 0;
-		open.Add (nodeGrid[sz, sx]);
+		open.push(nodeGrid[sz, sx]); 
 
 
 		//while there are open nodes...
-		while (open.Count > 0) {
+		while (open.getCount() > 0) { 
 
-			//find the smallest
-			int smallest = 0;
-			int smallestTotalCost = 1000000000; //something large
-			for (int i = 0; i < open.Count; i++)
-			{
-				Node n = open [i];
-
-				if (n.getEstimatedTotalCost(tx, tz) < smallestTotalCost) {
-					smallest = i;
-					smallestTotalCost = n.getEstimatedTotalCost(tx, tz);
-				}
-			}
+			Node n = open.pop(); 
 
 			//if we are at the target
-			if (open [smallest].xpos == tx && open [smallest].zpos == tz) {
+			if (n.xpos == tx && n.zpos == tz) {
 
-				Node currPathNode = open [smallest];
-				localPath = new Node[open [smallest].costToGetHere + 1];
+				Node currPathNode = n;
+				localPath = new Node[n.costToGetHere + 1];
 
 				//trace the nodes that formed the path
 				while (true) {
@@ -206,27 +142,25 @@ public class TileMap : MonoBehaviour
 			int[] nextXs = new int[4] { 0, 0, 1, -1 };
 
 			for (int i = 0; i < 4; i++) {
-				int nextz = open [smallest].zpos + nextZs[i];
-				int nextx = open [smallest].xpos + nextXs[i];
+				int nextz = n.zpos + nextZs[i];
+				int nextx = n.xpos + nextXs[i];
 
 				//if node is within the array
 				if (nextz >= 0 && nextz < zlen && nextx >= 0 && nextx < xlen) {
 					//if not a wall
 					if (!nodeGrid [nextz, nextx].isWall) {
 						//if visiting this node creates a shorter path or (mostlikely) is an unvisited node
-						if (nodeGrid [nextz, nextx].costToGetHere > open [smallest].costToGetHere + 1) {
+						if (nodeGrid [nextz, nextx].costToGetHere > n.costToGetHere + 1) {
 
 							//set it's connection and cost and add it to the open list
-							nodeGrid [nextz, nextx].costToGetHere = open [smallest].costToGetHere + 1;
-							nodeGrid [nextz, nextx].setConnection (open [smallest].xpos, open [smallest].zpos);
-							open.Add (nodeGrid [nextz, nextx]);
+							nodeGrid [nextz, nextx].costToGetHere = n.costToGetHere + 1;
+							nodeGrid [nextz, nextx].setConnection (n.xpos, n.zpos);
+							open.push(nodeGrid [nextz, nextx]);
 						}
 					}
 				}
 
 			}
-
-			open.Remove (open [smallest]);
 
 		}
 
@@ -270,7 +204,7 @@ public class TileMap : MonoBehaviour
 
 		x = (int) Mathf.Floor (xloc / tileWidth);
 		z = (int) Mathf.Floor (zloc / tileWidth);
-
+		
 		//set x and z to -1 if location is off grid
 		if (x >= xlen || z >= zlen || x < 0 || z < 0) {
 			x = -1;
@@ -426,14 +360,14 @@ public class TileMap : MonoBehaviour
 //					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 //				}
 //			}
-			Vector3[] v3path = getVector3Path();
-			if (v3path != null) {
-				for (int i = 0; i < v3path.Length; i++) {
-					Gizmos.color = new Color (1f, 1f, 0f);
-					Gizmos.DrawCube (v3path[i], cubeSize / 2);
-					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
-				}
-			}
+//			Vector3[] v3path = getVector3Path();
+//			if (v3path != null) {
+//				for (int i = 0; i < v3path.Length; i++) {
+//					Gizmos.color = new Color (1f, 1f, 0f);
+//					Gizmos.DrawCube (v3path[i], cubeSize / 2);
+//					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
+//				}
+//			}
 		}
 	}
 			

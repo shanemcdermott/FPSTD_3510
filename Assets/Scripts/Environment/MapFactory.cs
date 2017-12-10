@@ -83,7 +83,15 @@ public class MapFactory : MonoBehaviour
 
 		map.findPath (); 
 		addBorder ();
-		addSomeWalls (wallsToAdd);
+
+		addBlockOfWalls (10, 0, 10, 10);
+		//addBlockOfWalls (15, 5, 15, 14);
+		//addBlockOfWalls (20, 0, 20, 10);
+		addBlockOfWalls (25, 5, 25, 14);
+
+
+
+		//addSomeWalls (wallsToAdd);
 
 
 
@@ -104,21 +112,28 @@ public class MapFactory : MonoBehaviour
 		}
 	}
 
+	public void addBlockOfWalls(int sx, int sz, int tx, int tz)
+	{
+		//s must be smaller than t!
+		for (int x = sx; x <= tx; x++) {
+			for (int z = sz; z <= tz; z++) {
+				map.PlaceWallHere (x, z);
+			}
+		}
+	}
+
 	private void addBorder()
 	{
-		Debug.Log ("addBorder1");
 		for (int i = 0; i < width; i++)
 		{
 			map.PlaceWallHere (i, 0);
 			map.PlaceWallHere (i, height - 1);
-			Debug.Log ("addBorder width + i");
 		}
 
 		for (int i = 0; i < height; i++)
 		{
 			map.PlaceWallHere (0, i);
 			map.PlaceWallHere (width - 1, i);
-			Debug.Log ("addBorder height" + i);
 		}
 
 	}
