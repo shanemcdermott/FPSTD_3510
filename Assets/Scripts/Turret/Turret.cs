@@ -6,7 +6,7 @@ public class Turret : MonoBehaviour, IFocusable
 {
 
     public Equipment equipment;
-    public TurretType turretType;
+    public TurretType turretType; //TODO: is this the issue?
 
     float damage;
     int cost;
@@ -15,22 +15,25 @@ public class Turret : MonoBehaviour, IFocusable
     float fireRate;
     TurretFocus focusType;
 
+	Transform main;
 	Transform head;
 	GameObject target;
 
-
-    // Use this for initialization
-    void Start()
-    {
-		
-    }
-
-	void Awake()
+	//correctly assigns the main and head transforms to turrets for realistic rotation
+	void setupTransforms()
 	{
-		Debug.Log(turretType);
+		main = this.transform;
+
 		if (turretType == TurretType.aoeTurret)
 		{
 			head = null;
+		}
+		else if (turretType == TurretType.cannonTurret)
+		{
+			Transform [] transforms = this.GetComponentsInChildren<Transform>();
+			foreach (Transform h in transforms)
+				if (h.name.Equals("Head001"))
+					head = h;
 		}
 		else
 		{
@@ -39,18 +42,28 @@ public class Turret : MonoBehaviour, IFocusable
 				if (h.name.Equals("Head"))
 					head = h;
 		}
+	}
 
+    // Use this for initialization
+    void Start()
+    {
+		main = null;
+		head = null;
+    }
 
-		this.gameObject.AddComponent<Rifle>();
-		Rifle r = this.gameObject.GetComponent<Rifle>();
+	void Awake()
+	{
 
-		if (head != null)
-			r.aimTransform = head;
-		else
-			r.aimTransform = this.transform;
-
-
-		equipment = r;
+//		this.gameObject.AddComponent<Rifle>();
+//		Rifle r = this.gameObject.GetComponent<Rifle>();
+//
+//		if (head != null)
+//			r.aimTransform = head;
+//		else
+//			r.aimTransform = this.transform;
+//
+//
+//		equipment = r;
 
 	}
 
@@ -73,13 +86,16 @@ public class Turret : MonoBehaviour, IFocusable
 		float xAngle = (Mathf.Atan2 (Mathf.Abs(yDiff), Mathf.Sqrt(xDiff * xDiff + zDiff * zDiff)) / Mathf.PI * 180);
 		float yAngle = (Mathf.Atan2 (xDiff, zDiff) / Mathf.PI * 180);
 
-		this.transform.localEulerAngles = new Vector3 (0, yAngle, 0);
+		if (main == null)
+			setupTransforms();
+
+		main.localEulerAngles = new Vector3 (0, yAngle, 0);
 
 		if (head != null)
 			head.transform.localEulerAngles = new Vector3(xAngle, 0, 0);
 
 		//TODO: better shooting at target
-		equipment.Activate();
+		//equipment.Activate();
 
 	}
 
@@ -173,6 +189,7 @@ public class Turret : MonoBehaviour, IFocusable
     public void SetupTurret(TurretType turrType)
     {
         focusType = TurretFocus.first;
+		turretType = turrType;
         switch (turretType)
         {
             case TurretType.rifleTurret:
