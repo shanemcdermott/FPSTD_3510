@@ -44,16 +44,16 @@ public class Turret : MonoBehaviour, IFocusable
 		xCurrRot = 0f;
 		yCurrRot = 0f;
 
-		this.gameObject.AddComponent<Rifle>();
-		Rifle r = this.gameObject.GetComponent<Rifle>();
-
-		if (headTransform != null)
-			r.aimTransform = headTransform;
-		else
-			r.aimTransform = this.transform;
-
-
-		equipment = r;
+//		this.gameObject.AddComponent<Rifle>();
+//		Rifle r = this.gameObject.GetComponent<Rifle>();
+//
+//		if (headTransform != null)
+//			r.aimTransform = headTransform;
+//		else
+//			r.aimTransform = this.transform;
+//
+//
+//		equipment = r;
 
 	}
 
@@ -243,7 +243,6 @@ public class Turret : MonoBehaviour, IFocusable
 	//correctly assigns the main and head transforms to turrets for realistic rotation
 	void setupTransforms()
 	{
-		Debug.Log("Hello123");
 		mainTransform = this.transform;
 
 		if (turretType == TurretType.aoeTurret)
