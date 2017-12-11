@@ -64,6 +64,9 @@ public class MapFactory : MonoBehaviour
         //map.setMapSize(width, height);
 		map.initTileMap(width, height);
 
+
+		TerrainCollider terrain = GameObject.FindGameObjectWithTag("Terrain").GetComponent<TerrainCollider>();
+
         for (int x = 0; x < width; x++)
         {
             for (int z = 0; z < height; z++)
@@ -74,6 +77,17 @@ public class MapFactory : MonoBehaviour
                 instance.transform.SetParent(board);
 				instance.transform.localScale = new Vector3(tileWidth, tileWidth, tileWidth);
 				instance.GetComponent<Tile>().setCoordinates (x, z);
+
+				float h = terrain.terrainData.GetHeight((int)(x * tileWidth + p.x), (int)(z * tileWidth + p.z));
+
+				if (h > 1.5f)
+				{
+					//GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+					//go.transform.Translate(new Vector3(x * tileWidth + p.x, h + p.y + 20f, z * tileWidth + p.z));
+					//Debug.Log(h);
+					instance.GetComponent<Tile>().PlaceWall();
+				}
+
                 map.setTileAt(x,z,instance);
 
             }

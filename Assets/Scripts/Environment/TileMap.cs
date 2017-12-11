@@ -8,7 +8,7 @@ public class TileMap : MonoBehaviour
 	protected GameObject[,] tileMap;
 
 	//display gizmos
-	public bool giz = true;
+	public bool giz = false;
 
 	private float tileWidth = 1f;
 
