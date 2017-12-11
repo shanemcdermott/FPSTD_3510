@@ -69,53 +69,53 @@ public class MenuManager : MonoBehaviour {
     {
         GameManager.instance.menuManager = this;
 
-        f10.onClick.AddListener(() => buttonUpgrade(f10, f20, GameManager.instance.fireRate));
-        f20.onClick.AddListener(() => buttonUpgrade(f20, f30, GameManager.instance.fireRate));
-        f30.onClick.AddListener(() => buttonUpgrade(f30, f40, GameManager.instance.fireRate));
-        f40.onClick.AddListener(() => buttonUpgrade(f40, f50, GameManager.instance.fireRate));
-        f50.onClick.AddListener(() => buttonUpgrade(f50, f50, GameManager.instance.fireRate));
+        f10.onClick.AddListener(() => buttonUpgrade(f10, f20, 0));
+        f20.onClick.AddListener(() => buttonUpgrade(f20, f30, 0));
+        f30.onClick.AddListener(() => buttonUpgrade(f30, f40, 0));
+        f40.onClick.AddListener(() => buttonUpgrade(f40, f50, 0));
+        f50.onClick.AddListener(() => buttonUpgrade(f50, f50, 0));
 
-        r10.onClick.AddListener(() => buttonUpgrade(r10, r20, GameManager.instance.reload));
-        r20.onClick.AddListener(() => buttonUpgrade(r20, r30, GameManager.instance.reload));
-        r30.onClick.AddListener(() => buttonUpgrade(r30, r40, GameManager.instance.reload));
-        r40.onClick.AddListener(() => buttonUpgrade(r40, r50, GameManager.instance.reload));
-        r50.onClick.AddListener(() => buttonUpgrade(r50, r50, GameManager.instance.reload));
+        r10.onClick.AddListener(() => buttonUpgrade(r10, r20, 1));
+        r20.onClick.AddListener(() => buttonUpgrade(r20, r30, 1));
+        r30.onClick.AddListener(() => buttonUpgrade(r30, r40, 1));
+        r40.onClick.AddListener(() => buttonUpgrade(r40, r50, 1));
+        r50.onClick.AddListener(() => buttonUpgrade(r50, r50, 1));
 
-        d10.onClick.AddListener(() => buttonUpgrade(d10, d20, GameManager.instance.damage));
-        d20.onClick.AddListener(() => buttonUpgrade(d20, d30, GameManager.instance.damage));
-        d30.onClick.AddListener(() => buttonUpgrade(d30, d40, GameManager.instance.damage));
-        d40.onClick.AddListener(() => buttonUpgrade(d40, d50, GameManager.instance.damage));
-        d50.onClick.AddListener(() => buttonUpgrade(d50, d50, GameManager.instance.damage));
+        d10.onClick.AddListener(() => buttonUpgrade(d10, d20, 2));
+        d20.onClick.AddListener(() => buttonUpgrade(d20, d30, 2));
+        d30.onClick.AddListener(() => buttonUpgrade(d30, d40, 2));
+        d40.onClick.AddListener(() => buttonUpgrade(d40, d50, 2));
+        d50.onClick.AddListener(() => buttonUpgrade(d50, d50, 2));
 
-        e10.onClick.AddListener(() => buttonUpgrade(e10, e20, GameManager.instance.equipTime));
-        e20.onClick.AddListener(() => buttonUpgrade(e20, e30, GameManager.instance.equipTime));
-        e30.onClick.AddListener(() => buttonUpgrade(e30, e40, GameManager.instance.equipTime));
-        e40.onClick.AddListener(() => buttonUpgrade(e40, e50, GameManager.instance.equipTime));
-        e50.onClick.AddListener(() => buttonUpgrade(e50, e50, GameManager.instance.equipTime));
+        e10.onClick.AddListener(() => buttonUpgrade(e10, e20, 3));
+        e20.onClick.AddListener(() => buttonUpgrade(e20, e30, 3));
+        e30.onClick.AddListener(() => buttonUpgrade(e30, e40, 3));
+        e40.onClick.AddListener(() => buttonUpgrade(e40, e50, 3));
+        e50.onClick.AddListener(() => buttonUpgrade(e50, e50, 3));
 
-        tc10.onClick.AddListener(() => buttonUpgrade(tc10, tc20, GameManager.instance.turretCost));
-        tc20.onClick.AddListener(() => buttonUpgrade(tc20, tc30, GameManager.instance.turretCost));
-        tc30.onClick.AddListener(() => buttonUpgrade(tc30, tc40, GameManager.instance.turretCost));
-        tc40.onClick.AddListener(() => buttonUpgrade(tc40, tc50, GameManager.instance.turretCost));
-        tc50.onClick.AddListener(() => buttonUpgrade(tc50, tc50, GameManager.instance.turretCost));
+        tc10.onClick.AddListener(() => buttonUpgrade(tc10, tc20, 4));
+        tc20.onClick.AddListener(() => buttonUpgrade(tc20, tc30, 4));
+        tc30.onClick.AddListener(() => buttonUpgrade(tc30, tc40, 4));
+        tc40.onClick.AddListener(() => buttonUpgrade(tc40, tc50, 4));
+        tc50.onClick.AddListener(() => buttonUpgrade(tc50, tc50, 4));
 
-        td10.onClick.AddListener(() => buttonUpgrade(td10, td20, GameManager.instance.turretDamage));
-        td20.onClick.AddListener(() => buttonUpgrade(td20, td30, GameManager.instance.turretDamage));
-        td30.onClick.AddListener(() => buttonUpgrade(td30, td40, GameManager.instance.turretDamage));
-        td40.onClick.AddListener(() => buttonUpgrade(td40, td50, GameManager.instance.turretDamage));
-        td50.onClick.AddListener(() => buttonUpgrade(td50, td50, GameManager.instance.turretDamage));
+        td10.onClick.AddListener(() => buttonUpgrade(td10, td20, 5));
+        td20.onClick.AddListener(() => buttonUpgrade(td20, td30, 5));
+        td30.onClick.AddListener(() => buttonUpgrade(td30, td40, 5));
+        td40.onClick.AddListener(() => buttonUpgrade(td40, td50, 5));
+        td50.onClick.AddListener(() => buttonUpgrade(td50, td50, 5));
 
-        tr10.onClick.AddListener(() => buttonUpgrade(tr10, tr20, GameManager.instance.turretRadius));
-        tr20.onClick.AddListener(() => buttonUpgrade(tr20, tr30, GameManager.instance.turretRadius));
-        tr30.onClick.AddListener(() => buttonUpgrade(tr30, tr40, GameManager.instance.turretRadius));
-        tr40.onClick.AddListener(() => buttonUpgrade(tr40, tr50, GameManager.instance.turretRadius));
-        tr50.onClick.AddListener(() => buttonUpgrade(tr50, tr50, GameManager.instance.turretRadius));
+        tr10.onClick.AddListener(() => buttonUpgrade(tr10, tr20, 6));
+        tr20.onClick.AddListener(() => buttonUpgrade(tr20, tr30, 6));
+        tr30.onClick.AddListener(() => buttonUpgrade(tr30, tr40, 6));
+        tr40.onClick.AddListener(() => buttonUpgrade(tr40, tr50, 6));
+        tr50.onClick.AddListener(() => buttonUpgrade(tr50, tr50, 6));
 
-        rr10.onClick.AddListener(() => buttonUpgrade(rr10, rr20, GameManager.instance.RocketRadius));
-        rr20.onClick.AddListener(() => buttonUpgrade(rr20, rr30, GameManager.instance.RocketRadius));
-        rr30.onClick.AddListener(() => buttonUpgrade(rr30, rr40, GameManager.instance.RocketRadius));
-        rr40.onClick.AddListener(() => buttonUpgrade(rr40, rr50, GameManager.instance.RocketRadius));
-        rr50.onClick.AddListener(() => buttonUpgrade(rr50, rr50, GameManager.instance.RocketRadius));
+        rr10.onClick.AddListener(() => buttonUpgrade(rr10, rr20, 7));
+        rr20.onClick.AddListener(() => buttonUpgrade(rr20, rr30, 7));
+        rr30.onClick.AddListener(() => buttonUpgrade(rr30, rr40, 7));
+        rr40.onClick.AddListener(() => buttonUpgrade(rr40, rr50, 7));
+        rr50.onClick.AddListener(() => buttonUpgrade(rr50, rr50, 7));
     }
 
 	// Update is called once per frame
@@ -159,7 +159,14 @@ public class MenuManager : MonoBehaviour {
             b2.interactable = true; // Enable next upgrade
             b1.GetComponent<Image>().color = b1.colors.pressedColor;
             b1.interactable = false; // Disable current upgrade
-            upg += 10; // Increase by 10 percent
+            if(upg == 0) {
+                foreach(Weapon w in GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons) {
+                    w.timeToShoot -= w.timeToShoot * 0.1f;
+                }
+            }
+            
+
+            
             GameManager.instance.upgrades--; //Remove one upgrade point
         }
     }
