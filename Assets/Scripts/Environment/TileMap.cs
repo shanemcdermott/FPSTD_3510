@@ -98,7 +98,7 @@ public class TileMap : MonoBehaviour
 				if (grid[j,i] == false) {
 					nodeGrid [j, i] = new Node(true);
 				} else {
-					nodeGrid [j, i] = new Node (i, j, (Mathf.Abs (tx - i) + Mathf.Abs (tz - j))); //new; supreme arson; 
+					nodeGrid [j, i] = new Node (i, j, (Mathf.Abs (tx - i) + Mathf.Abs (tz - j)));
 				}
 			}
 		}
@@ -341,7 +341,7 @@ public class TileMap : MonoBehaviour
 			for (int x = 0; x < xlen; x++) {
 				for (int z = 0; z < zlen; z++) {
 
-					Vector3 center = new Vector3 (tileWidth * x, tileWidth * 0.5f, tileWidth * z) + gameObject.transform.position;
+					Vector3 center = new Vector3 (tileWidth * x, tileWidth * 0.5f, tileWidth * z) + this.transform.position;
 					Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
 
 					if (tileMap [z, x].GetComponent<Tile>().HasWall()) {

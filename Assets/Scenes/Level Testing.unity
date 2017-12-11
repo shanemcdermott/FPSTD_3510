@@ -368,7 +368,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1249810299805272, guid: ee813eadaf72e438896570f6d5121a12, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee813eadaf72e438896570f6d5121a12, type: 2}
@@ -490,7 +490,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4359254115434328, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 220
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4359254115434328, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
       propertyPath: m_LocalPosition.y
@@ -498,7 +498,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4359254115434328, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 200
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 4359254115434328, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
       propertyPath: m_LocalRotation.x
@@ -527,12 +527,12 @@ Prefab:
     - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
         type: 2}
       propertyPath: width
-      value: 45
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
         type: 2}
       propertyPath: height
-      value: 45
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 1527705108798808, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
       propertyPath: m_IsActive
@@ -566,7 +566,7 @@ Prefab:
     - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
         type: 2}
       propertyPath: tileWidth
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}

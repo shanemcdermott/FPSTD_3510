@@ -35,9 +35,12 @@ public class Wall : MonoBehaviour, IFocusable {
     public void PlaceTurret(GameObject turretToPlace, TurretType type)
     {
         turret = turretToPlace;
-        Vector3 turPosition = new Vector3(0,0.25f,0);
+		//this.transform.lossyScale.y * 0.25
+		Vector3 turPosition = new Vector3(0,this.transform.lossyScale.y * 0.5f,0);
+
         placedTurret = Instantiate(turret, turPosition+transform.position, Quaternion.identity);
         placedTurret.transform.parent = transform;
+		placedTurret.transform.localScale = new Vector3(1, 1, 1);
         placedTurret.AddComponent<BoxCollider>();
         BoxCollider turretCollider = placedTurret.GetComponent<BoxCollider>();
         turretCollider.center += new Vector3(0, 0.5f, 0);

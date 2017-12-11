@@ -58,6 +58,7 @@ public class MapFactory : MonoBehaviour
     {
         GameObject boardObject = new GameObject("TileBoard");
         map = boardObject.AddComponent<TileMap>();
+		map.transform.position = this.transform.position;
         board = boardObject.transform;
 
         //map.setMapSize(width, height);
