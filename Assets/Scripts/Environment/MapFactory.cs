@@ -86,10 +86,10 @@ public class MapFactory : MonoBehaviour
 		map.findPath (); 
 		addBorder ();
 
-		addBlockOfWalls (10, 0, 10, 10);
+		//addBlockOfWalls (10, 0, 10, 10);
 		//addBlockOfWalls (15, 5, 15, 14);
 		//addBlockOfWalls (20, 0, 20, 10);
-		addBlockOfWalls (25, 5, 25, 14);
+		//addBlockOfWalls (25, 5, 25, 14);
 
 
 
