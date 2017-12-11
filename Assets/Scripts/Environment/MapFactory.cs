@@ -71,6 +71,7 @@ public class MapFactory : MonoBehaviour
 				Vector3 p = this.transform.position;
 				GameObject instance = Instantiate(toInstantiate, new Vector3(x * tileWidth + p.x, 0f + p.y, z * tileWidth + p.z), Quaternion.identity) as GameObject;
                 instance.transform.SetParent(board);
+				instance.transform.localScale = new Vector3(tileWidth, tileWidth, tileWidth);
 				instance.GetComponent<Tile>().setCoordinates (x, z);
                 map.setTileAt(x,z,instance);
 
