@@ -338,10 +338,10 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     void OnGUI()
     {
-        int size = 12;
-        float posx = fpsCamera.pixelWidth / 2 - size / 4;
-        float posy = fpsCamera.pixelHeight / 2 - size / 2;
-        GUI.Label(new Rect(posx, posy, size, size), "*");
+//        int size = 12;
+//        float posx = fpsCamera.pixelWidth / 2 - size / 4;
+//        float posy = fpsCamera.pixelHeight / 2 - size / 2;
+//        GUI.Label(new Rect(posx, posy, size, size), "*");
 
         //size = 48;
         //string str = string.Format(" {0} / {1} ", weapon.GetBulletsInMag(), weapon.bulletsPerMag);
