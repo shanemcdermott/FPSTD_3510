@@ -2223,6 +2223,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &1713201365302356
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4414744993777678}
+  m_Layer: 0
+  m_Name: RocketSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1719408813513006
 GameObject:
   m_ObjectHideFlags: 1
@@ -3280,6 +3295,19 @@ Transform:
   m_Father: {fileID: 4848033548757004}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4414744993777678
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1713201365302356}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: -0.428, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4976484336300716}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4441415154179048
 Transform:
   m_ObjectHideFlags: 1
@@ -3361,7 +3389,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4976484336300716}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4770265913425096
 Transform:
@@ -3474,6 +3502,7 @@ Transform:
   m_Children:
   - {fileID: 4644746643908552}
   - {fileID: 4660223228179358}
+  - {fileID: 4414744993777678}
   - {fileID: 4709266441606532}
   m_Father: {fileID: 4055456333566122}
   m_RootOrder: 0
@@ -4732,6 +4761,7 @@ MonoBehaviour:
   timeToDisplayEffects: 0.2
   timeToEquip: 0.5
   timeToUnEquip: 0.5
+  isTrace: 0
   usesAmmo: 0
   gunParticles: {fileID: 198773883627637724}
   gunAudio: {fileID: 82437079554610316}
@@ -4743,7 +4773,7 @@ MonoBehaviour:
   damagePerShot: 20
   range: 100
   scopeOverlay: {fileID: 0}
-  crosshair: {fileID: 0}
+  crosshair: {fileID: 1599610380057156, guid: 6923cfaa743e02d47b01ddbce4478791, type: 2}
   weaponCamera: {fileID: 1706466167547566}
   scopedFOV: 15
 --- !u!114 &114011019693622826
@@ -5086,14 +5116,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 0.428}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9cf2703dd1d0eea46a285d44023b3dbc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf52e57b207c2c64eb4b5947ca4217bf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5236,7 +5266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 0.428}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5486,7 +5516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 0.428}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5513,7 +5543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 0.428}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5919,7 +5949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 0.428}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6230,14 +6260,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 0.428}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9cf2703dd1d0eea46a285d44023b3dbc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf52e57b207c2c64eb4b5947ca4217bf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6265,6 +6295,7 @@ MonoBehaviour:
   timeToDisplayEffects: 0.2
   timeToEquip: 0.5
   timeToUnEquip: 0.5
+  isTrace: 0
   usesAmmo: 0
   gunParticles: {fileID: 198516407474352236}
   gunAudio: {fileID: 82772742931592818}
@@ -6275,9 +6306,13 @@ MonoBehaviour:
   recoil: 0
   projectileToLaunch: {fileID: 1784687609608882, guid: 191777523e33eb945af823cb4bbc810b,
     type: 2}
-  rocketSpawner: {fileID: 1856179110513924}
+  rocketSpawner: {fileID: 1713201365302356}
   launchSpeed: 50
   fireOffset: 2
+  damage: 20
+  radius: 100
+  power: 10000
+  lift: 300
 --- !u!114 &114230862736116674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6472,7 +6507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 0.428}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7747,7 +7782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 0.428}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7869,6 +7904,7 @@ MonoBehaviour:
   timeToDisplayEffects: 0.2
   timeToEquip: 0.5
   timeToUnEquip: 0.5
+  isTrace: 0
   usesAmmo: 0
   gunParticles: {fileID: 198845797868329746}
   gunAudio: {fileID: 82261110526978052}
@@ -8117,14 +8153,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 0.428}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9cf2703dd1d0eea46a285d44023b3dbc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf52e57b207c2c64eb4b5947ca4217bf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9501,14 +9537,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.006896496, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.006896496, b: 1, a: 0.428}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9cf2703dd1d0eea46a285d44023b3dbc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf52e57b207c2c64eb4b5947ca4217bf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9697,6 +9733,8 @@ MonoBehaviour:
   canPlace: {fileID: 2100000, guid: 6b5c24d7a55839944bc4415eb3395d10, type: 2}
   cantPlace: {fileID: 2100000, guid: 2cc03082a5ed39b48989495e27eca771, type: 2}
   currentTurretType: 0
+  turretCost: 100
+  wallCost: 50
   isPlacing: 0
   health: {fileID: 114476238838074334}
   transparentStuff: []
@@ -10997,6 +11035,7 @@ MonoBehaviour:
   timeToDisplayEffects: 0.2
   timeToEquip: 0.5
   timeToUnEquip: 0.5
+  isTrace: 0
   usesAmmo: 0
   gunParticles: {fileID: 198397289335179012}
   gunAudio: {fileID: 82194717124652772}
