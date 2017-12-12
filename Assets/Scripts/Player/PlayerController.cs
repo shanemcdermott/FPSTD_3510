@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     GameObject currentTurret;
     public TurretType currentTurretType;
+    public int turretCost = 100;
+    public int wallCost = 50;
 
     public bool isPlacing;
     int currentFunds;
@@ -233,15 +235,22 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                     {
                         if (!tileTarget.HasWall())
                         {
-                            tileTarget.getParentTileMap().PlaceWallHere(tileTarget.getXPos(), tileTarget.getZPos());
-                            currentFunds -= 10;
+                            if (wallCost <= GameManager.instance.crystals)
+                            {
+                                tileTarget.getParentTileMap().PlaceWallHere(tileTarget.getXPos(), tileTarget.getZPos());
+                                GameManager.instance.crystals -= wallCost;
+                            }
                         }
                     }
                     else if (wallTarget != null)
                     {
                         if (!wallTarget.HasTurret())
                         {
-                            wallTarget.PlaceTurret(currentTurret, currentTurretType);
+                            if (turretCost <= GameManager.instance.crystals)
+                            {
+                                wallTarget.PlaceTurret(currentTurret, currentTurretType);
+                                GameManager.instance.crystals -= turretCost;
+                            }
                         }
 
                     }

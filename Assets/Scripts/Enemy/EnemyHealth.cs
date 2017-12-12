@@ -64,7 +64,7 @@ public class EnemyHealth : HealthComponent
 
         
         GetComponent<Animator>().SetBool("isDead", true);
-
+        GameManager.instance.crystals += 30;
         if (enemyAudio != null)
         {
             if (enemyAudio.isPlaying)

@@ -194,7 +194,20 @@ public class MenuManager : MonoBehaviour {
                     }
                 }
             }
-            
+            else if (upg == 3)
+            {
+                foreach (Weapon w in GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons)
+                {
+                    w.gameObject.SetActive(true);
+                    w.timeToEquip -= w.timeToEquip * 0.1f;
+                    w.timeToUnEquip -= w.timeToUnEquip * 0.1f;
+                }
+            }
+            else if (upg == 4)
+            {
+                GameManager.instance.GetPlayer().GetComponent<PlayerController>().turretCost -= (int)(GameManager.instance.GetPlayer().GetComponent<PlayerController>().turretCost * 0.1f);
+                GameManager.instance.GetPlayer().GetComponent<PlayerController>().wallCost -= (int)(GameManager.instance.GetPlayer().GetComponent<PlayerController>().wallCost * 0.1f);
+            }
 
             
             GameManager.instance.upgrades--; //Remove one upgrade point
