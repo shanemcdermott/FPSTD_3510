@@ -10,10 +10,13 @@ public class PreparingState : GameState
     public override void Enter()
     {
         base.Enter();
-        Invoke("ConsiderStateTransition", preparationTime);
+        preparationTime = 10f;
+        GameManager.instance.currentWave++;
+        GameManager.instance.hud.wave.text = GameManager.instance.currentWave.ToString();
         GameManager.instance.UpdatePhaseText("Build");
         GameManager.instance.GetEnemyManager().enabled = false;
         Debug.Log("Starting Build Phase.");
+        Invoke("ConsiderStateTransition", preparationTime);
     }
 
     public void Update()

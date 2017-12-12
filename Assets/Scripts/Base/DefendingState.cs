@@ -15,12 +15,11 @@ public class DefendingState : GameState
     public override void Enter()
     {
         base.Enter();
+        GameManager.instance.hud.time.text = "";
         enemyManager = GameManager.instance.GetEnemyManager();
         enemyManager.waveSize = waveSize;
         enemyManager.enabled = true;
         GameManager.instance.UpdatePhaseText("Defend!");
-        GameManager.instance.currentWave++;
-        GameManager.instance.hud.wave.text = GameManager.instance.currentWave.ToString();
         Debug.Log("Starting Defend Phase.");
         InvokeRepeating("ConsiderStateTransition", 1f, 1f);
     }
@@ -41,8 +40,6 @@ public class DefendingState : GameState
             return this;
         }
         else if (GameManager.instance.GetNumWavesRemaining() > 1)
-            return buildState;
-        else if (AreObjectivesComplete())
             return victoryState;
         else
             return defeatState;

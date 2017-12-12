@@ -168,13 +168,13 @@ public class MenuManager : MonoBehaviour {
             b2.interactable = true; // Enable next upgrade
             b1.GetComponent<Image>().color = b1.colors.pressedColor;
             b1.interactable = false; // Disable current upgrade
-            if(upg == 0) {
+            if(upg == 0) { //upgrade fire rate for each weapon
                 foreach(Weapon w in GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons) {
                     w.gameObject.SetActive(true);
                     w.timeToShoot -= w.timeToShoot * 0.1f;
                 }
             }
-            else if (upg == 1)
+            else if (upg == 1)// upgrade reload time for each weapon
             {
                 foreach (Weapon w in GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons)
                 {
@@ -182,7 +182,7 @@ public class MenuManager : MonoBehaviour {
                     w.timeToReload -= w.timeToReload * 0.1f;
                 }
             }
-            else if (upg == 2)
+            else if (upg == 2)//upgrade damage for each weapon
             {
                 foreach (Weapon w in GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons)
                 {
@@ -194,7 +194,7 @@ public class MenuManager : MonoBehaviour {
                     }
                 }
             }
-            else if (upg == 3)
+            else if (upg == 3)//upgrade equip time for each weapon
             {
                 foreach (Weapon w in GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons)
                 {
@@ -203,7 +203,7 @@ public class MenuManager : MonoBehaviour {
                     w.timeToUnEquip -= w.timeToUnEquip * 0.1f;
                 }
             }
-            else if (upg == 4)
+            else if (upg == 4)//upgrade turret cost
             {
                 GameManager.instance.GetPlayer().GetComponent<PlayerController>().turretCost -= (int)(GameManager.instance.GetPlayer().GetComponent<PlayerController>().turretCost * 0.1f);
                 GameManager.instance.GetPlayer().GetComponent<PlayerController>().wallCost -= (int)(GameManager.instance.GetPlayer().GetComponent<PlayerController>().wallCost * 0.1f);
@@ -244,36 +244,45 @@ public class MenuManager : MonoBehaviour {
     public void OpenWaveDefeat()
     {
         waveDefeat.SetBool("isHidden", false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0.0f;
     }
 
     public void CloseWaveDefeat()
     {
         waveDefeat.SetBool("isHidden", true);
+        Cursor.visible = false;
         Time.timeScale = 1.0f;
     }
 
     public void OpenWaveVictory()
     {
         waveVictory.SetBool("isHidden", false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0.0f;
     }
 
     public void CloseWaveVictory()
     {
         waveVictory.SetBool("isHidden", true);
+        Cursor.visible = false;
         Time.timeScale = 1.0f;
     }
 
     public void OpenLevelVictory()
     {
         levelVictory.SetBool("isHidden", false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0.0f;
     }
 
     public void CloseLevelVictory()
     {
         levelVictory.SetBool("isHidden", true);
+        Cursor.visible = false;
         Time.timeScale = 1.0f;
     }
 
