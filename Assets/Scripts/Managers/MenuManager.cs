@@ -141,6 +141,10 @@ public class MenuManager : MonoBehaviour {
             upgradeMenu.SetBool("isHidden", false);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[3].StartUnEquipping();
+            GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[2].StartUnEquipping();
+            GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[1].StartUnEquipping();
+            GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[0].StartUnEquipping();
             Time.timeScale = 0.0f;
         }
 
@@ -149,6 +153,11 @@ public class MenuManager : MonoBehaviour {
             upgradeMenu.SetBool("isHidden", true);
             Cursor.visible = false;
             Time.timeScale = 1.0f;
+            GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[3].StartUnEquipping();
+            GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[2].StartUnEquipping();
+            GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[1].StartUnEquipping();
+            GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[0].StartUnEquipping();
+            GameManager.instance.GetPlayer().GetComponent<PlayerController>().EquipWeapon(GameManager.instance.GetPlayer().GetComponent<PlayerController>().currentWeaponType);
         }
     }
 
@@ -161,7 +170,28 @@ public class MenuManager : MonoBehaviour {
             b1.interactable = false; // Disable current upgrade
             if(upg == 0) {
                 foreach(Weapon w in GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons) {
+                    w.gameObject.SetActive(true);
                     w.timeToShoot -= w.timeToShoot * 0.1f;
+                }
+            }
+            else if (upg == 1)
+            {
+                foreach (Weapon w in GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons)
+                {
+                    w.gameObject.SetActive(true);
+                    w.timeToReload -= w.timeToReload * 0.1f;
+                }
+            }
+            else if (upg == 2)
+            {
+                foreach (Weapon w in GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons)
+                {
+                   w.gameObject.SetActive(true);
+                    if (w.isTrace)
+                    {
+                        ((TraceWeapon)w).damagePerShot += (int)(((TraceWeapon)w).damagePerShot * 0.1f);
+                        
+                    }
                 }
             }
             

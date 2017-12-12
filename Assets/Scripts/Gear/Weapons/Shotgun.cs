@@ -12,5 +12,6 @@ public class Shotgun : TraceWeapon {
         bulletsPerMag = 8;
         timeToShoot = 0.7f;
         bulletsInMag = bulletsPerMag;
+        isTrace = true;
     }
 }

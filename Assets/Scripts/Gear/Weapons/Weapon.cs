@@ -21,6 +21,8 @@ public abstract class Weapon : MonoBehaviour, Equipment
     public float timeToEquip = 0.5f;
     /*Amount of time it takes to unequip weapon*/
     public float timeToUnEquip = 0.5f;
+    /*Set to true if this is a trace weapon*/
+    public bool isTrace;
 
     /*Does this weapon consume ammo*/
     public bool usesAmmo = true;
