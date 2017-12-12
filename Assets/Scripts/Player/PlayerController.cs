@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     public IFocusable currentFocusable;
     public GameObject currentFocusedGameObject;
-
     
     void Start()
     {
@@ -42,10 +41,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         Cursor.visible = false;
         currentWeapon = weapons[0];
         currentTurret = turrets[0];
-
         SetupFocusables();
         EquipWeapon(0);
-        
     }
 
     void Awake()
@@ -152,7 +149,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         }
     }
 
-    private void EquipWeapon(int index)
+    public void EquipWeapon(int index)
     {
         currentWeaponType = index;
         float waitTime = currentWeapon.StartUnEquipping();
