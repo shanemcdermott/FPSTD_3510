@@ -28,13 +28,6 @@ public class Turret : MonoBehaviour, IFocusable
 	GameObject target;
 
 
-
-    // Use this for initialization
-    void Start()
-    {
-		
-    }
-
 	void Awake()
 	{
 		mainTransform = null;
@@ -43,21 +36,13 @@ public class Turret : MonoBehaviour, IFocusable
 		yTargRot = 0f;
 		xCurrRot = 0f;
 		yCurrRot = 0f;
-
-
-
 	}
 
 	public void setFocus(TurretFocus foc)
 	{
 		focusType = foc;
 	}
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
+		
 	void FixedUpdate()
 	{
 
@@ -67,9 +52,6 @@ public class Turret : MonoBehaviour, IFocusable
 		if (target != null)
 		{
 			//find the target rotation values
-//			float zDiff = target.transform.position.z - this.transform.position.z;
-//			float yDiff = target.transform.position.y - this.transform.position.y;
-//			float xDiff = target.transform.position.x - this.transform.position.x;
 			Vector3 pos_diff = target.transform.position - this.transform.position;
 			xTargRot = (Mathf.Atan2 (Mathf.Abs(pos_diff.y), Mathf.Sqrt(pos_diff.x * pos_diff.x + pos_diff.z * pos_diff.z)) / Mathf.PI * 180);
 			yTargRot = (Mathf.Atan2 (pos_diff.x, pos_diff.z) / Mathf.PI * 180);
@@ -114,13 +96,7 @@ public class Turret : MonoBehaviour, IFocusable
 
 			foreach (GameObject go in gos)
 			{
-				Vector3 temp = this.transform.position - go.transform.position;
-				float dist = temp.x * temp.x + temp.z * temp.z;
-
-				if (dist > attackRange * attackRange)
-					continue;
-
-				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+				if (!goodCandidate(go))
 					continue;
 				
 				int pathlen = go.GetComponent<EnemyMovement>().getPathLen();
@@ -138,13 +114,7 @@ public class Turret : MonoBehaviour, IFocusable
 
 			foreach (GameObject go in gos)
 			{
-				Vector3 temp = this.transform.position - go.transform.position;
-				float dist = temp.x * temp.x + temp.z * temp.z;
-
-				if (dist > attackRange * attackRange)
-					continue;
-
-				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+				if (!goodCandidate(go))
 					continue;
 
 				int pathlen = go.GetComponent<EnemyMovement>().getPathLen();
@@ -161,13 +131,7 @@ public class Turret : MonoBehaviour, IFocusable
 			int strongest = 0;
 			foreach (GameObject go in gos)
 			{
-				Vector3 temp = this.transform.position - go.transform.position;
-				float dist = temp.x * temp.x + temp.z * temp.z;
-
-				if (dist > attackRange * attackRange)
-					continue;
-
-				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+				if (!goodCandidate(go))
 					continue;
 
 				int temphealth = go.GetComponent<EnemyHealth>().currentHealth;
@@ -184,13 +148,7 @@ public class Turret : MonoBehaviour, IFocusable
 			int weakest = int.MaxValue;
 			foreach (GameObject go in gos)
 			{
-				Vector3 temp = this.transform.position - go.transform.position;
-				float dist = temp.x * temp.x + temp.z * temp.z;
-
-				if (dist > attackRange * attackRange)
-					continue;
-
-				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+				if (!goodCandidate(go))
 					continue;
 
 				int temphealth = go.GetComponent<EnemyHealth>().currentHealth;
@@ -207,12 +165,8 @@ public class Turret : MonoBehaviour, IFocusable
 			foreach (GameObject go in gos)
 			{
 				Vector3 temp = this.transform.position - go.transform.position;
-				float dist = temp.x * temp.x + temp.z * temp.z;
 
-				if (dist > attackRange * attackRange)
-					continue;
-
-				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+				if (!goodCandidate(go))
 					continue;
 
 				if (target == null)
@@ -233,6 +187,20 @@ public class Turret : MonoBehaviour, IFocusable
 			}
 		}
 
+	}
+
+	private bool goodCandidate(GameObject go)
+	{
+		Vector3 temp = this.transform.position - go.transform.position;
+		float dist = temp.x * temp.x + temp.z * temp.z;
+
+		if (dist > attackRange * attackRange)
+			return false;
+
+		if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+			return false;
+
+		return true;
 	}
 
     public void SetupTurret(TurretType turrType)
