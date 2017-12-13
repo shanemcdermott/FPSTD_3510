@@ -53,7 +53,10 @@ public abstract class Weapon : MonoBehaviour, Equipment
         usesAmmo = true;
         recoilMod = new GameObject().transform;
         if(aimTransform == null)
-            aimTransform = mainCamera.transform;
+		{
+			if (mainCamera != null)
+            	aimTransform = mainCamera.transform;
+		}
     }
 
     /// <summary>

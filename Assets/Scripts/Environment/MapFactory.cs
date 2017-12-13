@@ -23,10 +23,10 @@ public class MapFactory : MonoBehaviour
     public int height;
 
 	public int wallsToAdd = 10;
-	public int startx = 4;
-	public int startz = 4;
-	public int targetx = 34;
-	public int targetz = 4;
+	private int startx;
+	private int startz;
+	private int targetx;
+	private int targetz;
 
     /// <summary>
     /// Tile size in meters in X direction.
@@ -78,38 +78,33 @@ public class MapFactory : MonoBehaviour
 				instance.transform.localScale = new Vector3(tileWidth, tileWidth, tileWidth);
 				instance.GetComponent<Tile>().setCoordinates (x, z);
 
-				float h = terrain.terrainData.GetHeight((int)(x * tileWidth + p.x), (int)(z * tileWidth + p.z));
-
-				if (h > 1.5f)
+				if (terrain != null)
 				{
-					//GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-					//go.transform.Translate(new Vector3(x * tileWidth + p.x, h + p.y + 20f, z * tileWidth + p.z));
-					//Debug.Log(h);
-					instance.GetComponent<Tile>().PlaceWall();
-				}
+					float h = terrain.terrainData.GetHeight((int)(x * tileWidth + p.x), (int)(z * tileWidth + p.z));
 
+					if (h > 0.2f)
+					{
+						instance.GetComponent<Tile>().PlaceWall();
+					}
+
+				}
                 map.setTileAt(x,z,instance);
 
             }
         }
 
 		map.setTileWidth (tileWidth);
+
+		map.nodeAtLocation(GameObject.FindGameObjectWithTag("Tower").transform.position, out targetx, out targetz);
+		map.nodeAtLocation(GameObject.FindGameObjectWithTag("EnemySpawn").transform.position, out startx, out startz);
+
 		map.setStartTile (startx, startz);
 		map.setTargetTile (targetx, targetz);
 
 		map.findPath (); 
 		addBorder ();
 
-		//addBlockOfWalls (10, 0, 10, 10);
-		//addBlockOfWalls (15, 5, 15, 14);
-		//addBlockOfWalls (20, 0, 20, 10);
-		//addBlockOfWalls (25, 5, 25, 14);
-
-
-
-		//addSomeWalls (wallsToAdd);
-
-
+		//terrain.gameObject.SetActive(false);
 
     }
 

@@ -225,6 +225,9 @@ public class MenuManager : MonoBehaviour {
     }
 
 	public void ChangeToScene (int sceneToChangeTo) {
+        Time.timeScale = 1.0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Application.LoadLevel(sceneToChangeTo);
 	}
 

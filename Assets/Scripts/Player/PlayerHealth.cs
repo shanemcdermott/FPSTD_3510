@@ -65,6 +65,6 @@ public class PlayerHealth : HealthComponent
 
     public void RestartLevel ()
     {
-        SceneManager.LoadScene (0);
+        //SceneManager.LoadScene (0);
     }
 }

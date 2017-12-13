@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     public IFocusable currentFocusable;
     public GameObject currentFocusedGameObject;
+
+	public TileMap tileMap;
     
     void Start()
     {
@@ -115,7 +117,23 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
             RaycastHit hit;
             if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, placementRange))
             {
-                GameObject newGameObject = hit.transform.gameObject;
+				Vector3 hitloc;
+				if (hit.transform.gameObject.GetComponentInChildren<Wall>() == null)
+				{
+					hitloc = new Vector3(hit.point.x, 0, hit.point.z);
+				}
+				else
+				{
+					hitloc = hit.transform.position;
+				}
+
+
+
+				int x, z;
+				tileMap.nodeAtLocation(hitloc, out x, out z);
+				Tile t = tileMap.getTileAt(x, z);
+
+				GameObject newGameObject = t.gameObject;
                 if(newGameObject != currentFocusedGameObject)
                 {
                     if (currentFocusable != null)
@@ -223,11 +241,25 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
             {
                 if (currentFocusedGameObject != null)
                 {
+					
                     Tile tileTarget = currentFocusedGameObject.GetComponent<Tile>();
-                    Wall wallTarget = currentFocusedGameObject.GetComponent<Wall>();
+                    Wall wallTarget = currentFocusedGameObject.GetComponentInChildren<Wall>();
 
-                    if (tileTarget != null)
+					if (wallTarget != null)
+					{
+						if (!wallTarget.HasTurret())
+						{
+							if (turretCost <= GameManager.instance.crystals)
+							{
+								wallTarget.PlaceTurret(currentTurret, currentTurretType);
+								GameManager.instance.crystals -= turretCost;
+							}
+						}
+
+					}
+                    else if (tileTarget != null)
                     {
+						
                         if (!tileTarget.HasWall())
                         {
                             if (wallCost <= GameManager.instance.crystals)
@@ -237,18 +269,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                             }
                         }
                     }
-                    else if (wallTarget != null)
-                    {
-                        if (!wallTarget.HasTurret())
-                        {
-                            if (turretCost <= GameManager.instance.crystals)
-                            {
-                                wallTarget.PlaceTurret(currentTurret, currentTurretType);
-                                GameManager.instance.crystals -= turretCost;
-                            }
-                        }
-
-                    }
+                    
                 }   
             }
         }
@@ -297,23 +318,9 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     public void TogglePlacementMode()
     {
         isPlacing = !isPlacing;
-        GameObject map = GameManager.instance.GetTileMap().gameObject;
-        Component[] tiles = map.GetComponentsInChildren<Tile>();
-        if (isPlacing)
+
+		if (!isPlacing)
         {
-            foreach (Tile tile in tiles)
-            {
-                Material childMaterial = tile.transform.GetChild(0).transform.GetChild(0).GetComponent<Renderer>().material;
-                childMaterial.color = new Color(childMaterial.color.r + 100, childMaterial.color.g, childMaterial.color.b);
-            }
-        }
-        else
-        {
-            foreach (Tile tile in tiles)
-            {
-                Material childMaterial = tile.transform.GetChild(0).transform.GetChild(0).GetComponent<Renderer>().material;
-                childMaterial.color = new Color(childMaterial.color.r - 100, childMaterial.color.g, childMaterial.color.b);
-            }
             foreach (GameObject transparent in transparentStuff)
             {
                 transparent.SetActive(false);
@@ -333,10 +340,10 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     void OnGUI()
     {
-        int size = 12;
-        float posx = fpsCamera.pixelWidth / 2 - size / 4;
-        float posy = fpsCamera.pixelHeight / 2 - size / 2;
-        GUI.Label(new Rect(posx, posy, size, size), "*");
+//        int size = 12;
+//        float posx = fpsCamera.pixelWidth / 2 - size / 4;
+//        float posy = fpsCamera.pixelHeight / 2 - size / 2;
+//        GUI.Label(new Rect(posx, posy, size, size), "*");
 
         //size = 48;
         //string str = string.Format(" {0} / {1} ", weapon.GetBulletsInMag(), weapon.bulletsPerMag);

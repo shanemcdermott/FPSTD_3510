@@ -10,6 +10,7 @@ public class PreparingState : GameState
     public override void Enter()
     {
         base.Enter();
+        GameManager.instance.GetPlayer().GetComponent<PlayerController>().health.ResetHealth();
         preparationTime = 10f;
         GameManager.instance.currentWave++;
         GameManager.instance.hud.wave.text = GameManager.instance.currentWave.ToString();

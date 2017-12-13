@@ -43,6 +43,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &1628678957338118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4551026809048680}
+  - component: {fileID: 114882657299636794}
+  m_Layer: 0
+  m_Name: LevelVictoryGameState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!1 &1650921511992148
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,8 +135,22 @@ Transform:
   - {fileID: 4718310657020388}
   - {fileID: 4329965464698744}
   - {fileID: 4714559273087318}
+  - {fileID: 4551026809048680}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4551026809048680
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1628678957338118}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4416091760058988}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4691061118426502
 Transform:
@@ -178,18 +208,10 @@ MonoBehaviour:
   mapFactory: {fileID: 0}
   tileMap: {fileID: 0}
   currentWave: 0
-  upgrades: 100
-  crystals: 100
+  upgrades: 0
+  crystals: 150
   waveCrytals: 0
   totalCrytals: 0
-  fireRate: 0
-  reload: 0
-  damage: 0
-  equipTime: 0
-  turretCost: 0
-  turretDamage: 0
-  turretRadius: 0
-  RocketRadius: 0
   difficultyScale: 1
   numWavesInLevel: 10
   endlessMode: 0
@@ -217,6 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aaddf6a200e8844f9d2ef875053d2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  next: {fileID: 114079006166303670}
 --- !u!114 &114620207514591088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -244,6 +267,18 @@ MonoBehaviour:
   buildState: {fileID: 114079006166303670}
   defeatState: {fileID: 114265701783463456}
   victoryState: {fileID: 114620207514591088}
+  levelVictoryState: {fileID: 114882657299636794}
+--- !u!114 &114882657299636794
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1628678957338118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aaebd3e142bbaf4a9e8618499a49773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114928587232897940
 MonoBehaviour:
   m_ObjectHideFlags: 1

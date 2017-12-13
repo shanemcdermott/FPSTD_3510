@@ -44,16 +44,7 @@ public class Turret : MonoBehaviour, IFocusable
 		xCurrRot = 0f;
 		yCurrRot = 0f;
 
-//		this.gameObject.AddComponent<Rifle>();
-//		Rifle r = this.gameObject.GetComponent<Rifle>();
-//
-//		if (headTransform != null)
-//			r.aimTransform = headTransform;
-//		else
-//			r.aimTransform = this.transform;
-//
-//
-//		equipment = r;
+
 
 	}
 
@@ -75,46 +66,47 @@ public class Turret : MonoBehaviour, IFocusable
 		//aim turret
 		if (target != null)
 		{
-			float zDiff = target.transform.position.z - this.transform.position.z;
-			float yDiff = target.transform.position.y - this.transform.position.y;
-			float xDiff = target.transform.position.x - this.transform.position.x;
-			xTargRot = (Mathf.Atan2 (Mathf.Abs(yDiff), Mathf.Sqrt(xDiff * xDiff + zDiff * zDiff)) / Mathf.PI * 180);
-			yTargRot = (Mathf.Atan2 (xDiff, zDiff) / Mathf.PI * 180);
-
-
-			float xtemp = xTargRot - xCurrRot;
-			if (xtemp > 180)
-				xtemp -= 360;
-
-			float ytemp = yTargRot - yCurrRot;
-			if (ytemp > 180)
-				ytemp -= 360;
-
-			xtemp = Mathf.Clamp(xtemp, rotationSpeed * Time.deltaTime * -1, rotationSpeed * Time.deltaTime);
-			ytemp = Mathf.Clamp(ytemp, rotationSpeed * Time.deltaTime * -1, rotationSpeed * Time.deltaTime);
-
-
-			xCurrRot += xtemp;
-			yCurrRot += ytemp;
-									
-			if (mainTransform != null)
-				mainTransform.localEulerAngles = new Vector3 (0, yCurrRot, 0);
-			
-			if (headTransform != null)
-				headTransform.transform.localEulerAngles = new Vector3(xCurrRot, 0, 0);
-
+			//find the target rotation values
+//			float zDiff = target.transform.position.z - this.transform.position.z;
+//			float yDiff = target.transform.position.y - this.transform.position.y;
+//			float xDiff = target.transform.position.x - this.transform.position.x;
+			Vector3 pos_diff = target.transform.position - this.transform.position;
+			xTargRot = (Mathf.Atan2 (Mathf.Abs(pos_diff.y), Mathf.Sqrt(pos_diff.x * pos_diff.x + pos_diff.z * pos_diff.z)) / Mathf.PI * 180);
+			yTargRot = (Mathf.Atan2 (pos_diff.x, pos_diff.z) / Mathf.PI * 180);
 
 		}
+		else
+		{
+			xTargRot = 0;
+		}
+
+		//calculate how much the turret can move based on rotation speed
+		float x_rot_delta = xTargRot - xCurrRot > 180 ? xTargRot - xCurrRot - 360 : xTargRot - xCurrRot;
+		float y_rot_delta = yTargRot - yCurrRot > 180 ? yTargRot - yCurrRot - 360 : yTargRot - yCurrRot;
+		float speed = target == null ? rotationSpeed / 4 : rotationSpeed; //move slower if no target
+		x_rot_delta = Mathf.Clamp(x_rot_delta, rotationSpeed * Time.deltaTime * -1, speed * Time.deltaTime);
+		y_rot_delta = Mathf.Clamp(y_rot_delta, rotationSpeed * Time.deltaTime * -1, speed * Time.deltaTime);
+
+		//update the current rotation values and rotate the transforms
+		xCurrRot += x_rot_delta;
+		yCurrRot += y_rot_delta;					
+		if (mainTransform != null)
+			mainTransform.localEulerAngles = new Vector3 (0, yCurrRot, 0);
+		if (headTransform != null)
+			headTransform.transform.localEulerAngles = new Vector3(xCurrRot, 0, 0);
+		
 
 
 		//TODO: better shooting at target
-		//equipment.Activate();
+		if (equipment != null)
+			equipment.Activate();
 
 	}
 
 	public void selectTarget()
 	{
 		GameObject [] gos = GameObject.FindGameObjectsWithTag("Enemy");
+		target = null;
 
 		if (focusType == TurretFocus.first)
 		{
@@ -122,6 +114,15 @@ public class Turret : MonoBehaviour, IFocusable
 
 			foreach (GameObject go in gos)
 			{
+				Vector3 temp = this.transform.position - go.transform.position;
+				float dist = temp.x * temp.x + temp.z * temp.z;
+
+				if (dist > attackRange * attackRange)
+					continue;
+
+				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+					continue;
+				
 				int pathlen = go.GetComponent<EnemyMovement>().getPathLen();
 				if (pathlen < shortestPath)
 				{
@@ -137,6 +138,15 @@ public class Turret : MonoBehaviour, IFocusable
 
 			foreach (GameObject go in gos)
 			{
+				Vector3 temp = this.transform.position - go.transform.position;
+				float dist = temp.x * temp.x + temp.z * temp.z;
+
+				if (dist > attackRange * attackRange)
+					continue;
+
+				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+					continue;
+
 				int pathlen = go.GetComponent<EnemyMovement>().getPathLen();
 				if (pathlen > longestPath)
 				{
@@ -151,6 +161,15 @@ public class Turret : MonoBehaviour, IFocusable
 			int strongest = 0;
 			foreach (GameObject go in gos)
 			{
+				Vector3 temp = this.transform.position - go.transform.position;
+				float dist = temp.x * temp.x + temp.z * temp.z;
+
+				if (dist > attackRange * attackRange)
+					continue;
+
+				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+					continue;
+
 				int temphealth = go.GetComponent<EnemyHealth>().currentHealth;
 				if (temphealth > strongest)
 				{
@@ -165,6 +184,15 @@ public class Turret : MonoBehaviour, IFocusable
 			int weakest = int.MaxValue;
 			foreach (GameObject go in gos)
 			{
+				Vector3 temp = this.transform.position - go.transform.position;
+				float dist = temp.x * temp.x + temp.z * temp.z;
+
+				if (dist > attackRange * attackRange)
+					continue;
+
+				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+					continue;
+
 				int temphealth = go.GetComponent<EnemyHealth>().currentHealth;
 				if (temphealth < weakest)
 				{
@@ -179,6 +207,14 @@ public class Turret : MonoBehaviour, IFocusable
 			foreach (GameObject go in gos)
 			{
 				Vector3 temp = this.transform.position - go.transform.position;
+				float dist = temp.x * temp.x + temp.z * temp.z;
+
+				if (dist > attackRange * attackRange)
+					continue;
+
+				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
+					continue;
+
 				if (target == null)
 				{
 					target = go;
@@ -211,9 +247,20 @@ public class Turret : MonoBehaviour, IFocusable
             case TurretType.rifleTurret:
                 cost = 10;
                 attackRadius = 0;
-                attackRange = 100;
+                attackRange = 30;
                 fireRate = 0.15f;
                 damage = 100;
+
+				this.gameObject.AddComponent<Rifle>();
+				Rifle r = this.gameObject.GetComponent<Rifle>();
+		
+				if (headTransform != null)
+					r.aimTransform = headTransform;
+				else
+					r.aimTransform = this.transform;
+
+				equipment = r;
+
                 break;
             case TurretType.rocketTurret:
                 cost = 10;
