@@ -12,6 +12,9 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 	private TileMap map;
 	public GameObject target;
 	private Vector3[] pathToTarget;
+	private int pathIndex;
+	Vector3 nextPosition = new Vector3();
+
 
 	public float playerTargetingDistance;
 
@@ -45,58 +48,100 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 
     void FixedUpdate ()
 	{
-		//increment framenum
-		framenum++;
-
-		//this might change if the enemy changes or if the size of the tiles are changed
+		if (map == null)
+			return;
+		
 		Vector3 realpos = this.transform.position + new Vector3(0.5f, 0, 0.5f);
 
-		//check to see if the enemies position has changed
-		bool poschanged = false;
-		if (map != null)
-			map.nodeAtLocation(realpos, out currentx, out currentz);
-		if (lastx != currentx || lastz != currentz)
+		if (target == null || pathToTarget == null)
 		{
-			poschanged = true;
-			lastx = currentx;
-			lastz = currentz;
+			if (tower == null)
+				tower = GameObject.FindGameObjectWithTag ("Tower");
+			target = tower;
+			pathToTarget = map.getVector3Path(realpos, target.transform.position);
+			pathIndex = 0;
+			nextPosition = pathToTarget[pathIndex];
 		}
 
-		//select target if target is null or every 10 frames (10 was arbitrarily chosen)
-		if (framenum % 10 == 0 || target == null)
-			selectTarget ();
+		int x, z;
+		map.nodeAtLocation(realpos, out x, out z);
 
-		//calculate the path when things arent null and node position has changed (or there is no path)
-		if (map != null && target != null)
-			if (poschanged || pathToTarget == null)
-				pathToTarget = map.getVector3Path(realpos, target.transform.position);
-		
-
-		if (pathToTarget == null) {
-
-				if (target == null)
-					Debug.Log ("null target!!");
-
-				if (map == null)
-					Debug.Log ("null map!!");
-				
-				if (map != null && target != null)
-					Debug.Log ("No path to target");
-
-				GetComponent<Animator>().SetBool("isWalking", false);
-
-
-			return;
+		int pathx, pathz;
+		map.nodeAtLocation(pathToTarget[pathIndex], out pathx, out pathz);
+		if (pathx == x && pathz == z)
+		{
+			
+			if (pathIndex + 1 < pathToTarget.Length)
+			{
+				pathIndex++;
+				nextPosition = pathToTarget[pathIndex];
+			}
+			else
+			{
+				nextPosition = target.transform.position;
+			}
 		}
 
 
-		//if the path is less than 3, we want to move straight there
-		Vector3 nextPosition = target.transform.position;
 
-		//if the path is 3 or greater, move to the second path location (path is recalculated every time location changes)
-		if (pathToTarget.Length > 2)
-			nextPosition = pathToTarget[1];
-        
+
+
+
+
+//		//increment framenum
+//		framenum++;
+//
+//		//this might change if the enemy changes or if the size of the tiles are changed
+//		Vector3 realpos = this.transform.position + new Vector3(0.5f, 0, 0.5f);
+//
+//		//check to see if the enemies position has changed
+//		bool poschanged = false;
+//		if (map != null)
+//			map.nodeAtLocation(realpos, out currentx, out currentz);
+//		if (lastx != currentx || lastz != currentz)
+//		{
+//			poschanged = true;
+//			lastx = currentx;
+//			lastz = currentz;
+//		}
+//
+//		//select target if target is null or every 10 frames (10 was arbitrarily chosen)
+//		if (framenum % 10 == 0 || target == null)
+//			selectTarget ();
+//
+//		//calculate the path when things arent null and node position has changed (or there is no path)
+//		if (map != null && target != null)
+//			if (poschanged || pathToTarget == null)
+//				pathToTarget = map.getVector3Path(realpos, target.transform.position);
+//		
+//
+//		if (pathToTarget == null) {
+//
+//				if (target == null)
+//					Debug.Log ("null target!!");
+//
+//				if (map == null)
+//					Debug.Log ("null map!!");
+//				
+//				if (map != null && target != null)
+//					Debug.Log ("No path to target");
+//
+//				GetComponent<Animator>().SetBool("isWalking", false);
+//
+//
+//			return;
+//		}
+//
+//
+//		//if the path is less than 3, we want to move straight there
+//		Vector3 nextPosition = target.transform.position;
+//
+//		//if the path is 3 or greater, move to the second path location (path is recalculated every time location changes)
+//		if (pathToTarget.Length > 2)
+//			nextPosition = pathToTarget[1];
+
+
+
 		float zDiff = nextPosition.z - this.transform.position.z;
 		float xDiff = nextPosition.x - this.transform.position.x;
         this.transform.localEulerAngles = new Vector3(0, (Mathf.Atan2(xDiff, zDiff) / Mathf.PI * 180), 0);
