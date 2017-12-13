@@ -12,6 +12,7 @@ TagManager:
   - TileMap
   - MapMaker
   - Terrain
+  - EnemySpawn
   layers:
   - Default
   - TransparentFX

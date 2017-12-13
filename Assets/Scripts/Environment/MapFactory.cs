@@ -23,10 +23,10 @@ public class MapFactory : MonoBehaviour
     public int height;
 
 	public int wallsToAdd = 10;
-	public int startx = 4;
-	public int startz = 4;
-	public int targetx = 34;
-	public int targetz = 4;
+	private int startx;
+	private int startz;
+	private int targetx;
+	private int targetz;
 
     /// <summary>
     /// Tile size in meters in X direction.
@@ -106,7 +106,7 @@ public class MapFactory : MonoBehaviour
 				{
 					float h = terrain.terrainData.GetHeight((int)(x * tileWidth + p.x), (int)(z * tileWidth + p.z));
 
-					if (h > 1.5f)
+					if (h > 0.2f)
 					{
 						instance.GetComponent<Tile>().PlaceWall();
 					}
@@ -118,22 +118,17 @@ public class MapFactory : MonoBehaviour
         }
 
 		map.setTileWidth (tileWidth);
+
+		map.nodeAtLocation(GameObject.FindGameObjectWithTag("Tower").transform.position, out targetx, out targetz);
+		map.nodeAtLocation(GameObject.FindGameObjectWithTag("EnemySpawn").transform.position, out startx, out startz);
+
 		map.setStartTile (startx, startz);
 		map.setTargetTile (targetx, targetz);
 
 		map.findPath (); 
 		addBorder ();
 
-		//addBlockOfWalls (10, 0, 10, 10);
-		//addBlockOfWalls (15, 5, 15, 14);
-		//addBlockOfWalls (20, 0, 20, 10);
-		//addBlockOfWalls (25, 5, 25, 14);
-
-
-
-		//addSomeWalls (wallsToAdd);
-
-
+		//terrain.gameObject.SetActive(false);
 
     }
 

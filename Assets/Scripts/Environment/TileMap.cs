@@ -181,6 +181,53 @@ public class TileMap : MonoBehaviour
 		nodeAtLocation (target, out tx, out tz);
 		return getVector3Path (AStar (getBoolGridFromTileMap (), sx, sz, tx, tz));
 	}
+
+	/// <summary>
+	/// Takes an input path made up of nodes and returns a smoothed output path.
+	/// </summary>
+	/// <param name="inputPath">
+	/// The path that will be smoothed. Length should be > 2.
+	/// </param>
+	/// <returns>
+	/// The smoothed version of the input path.
+	/// </returns>
+	public Vector3[] SmoothPath(Vector3[] inputPath)
+	{
+		//If the input path isn't at least 3 nodes in length, we can't smooth it.
+		if (inputPath.Length <= 2) return inputPath;
+
+		//Create the output path
+		List<Vector3> outputPath = new List<Vector3>();
+		outputPath.Add(inputPath[0]);
+
+
+		//Keep track of where we are in the input path.
+		//We start at the third node, because we assume two adjacent nodes will pass the ray cast.
+		for(int inputIndex = 2; inputIndex < inputPath.Length -1; inputIndex++)
+		{
+			Vector3 direction = outputPath[outputPath.Count-1] - inputPath[inputIndex];
+			float distance = Vector3.Distance(inputPath[inputIndex], outputPath[outputPath.Count-1]);
+
+			//Perform a raycast from the current point to the previous output point. 
+			if(Physics.Raycast(inputPath[inputIndex],direction, distance))
+			{
+				//There's not a clear line between these points, so add the previous node to the output.
+				outputPath.Add(inputPath[inputIndex-1]);
+			}
+
+		}
+
+		//Add the end node of the inputPath to the smoothed outputPath and return it.
+		outputPath.Add(inputPath[inputPath.Length - 1]);
+
+		Vector3[] realOut = new Vector3 [outputPath.Count];
+
+		outputPath.CopyTo(realOut);
+
+
+		return realOut;
+
+	}
 		
 	private Vector3[] getVector3Path(Node[] path)
 	{
@@ -234,8 +281,6 @@ public class TileMap : MonoBehaviour
 		tileMap [z, x].GetComponent<Tile> ().DestroyWall ();
 
 		//always recalc the path after wall removal
-		//findPath (); //this doesn't work for some reason, I think it's because of Destroy wall
-		//workaround:
 		bool[,] psudogrid = getBoolGridFromTileMap();
 		psudogrid [z, x] = true;
 		path = AStar(psudogrid, startx, startz, targetx, targetz);
