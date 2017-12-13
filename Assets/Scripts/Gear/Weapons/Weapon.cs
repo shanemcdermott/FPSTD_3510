@@ -80,22 +80,21 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public void Recoil()
     {
-		//return; //temporary fix!!
-        if (recoil > 0)
-        {
-            var maxRecoil = Quaternion.Euler(maxRecoil_x, 0, 0);
-            // Dampen towards the target rotation
-            recoilMod.rotation = Quaternion.Slerp(recoilMod.rotation, maxRecoil, Time.deltaTime * recoilSpeed);
-            mainCamera.transform.Rotate(recoilMod.rotation.eulerAngles);
-            recoil -= Time.deltaTime;
-        }
-        else
-        {
-            recoil = 0;
-            var minRecoil = Quaternion.Euler(0, 0, 0);
-            recoilMod.rotation = Quaternion.Slerp(recoilMod.rotation, minRecoil, Time.deltaTime * recoilSpeed / 2);
-            mainCamera.transform.Rotate(recoilMod.rotation.eulerAngles);
-        }
+//        if (recoil > 0)
+//        {
+//            var maxRecoil = Quaternion.Euler(maxRecoil_x, 0, 0);
+//            // Dampen towards the target rotation
+//            recoilMod.rotation = Quaternion.Slerp(recoilMod.rotation, maxRecoil, Time.deltaTime * recoilSpeed);
+//            mainCamera.transform.Rotate(recoilMod.rotation.eulerAngles);
+//            recoil -= Time.deltaTime;
+//        }
+//        else
+//        {
+//            recoil = 0;
+//            var minRecoil = Quaternion.Euler(0, 0, 0);
+//            recoilMod.rotation = Quaternion.Slerp(recoilMod.rotation, minRecoil, Time.deltaTime * recoilSpeed / 2);
+//            mainCamera.transform.Rotate(recoilMod.rotation.eulerAngles);
+//        }
     }
 
     public void SetCurrentState(WeaponState newState)
