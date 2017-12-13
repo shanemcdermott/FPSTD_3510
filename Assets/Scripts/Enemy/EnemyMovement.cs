@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 {
 	private bool giz = true;
-	private int framenum;
+//	private int framenum;
 
     public float speed;
 
@@ -19,10 +20,10 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 	public float playerTargetingDistance;
 
 
-	private int lastx;
-	private int lastz;
-	private int currentx;
-	private int currentz;
+//	private int lastx;
+//	private int lastz;
+//	private int currentx;
+//	private int currentz;
 
 	GameObject player;
 	GameObject tower;
@@ -30,12 +31,12 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
     void Awake ()
     {
         GetComponent<HealthComponent>().RegisterDeathResponder(this);
-		framenum = 0;
-
-		lastx = 0;
-		lastz = 0;
-		currentx = 0;
-		currentz = 0;
+//		framenum = 0;
+//
+//		lastx = 0;
+//		lastz = 0;
+//		currentx = 0;
+//		currentz = 0;
 
 
     }
@@ -44,6 +45,7 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
     {
         target = targetObject;
     }
+
 
 
     void FixedUpdate ()
@@ -59,6 +61,7 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 				tower = GameObject.FindGameObjectWithTag ("Tower");
 			target = tower;
 			pathToTarget = map.getVector3Path(realpos, target.transform.position);
+			pathToTarget = map.SmoothPath(pathToTarget);
 			pathIndex = 0;
 			nextPosition = pathToTarget[pathIndex];
 		}
@@ -81,6 +84,8 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 				nextPosition = target.transform.position;
 			}
 		}
+
+
 
 
 
