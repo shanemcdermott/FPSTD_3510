@@ -11,7 +11,7 @@ public class ProjectileWeapon : Weapon
     public float fireOffset = 2;
     public int damage = 20;
     public float radius = 10f;
-    public float power = 1000f;
+    public float power = 10f;
     public float lift = 30f;
     
     public override void Activate()
