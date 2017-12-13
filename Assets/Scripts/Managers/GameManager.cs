@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
 
         DontDestroyOnLoad(gameObject);
         player = GameObject.FindGameObjectWithTag("Player");
+		player.GetComponent<PlayerController>().tileMap = tileMap;
         enemyManager = GetComponent<EnemyManager>();
 		enemyManager.setTileMap (tileMap);
         hud = player.GetComponentInChildren<HUDManager>();

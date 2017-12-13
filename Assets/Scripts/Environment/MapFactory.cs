@@ -78,16 +78,16 @@ public class MapFactory : MonoBehaviour
 				instance.transform.localScale = new Vector3(tileWidth, tileWidth, tileWidth);
 				instance.GetComponent<Tile>().setCoordinates (x, z);
 
-				float h = terrain.terrainData.GetHeight((int)(x * tileWidth + p.x), (int)(z * tileWidth + p.z));
-
-				if (h > 1.5f)
+				if (terrain != null)
 				{
-					//GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-					//go.transform.Translate(new Vector3(x * tileWidth + p.x, h + p.y + 20f, z * tileWidth + p.z));
-					//Debug.Log(h);
-					instance.GetComponent<Tile>().PlaceWall();
-				}
+					float h = terrain.terrainData.GetHeight((int)(x * tileWidth + p.x), (int)(z * tileWidth + p.z));
 
+					if (h > 1.5f)
+					{
+						instance.GetComponent<Tile>().PlaceWall();
+					}
+
+				}
                 map.setTileAt(x,z,instance);
 
             }
