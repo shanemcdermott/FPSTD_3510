@@ -12,23 +12,29 @@ public class TraceWeapon : Weapon
 
     protected Ray shootRay = new Ray();
     protected RaycastHit shootHit;
-    protected int shootableMask;
+
+	GameObject go;
 
 
     protected override void Awake()
     {
         base.Awake();
-        shootableMask = LayerMask.GetMask("Shootable");
         if(gunParticles == null)
             gunParticles = GetComponent<ParticleSystem>();
         if(gunAudio == null)
             gunAudio = GetComponent<AudioSource>();
         if(gunLight == null)
             gunLight = GetComponent<Light>();
+
+		go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+
+
     }
+		
 
     public override void Activate()
     {
+		GameObject.Destroy(go);
 
         SetCurrentState(WeaponState.HipFiring);
 
@@ -41,15 +47,20 @@ public class TraceWeapon : Weapon
 
         shootRay.origin = aimTransform.position;
         shootRay.direction = aimTransform.forward;
+
             
-        if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
-        {
-            HealthComponent enemyHealth = shootHit.collider.GetComponent<HealthComponent>();
+		if (Physics.Raycast(shootRay, out shootHit, range))
+		{
+
+			HealthComponent enemyHealth = shootHit.collider.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
-            {
-                enemyHealth.TakeDamage(new DamageContext(transform.root.gameObject, damagePerShot, shootHit.point));
+            {                
+				enemyHealth.TakeDamage(new DamageContext(transform.root.gameObject, damagePerShot, shootHit.point));
             }
+
+
         }
+
     }
 
     public override void Deactivate()
