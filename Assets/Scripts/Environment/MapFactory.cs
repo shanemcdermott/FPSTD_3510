@@ -51,6 +51,30 @@ public class MapFactory : MonoBehaviour
 		SetupBoard();
 	}
 
+    public void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Vector3 p = this.transform.position;
+        Vector3 s = new Vector3(tileWidth, tileWidth, tileWidth);
+        TerrainCollider terrain = GameObject.FindGameObjectWithTag("Terrain").GetComponent<TerrainCollider>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < height; z++)
+            {
+
+                Vector3 pos = new Vector3(x * tileWidth, p.y, z * tileWidth + p.z);
+
+
+                if (terrain != null)
+                {
+                   pos.y = terrain.terrainData.GetHeight((int)(x * tileWidth + p.x), (int)(z * tileWidth + p.z));
+                }
+                Gizmos.DrawWireCube(pos, s);
+            }
+        }
+    }
+
     /// <summary>
     /// Populate map with random tiles.
     /// </summary>

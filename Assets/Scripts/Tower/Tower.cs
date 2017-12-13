@@ -11,14 +11,24 @@ public class Tower : MonoBehaviour
     Team team;
 
     // Use this for initialization
-    void Awake ()
+    void Awake()
     {
         health = GetComponent<TowerHealth>();
         team = GetComponent<Team>();
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    }
+
+    public float GetCurrentHealth()
+    {
+        return health.currentHealth;
+    }
+
+    public bool IsDead()
+    {
+        return health.IsDead();
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
 		
 	}

@@ -10,8 +10,11 @@ public class DefendingState : GameState
     public DefeatState defeatState;
     public VictoryState victoryState;
     public LevelVictoryState levelVictoryState;
+    public string phaseText = "Defend!";
+    //Current defense objective
+    public Tower defensePoint;
 
-    private EnemyManager enemyManager;
+    protected EnemyManager enemyManager;
 
     public override void Enter()
     {
@@ -20,15 +23,17 @@ public class DefendingState : GameState
         enemyManager = GameManager.instance.GetEnemyManager();
         enemyManager.waveSize = waveSize;
         enemyManager.enabled = true;
-        GameManager.instance.UpdatePhaseText("Defend!");
+        GameManager.instance.UpdatePhaseText(phaseText);
         Debug.Log("Starting Defend Phase.");
         InvokeRepeating("ConsiderStateTransition", 1f, 1f);
     }
 
     public override bool ShouldChangeState()
     {
-        bool result = (enemyManager.GetTotalSpawned() >= waveSize 
-            && enemyManager.GetLivingCount() == 0) || GameManager.instance.GetPlayer().GetComponent<PlayerController>().health.currentHealth <= 0;
+        bool result = (enemyManager.GetTotalSpawned() >= waveSize
+            && enemyManager.GetLivingCount() == 0)
+            || GameManager.instance.GetPlayer().GetComponent<PlayerController>().health.currentHealth <= 0
+            || defensePoint.IsDead();
         //Debug.Log("Should change state: " + result.ToString());
         return result;
     }
@@ -40,7 +45,7 @@ public class DefendingState : GameState
             waveSize++;
             return this;
         }
-        else if (GameManager.instance.GetPlayer().GetComponent<PlayerController>().health.currentHealth <= 0)
+        else if (GameManager.instance.GetPlayer().GetComponent<PlayerController>().health.currentHealth <= 0 || defensePoint.IsDead())
             return defeatState;
         else if ((enemyManager.GetTotalSpawned() >= waveSize && enemyManager.GetLivingCount() == 0) && GameManager.instance.GetNumWavesRemaining() > 0)
             return victoryState;

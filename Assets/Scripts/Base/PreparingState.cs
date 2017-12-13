@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PreparingState : GameState
 {
+    public string phaseText = "Build";
     public float preparationTime = 10f;
     public GameState nextState;
 
@@ -14,7 +15,7 @@ public class PreparingState : GameState
         preparationTime = 10f;
         GameManager.instance.currentWave++;
         GameManager.instance.hud.wave.text = GameManager.instance.currentWave.ToString();
-        GameManager.instance.UpdatePhaseText("Build");
+        GameManager.instance.UpdatePhaseText(phaseText);
         GameManager.instance.GetEnemyManager().enabled = false;
         Debug.Log("Starting Build Phase.");
         Invoke("ConsiderStateTransition", preparationTime);

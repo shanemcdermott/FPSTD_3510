@@ -71,6 +71,7 @@ public class HealthComponent : MonoBehaviour, IRespondsToDeath
             Debug.Log(gameObject + " Took " + context.amount + " damage from " + context.source);
             if (currentHealth <= 0 && !bIsDead)
             {
+                Debug.Log(gameObject + ":Time to die.");
                 OnDeath(context);
             }
         }
