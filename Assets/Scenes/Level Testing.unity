@@ -2717,37 +2717,37 @@ Prefab:
     - target: {fileID: 224840242307629746, guid: 8f89c3f0d8dff6f43b65028611833220,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224840242307629746, guid: 8f89c3f0d8dff6f43b65028611833220,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224061777075733282, guid: 8f89c3f0d8dff6f43b65028611833220,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224061777075733282, guid: 8f89c3f0d8dff6f43b65028611833220,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224378871404518126, guid: 8f89c3f0d8dff6f43b65028611833220,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224378871404518126, guid: 8f89c3f0d8dff6f43b65028611833220,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224378871404518126, guid: 8f89c3f0d8dff6f43b65028611833220,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114726955270091134, guid: 8f89c3f0d8dff6f43b65028611833220,
         type: 2}
@@ -2758,6 +2758,30 @@ Prefab:
         type: 2}
       propertyPath: wallCost
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 136707777796074776, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: m_Height
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976484336300716, guid: 8f89c3f0d8dff6f43b65028611833220, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114228962341621216, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: power
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114228962341621216, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: radius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114228962341621216, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: lift
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8f89c3f0d8dff6f43b65028611833220, type: 2}

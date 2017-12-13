@@ -8,6 +8,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
     public Camera mainCamera;
     public Transform aimTransform;
     public Animator animator;
+    public bool isTurret = false;
     /*Maximum Number of bullets in a magazine*/
     public int bulletsPerMag = 100;
 

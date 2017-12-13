@@ -6,8 +6,8 @@ public class Projectile : MonoBehaviour
 {
     public int damage = 20;
     public float radius = 10f;
-    public float power = 1000f;
-    public float lift = 30f;
+    public float power = 10f;
+    public float lift = 10f;
 
     private GameObject creator;
     private ParticleSystem explosion;
