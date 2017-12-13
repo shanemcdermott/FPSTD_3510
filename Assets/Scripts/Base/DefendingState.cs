@@ -9,6 +9,7 @@ public class DefendingState : GameState
     public PreparingState buildState;
     public DefeatState defeatState;
     public VictoryState victoryState;
+    public LevelVictoryState levelVictoryState;
 
     private EnemyManager enemyManager;
 
@@ -41,10 +42,10 @@ public class DefendingState : GameState
         }
         else if (GameManager.instance.GetPlayer().GetComponent<PlayerController>().health.currentHealth <= 0)
             return defeatState;
-        else if ((enemyManager.GetTotalSpawned() >= waveSize && enemyManager.GetLivingCount() == 0) && GameManager.instance.GetNumWavesRemaining() > 1)
+        else if ((enemyManager.GetTotalSpawned() >= waveSize && enemyManager.GetLivingCount() == 0) && GameManager.instance.GetNumWavesRemaining() > 0)
             return victoryState;
         else
-            return defeatState;
+            return levelVictoryState;
     }
 
     //TODO
