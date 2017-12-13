@@ -58,6 +58,11 @@ public class HealthComponent : MonoBehaviour, IRespondsToDeath
         return bIsDead;
     }
 
+    public void kill()
+    {
+        bIsDead = true;
+    }
+
     public virtual void TakeDamage(DamageContext context)
     {
         if(CanTakeDamage(context))

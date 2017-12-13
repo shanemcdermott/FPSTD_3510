@@ -15,6 +15,7 @@ public class VictoryState : GameState
         GameManager.instance.menuManager.waveCountVictory.text = "" + GameManager.instance.currentWave;
         GameManager.instance.menuManager.waveCrystals.text = "" + GameManager.instance.waveCrytals;
         GameManager.instance.menuManager.levelCrystals1.text = "" + GameManager.instance.totalCrytals;
+        GameManager.instance.upgrades += 3;
         GameManager.instance.menuManager.OpenWaveVictory();
         GameManager.instance.waveCrytals = 0;
         Invoke("ConsiderStateTransition", 1f);

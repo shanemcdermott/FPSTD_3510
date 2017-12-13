@@ -9,7 +9,7 @@ public class LevelVictoryState : GameState {
         base.Enter();
         GameManager.instance.hud.phase.text = "Level Victory!";
         //Tell hud to display rewards
-        GameManager.instance.menuManager.levelCrystals2.text = "0";
+        GameManager.instance.menuManager.levelCrystals2.text = "" + GameManager.instance.totalCrytals;
         GameManager.instance.menuManager.OpenLevelVictory();
     }
 

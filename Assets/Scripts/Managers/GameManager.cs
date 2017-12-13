@@ -20,20 +20,10 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
     public int currentWave = 0;
 
     // Current amount of upgrades and crytals
-    public int upgrades = 100;
-    public int crystals = 100;
+    public int upgrades = 0;
+    public int crystals = 150;
     public int waveCrytals = 0;
     public int totalCrytals = 0;
-
-    // Holds the percent increase of each upgrade type
-    public int fireRate = 0;
-    public int reload = 0;
-    public int damage = 0;
-    public int equipTime = 0;
-    public int turretCost = 0;
-    public int turretDamage = 0;
-    public int turretRadius = 0;
-    public int RocketRadius = 0;
 
     //TODO- Implement
     public float difficultyScale = 1;
@@ -64,7 +54,7 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
 		mapFactory.SetupScene();
 		tileMap = mapFactory.getTileMap ();
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         player = GameObject.FindGameObjectWithTag("Player");
 		player.GetComponent<PlayerController>().tileMap = tileMap;
         enemyManager = GetComponent<EnemyManager>();
