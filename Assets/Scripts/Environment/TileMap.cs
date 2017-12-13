@@ -350,7 +350,7 @@ public class TileMap : MonoBehaviour
 
 	public Tile getTileAt(int x, int z)
 	{
-		if (x > xlen || z > zlen)
+		if (x >= xlen || z >= zlen)
 			return null;
 		return tileMap[z, x].GetComponent<Tile>();
 	}
