@@ -190,7 +190,11 @@ public class MenuManager : MonoBehaviour {
                     if (w.isTrace)
                     {
                         ((TraceWeapon)w).damagePerShot += (int)(((TraceWeapon)w).damagePerShot * 0.1f);
-                        
+
+                    }
+                    else
+                    {
+                        ((ProjectileWeapon)w).damage += (int)(((ProjectileWeapon)w).damage * 0.1f);
                     }
                 }
             }
@@ -207,6 +211,12 @@ public class MenuManager : MonoBehaviour {
             {
                 GameManager.instance.GetPlayer().GetComponent<PlayerController>().turretCost -= (int)(GameManager.instance.GetPlayer().GetComponent<PlayerController>().turretCost * 0.1f);
                 GameManager.instance.GetPlayer().GetComponent<PlayerController>().wallCost -= (int)(GameManager.instance.GetPlayer().GetComponent<PlayerController>().wallCost * 0.1f);
+            }
+            else if (upg == 7)//Rocket radius
+            {
+                ((ProjectileWeapon)GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[3]).radius += ((ProjectileWeapon)GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[3]).radius * 0.1f;
+                ((ProjectileWeapon)GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[3]).power += ((ProjectileWeapon)GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[3]).power * 0.1f;
+                ((ProjectileWeapon)GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[3]).lift += ((ProjectileWeapon)GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[3]).lift * 0.1f;  
             }
 
             

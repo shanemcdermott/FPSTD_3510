@@ -2471,40 +2471,7 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3dc8d1e25d78ab54faedd2565aefef88, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1333106129
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1333106130}
-  m_Layer: 0
-  m_Name: RocketSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1333106130
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1333106129}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.428, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1370228122}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1370228122 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4976484336300716, guid: 8f89c3f0d8dff6f43b65028611833220,
-    type: 2}
-  m_PrefabInternal: {fileID: 2106038104}
---- !u!1001 &1528752383
+--- !u!1001 &1576372030
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2711,11 +2678,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1918192793 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1599610380057156, guid: 6923cfaa743e02d47b01ddbce4478791,
-    type: 2}
-  m_PrefabInternal: {fileID: 1528752383}
 --- !u!1001 &2106038104
 Prefab:
   m_ObjectHideFlags: 0
@@ -2755,68 +2717,44 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 224061777075733282, guid: 8f89c3f0d8dff6f43b65028611833220,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224061777075733282, guid: 8f89c3f0d8dff6f43b65028611833220,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224378871404518126, guid: 8f89c3f0d8dff6f43b65028611833220,
-        type: 2}
-      propertyPath: m_AnchorMin.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224378871404518126, guid: 8f89c3f0d8dff6f43b65028611833220,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224378871404518126, guid: 8f89c3f0d8dff6f43b65028611833220,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224840242307629746, guid: 8f89c3f0d8dff6f43b65028611833220,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224840242307629746, guid: 8f89c3f0d8dff6f43b65028611833220,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 114007412291118962, guid: 8f89c3f0d8dff6f43b65028611833220,
         type: 2}
       propertyPath: scopeOverlay
       value: 
       objectReference: {fileID: 210905355}
-    - target: {fileID: 114007412291118962, guid: 8f89c3f0d8dff6f43b65028611833220,
+    - target: {fileID: 224840242307629746, guid: 8f89c3f0d8dff6f43b65028611833220,
         type: 2}
-      propertyPath: crosshair
-      value: 
-      objectReference: {fileID: 1918192793}
-    - target: {fileID: 114228962341621216, guid: 8f89c3f0d8dff6f43b65028611833220,
-        type: 2}
-      propertyPath: projectileToLaunch
-      value: 
-      objectReference: {fileID: 1784687609608882, guid: 191777523e33eb945af823cb4bbc810b,
-        type: 2}
-    - target: {fileID: 114228962341621216, guid: 8f89c3f0d8dff6f43b65028611833220,
-        type: 2}
-      propertyPath: rocketSpawner
-      value: 
-      objectReference: {fileID: 1333106129}
-    - target: {fileID: 4804878292469432, guid: 8f89c3f0d8dff6f43b65028611833220, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
+      propertyPath: m_AnchorMax.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4976484336300716, guid: 8f89c3f0d8dff6f43b65028611833220, type: 2}
-      propertyPath: m_RootOrder
+    - target: {fileID: 224840242307629746, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224061777075733282, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224061777075733282, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224378871404518126, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224378871404518126, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224378871404518126, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
