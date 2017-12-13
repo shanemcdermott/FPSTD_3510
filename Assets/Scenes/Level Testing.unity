@@ -2286,7 +2286,7 @@ Prefab:
     - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
         type: 2}
       propertyPath: floorTiles.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4359254115434328, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
       propertyPath: m_LocalPosition.x
@@ -2368,6 +2368,12 @@ Prefab:
       propertyPath: tileWidth
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114846558751118274, guid: 905cebbb87dfa4a73868238620b13d7f,
+        type: 2}
+      propertyPath: floorTiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 1497699859067732, guid: 9e7e12acbdc064ed2a472119d9b8f107,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 905cebbb87dfa4a73868238620b13d7f, type: 2}
   m_IsPrefabParent: 0
@@ -2756,6 +2762,16 @@ Prefab:
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114726955270091134, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: turretCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114726955270091134, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: wallCost
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8f89c3f0d8dff6f43b65028611833220, type: 2}
