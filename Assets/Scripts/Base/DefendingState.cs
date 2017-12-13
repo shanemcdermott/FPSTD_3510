@@ -26,8 +26,8 @@ public class DefendingState : GameState
 
     public override bool ShouldChangeState()
     {
-        bool result = enemyManager.GetTotalSpawned() >= waveSize 
-            && enemyManager.GetLivingCount() == 0;
+        bool result = (enemyManager.GetTotalSpawned() >= waveSize 
+            && enemyManager.GetLivingCount() == 0) || GameManager.instance.GetPlayer().GetComponent<PlayerController>().health.currentHealth <= 0;
         //Debug.Log("Should change state: " + result.ToString());
         return result;
     }
@@ -39,7 +39,9 @@ public class DefendingState : GameState
             waveSize++;
             return this;
         }
-        else if (GameManager.instance.GetNumWavesRemaining() > 1)
+        else if (GameManager.instance.GetPlayer().GetComponent<PlayerController>().health.currentHealth <= 0)
+            return defeatState;
+        else if ((enemyManager.GetTotalSpawned() >= waveSize && enemyManager.GetLivingCount() == 0) && GameManager.instance.GetNumWavesRemaining() > 1)
             return victoryState;
         else
             return defeatState;

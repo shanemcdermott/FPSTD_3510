@@ -49,7 +49,7 @@ public class EnemyManager : MonoBehaviour
     public int GetLivingCount()
     {
         int count = 0;
-        foreach(GameObject enemy in spawnedEnemies)
+        foreach (GameObject enemy in spawnedEnemies)
         {
             if (enemy == null) continue;
 
@@ -70,5 +70,12 @@ public class EnemyManager : MonoBehaviour
 		map = tm;
 	}
 
-
+    public void clearEnemies()
+    {
+        for (int i = 0; i < spawnedEnemies.Length; i++ )
+        {
+            if(spawnedEnemies[i] != null)
+                spawnedEnemies[i].GetComponent<MonsterController>().OnDeath(new DamageContext());
+        }
+    }
 }
