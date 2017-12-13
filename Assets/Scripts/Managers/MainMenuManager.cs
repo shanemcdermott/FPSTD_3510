@@ -7,6 +7,12 @@ public class MainMenuManager : MonoBehaviour {
     public Animator volumeSlider;
     public Animator levelSelect;
 
+    public void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     public void OpenSettings()
     {
         mainMenu.SetBool("isHidden", true);

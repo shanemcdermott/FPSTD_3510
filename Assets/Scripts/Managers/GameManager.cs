@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
 		mapFactory.SetupScene();
 		tileMap = mapFactory.getTileMap ();
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         player = GameObject.FindGameObjectWithTag("Player");
         enemyManager = GetComponent<EnemyManager>();
 		enemyManager.setTileMap (tileMap);
