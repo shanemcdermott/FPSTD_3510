@@ -263,12 +263,16 @@ public class TileMap : MonoBehaviour
 
 	public bool HasWallHere(int x, int z)
 	{
+		if (x >= xlen || z >= zlen)
+			return false;
 		return tileMap[z, x].GetComponent<Tile>().HasWall();
 	}
 
 	//place wall if it maintains a path through
 	public void PlaceWallHere(int x, int z)
 	{
+		if (x >= xlen || z >= zlen)
+			return;
 		if (CanPlaceHere (x, z)) {
 			tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
 			if (isPath[z, x])//only recalculate path if current path is blocked
@@ -278,6 +282,8 @@ public class TileMap : MonoBehaviour
 
 	public void DestroyWallHere (int x, int z)
 	{
+		if (x >= xlen || z >= zlen)
+			return;
 		tileMap [z, x].GetComponent<Tile> ().DestroyWall ();
 
 		//always recalc the path after wall removal
@@ -289,6 +295,8 @@ public class TileMap : MonoBehaviour
 	//place a wall without asking nicely
 	public void forceWallHere(int x, int z)
 	{
+		if (x >= xlen || z >= zlen)
+			return;
 		tileMap [z, x].GetComponent<Tile> ().PlaceWall ();
 	}
 
@@ -296,6 +304,8 @@ public class TileMap : MonoBehaviour
 	//returns true as long as there is still a path through
 	public bool CanPlaceHere(int x, int z)
 	{
+		if (x >= xlen || z >= zlen)
+			return false;
 		//don't allow placement on start or target nodes
 		if (x == startx && z == startz || x == targetx && z == targetz)
 			return false;	
@@ -345,12 +355,14 @@ public class TileMap : MonoBehaviour
 
 	public void setTileAt(int x, int z, GameObject tile)
 	{
+		if (x >= xlen || z >= zlen)
+			return;
 		tileMap[z, x] = tile;
 	}
 
 	public Tile getTileAt(int x, int z)
 	{
-		if (x > xlen || z > zlen)
+		if (x >= xlen || z >= zlen)
 			return null;
 		return tileMap[z, x].GetComponent<Tile>();
 	}

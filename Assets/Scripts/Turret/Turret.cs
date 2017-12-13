@@ -290,7 +290,8 @@ public class Turret : MonoBehaviour, IFocusable
 	//correctly assigns the main and head transforms to turrets for realistic rotation
 	void setupTransforms()
 	{
-		mainTransform = this.transform;
+		if (turretType != TurretType.aoeTurret)
+			mainTransform = this.transform;
 
 		if (turretType == TurretType.aoeTurret)
 		{
