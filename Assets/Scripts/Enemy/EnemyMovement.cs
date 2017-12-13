@@ -4,6 +4,7 @@ using System;
 
 public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 {
+	private bool giz = true;
 	private int framenum;
 
     public float speed;
@@ -135,22 +136,31 @@ public class EnemyMovement : MonoBehaviour, IRespondsToDeath
 
 	public void OnDrawGizmos()
 	{
-		if (pathToTarget != null) {
-			for (int i = 1; i < pathToTarget.Length; i++) {
-				Gizmos.color = new Color (1f, 1f, 0f);
-				Gizmos.DrawCube (pathToTarget[i], new Vector3(0.5f, 0.5f, 0.5f));
-				Gizmos.color = new Color (0.7f, 0.7f, 0.7f);
+		if (giz)
+		{
+			if (pathToTarget != null) {
+				for (int i = 1; i < pathToTarget.Length; i++) {
+					Gizmos.color = new Color (1f, 0f, 0f);
+					Gizmos.DrawCube (pathToTarget[i], new Vector3(2, 2, 2));
+				}
 			}
+
+	//		Gizmos.color = new Color (1f, 1f, 0f);
+	//		Gizmos.DrawCube (this.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+			Gizmos.color = new Color (1f, 0f, 0f);
+
+			int x, z;
+			map.nodeAtLocation(this.transform.position + new Vector3(0.5f, 0, 0.5f), out x, out z);
+			Gizmos.DrawCube (new Vector3(x, 0, z), new Vector3(0.5f, 0.5f, 0.5f));
+		
 		}
 
-//		Gizmos.color = new Color (1f, 1f, 0f);
-//		Gizmos.DrawCube (this.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
-		Gizmos.color = new Color (1f, 0f, 0f);
+	}
 
-		int x, z;
-		map.nodeAtLocation(this.transform.position + new Vector3(0.5f, 0, 0.5f), out x, out z);
-		Gizmos.DrawCube (new Vector3(x, 0, z), new Vector3(0.5f, 0.5f, 0.5f));
-
-
+	public int getPathLen()
+	{
+		if (pathToTarget == null)
+			return 0;
+		return pathToTarget.Length;
 	}
 }

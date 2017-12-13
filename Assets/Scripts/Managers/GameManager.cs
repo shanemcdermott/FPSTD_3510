@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
     // Current amount of upgrades and crytals
     public int upgrades = 100;
     public int crystals = 100;
+    public int waveCrytals = 0;
+    public int totalCrytals = 0;
 
     // Holds the percent increase of each upgrade type
     public int fireRate = 0;
@@ -87,7 +89,7 @@ public class GameManager : MonoBehaviour, IStateController<GameState>
     public void UpdatePhaseText(string text)
     {
         if(hud!= null)
-            hud.phase.text = "Build";
+            hud.phase.text = text;
     }
 
     public int GetNumWavesRemaining()

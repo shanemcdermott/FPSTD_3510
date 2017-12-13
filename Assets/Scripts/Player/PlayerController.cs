@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     GameObject currentTurret;
     public TurretType currentTurretType;
+    public int turretCost = 100;
+    public int wallCost = 50;
 
     public bool isPlacing;
     int currentFunds;
@@ -34,7 +36,6 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 
     public IFocusable currentFocusable;
     public GameObject currentFocusedGameObject;
-
     
     void Start()
     {
@@ -42,10 +43,8 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         Cursor.visible = false;
         currentWeapon = weapons[0];
         currentTurret = turrets[0];
-
         SetupFocusables();
         EquipWeapon(0);
-        
     }
 
     void Awake()
@@ -152,7 +151,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         }
     }
 
-    private void EquipWeapon(int index)
+    public void EquipWeapon(int index)
     {
         currentWeaponType = index;
         float waitTime = currentWeapon.StartUnEquipping();
@@ -231,15 +230,22 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                     {
                         if (!tileTarget.HasWall())
                         {
-                            tileTarget.getParentTileMap().PlaceWallHere(tileTarget.getXPos(), tileTarget.getZPos());
-                            currentFunds -= 10;
+                            if (wallCost <= GameManager.instance.crystals)
+                            {
+                                tileTarget.getParentTileMap().PlaceWallHere(tileTarget.getXPos(), tileTarget.getZPos());
+                                GameManager.instance.crystals -= wallCost;
+                            }
                         }
                     }
                     else if (wallTarget != null)
                     {
                         if (!wallTarget.HasTurret())
                         {
-                            wallTarget.PlaceTurret(currentTurret, currentTurretType);
+                            if (turretCost <= GameManager.instance.crystals)
+                            {
+                                wallTarget.PlaceTurret(currentTurret, currentTurretType);
+                                GameManager.instance.crystals -= turretCost;
+                            }
                         }
 
                     }

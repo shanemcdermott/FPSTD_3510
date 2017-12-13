@@ -23,6 +23,7 @@ public class Sniper : TraceWeapon
         bulletsPerMag = 5;
         timeToShoot = 0.9f;
         bulletsInMag = bulletsPerMag;
+        isTrace = true;
     }
     public override void StartReloading()
     {

@@ -29,7 +29,7 @@ public class HUDManager : MonoBehaviour {
         upgrades.text = "" + GameManager.instance.upgrades;
         crystals.text = "" + GameManager.instance.crystals;
         ammo.text = player.GetComponent<PlayerController>().currentWeapon.bulletsInMag + "/" + player.GetComponent<PlayerController>().currentWeapon.bulletsPerMag;
-        enemies.text = "" + GameManager.instance.GetEnemyManager().waveSize;
+        enemies.text = "" + GameManager.instance.GetEnemyManager().GetLivingCount();
 	}
 
 

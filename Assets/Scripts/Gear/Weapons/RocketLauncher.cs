@@ -10,5 +10,6 @@ public class RocketLauncher : ProjectileWeapon
         bulletsPerMag = 5;
         timeToShoot = .50f;
         bulletsInMag = bulletsPerMag;
+        isTrace = false;
     }
 }

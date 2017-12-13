@@ -36,6 +36,7 @@ public class Tile : MonoBehaviour, IFocusable
         wall.transform.position = transform.position + new Vector3(0, 0.25f, 0);
         GameObject wallInstance = GameObject.Instantiate(wall);
         wallInstance.transform.parent = transform;
+		wallInstance.transform.localScale = new Vector3(1, 1, 1); //huh?
         placedWall = wallInstance;
         placedWall.SetActive(true);
     }
@@ -56,6 +57,7 @@ public class Tile : MonoBehaviour, IFocusable
             if (placedWall == null)
             {
                 wallToShow.transform.position = transform.position + new Vector3(0, 0.25f, 0);
+				wallToShow.transform.localScale = this.transform.localScale;
                 wallToShow.SetActive(true);
             }
         }
