@@ -49,14 +49,21 @@ public class EnemyManager : MonoBehaviour
     public int GetLivingCount()
     {
         int count = 0;
-        foreach (GameObject enemy in spawnedEnemies)
+        if (spawnedEnemies != null)
         {
-            if (enemy == null) continue;
-
-            MonsterController mc = enemy.GetComponent<MonsterController>();
-            if (mc == null || mc.health.IsDead()) continue;
-            count++;
+            for (int i = 0; i < spawnedEnemies.Length; i++)
+            {
+                if (spawnedEnemies[i] != null)
+                {
+                    MonsterController mc = spawnedEnemies[i].GetComponent<MonsterController>();
+                    if (!mc.health.IsDead())
+                        count++;
+                }
+                
+            }
         }
+        
+        
         return count;
     }
 
