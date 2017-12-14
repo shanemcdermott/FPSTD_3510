@@ -170,10 +170,19 @@ public class MonsterController : MonoBehaviour, IRespondsToDeath
 	{
 		tileMap = tm;
 	}
-
-	public int getPathLen()
+		
+	public float getPathLength()
 	{
-		return pathToTarget.Length;
+		float total = 0f;
+
+		total += (this.transform.position - pathToTarget[pathIndex]).magnitude;
+
+		for (int i = pathIndex; i + 1 < pathToTarget.Length; i++)
+		{
+			total += (pathToTarget[i] - pathToTarget[i+1]).magnitude;
+		}
+
+		return total;
 	}
 
 	public void OnDrawGizmos()

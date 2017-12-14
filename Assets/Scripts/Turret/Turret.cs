@@ -125,7 +125,7 @@ public class Turret : MonoBehaviour, IFocusable
 
 		if (focusType == TurretFocus.first)
 		{
-			int shortestPath = int.MaxValue;
+			float shortestPath = float.MaxValue;
 
 			foreach (GameObject go in gos)
 			{
@@ -138,7 +138,7 @@ public class Turret : MonoBehaviour, IFocusable
 				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
 					continue;
 				
-				int pathlen = go.GetComponent<MonsterController>().getPathLen();
+				float pathlen = go.GetComponent<MonsterController>().getPathLength();
 				if (pathlen < shortestPath)
 				{
 					target = go;
@@ -149,7 +149,7 @@ public class Turret : MonoBehaviour, IFocusable
 		}
 		else if (focusType == TurretFocus.last)
 		{
-			int longestPath = 0;
+			float longestPath = 0;
 
 			foreach (GameObject go in gos)
 			{
@@ -162,7 +162,7 @@ public class Turret : MonoBehaviour, IFocusable
 				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
 					continue;
 
-				int pathlen = go.GetComponent<MonsterController>().getPathLen();
+				float pathlen = go.GetComponent<MonsterController>().getPathLength();
 				if (pathlen > longestPath)
 				{
 					target = go;
