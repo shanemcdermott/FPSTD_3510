@@ -311,5 +311,6 @@ public class MenuManager : MonoBehaviour {
     {
         GameManager.instance.GetPlayer().GetComponent<PlayerController>().currentWeapon.gunAudio.volume = volume.value;
         GameManager.instance.GetPlayer().GetComponent<PlayerController>().currentWeapon.reloadAudio.volume = volume.value;
+        GameManager.instance.state.stateMusic.volume = volume.value;
     }
 }
