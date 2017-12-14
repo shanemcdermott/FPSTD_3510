@@ -5,8 +5,17 @@ using UnityEngine;
 public class Wall : MonoBehaviour, IFocusable {
     GameObject turret;
     GameObject placedTurret;
-	// Use this for initialization
-	void Start () {
+
+
+    public ParticleSystem muzzleFlash;
+
+    public AudioSource rifleAudio;
+    public AudioSource cannonAudio;
+    public AudioSource rocketAudio;
+    public AudioSource pulseAudio;
+
+    // Use this for initialization
+    void Start () {
 	}
 	
 	// Update is called once per frame
@@ -42,11 +51,31 @@ public class Wall : MonoBehaviour, IFocusable {
         placedTurret.transform.parent = transform;
 		placedTurret.transform.localScale = new Vector3(1, 1, 1);
         placedTurret.AddComponent<BoxCollider>();
+        
         BoxCollider turretCollider = placedTurret.GetComponent<BoxCollider>();
         turretCollider.center += new Vector3(0, 0.5f, 0);
+
         placedTurret.AddComponent<Turret>();
         Turret turretComponent = placedTurret.GetComponent<Turret>();
-        turretComponent.SetupTurret(type);
+
+        turretComponent.turretType = type;
+        switch (type)
+        {
+            case TurretType.rifleTurret:
+                turretComponent.SetupTurret(rifleAudio, muzzleFlash);
+                break;
+            case TurretType.cannonTurret:
+                turretComponent.SetupTurret(cannonAudio, muzzleFlash);
+                break;
+            case TurretType.rocketTurret:
+                turretComponent.SetupTurret(rocketAudio, muzzleFlash);
+                break;
+            case TurretType.aoeTurret:
+                turretComponent.SetupTurret(pulseAudio, muzzleFlash);
+                break;
+        }
+        
+        
         placedTurret.transform.tag = "Tower";
         placedTurret.SetActive(true);
     }

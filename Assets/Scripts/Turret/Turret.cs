@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour, IFocusable
 {
+    
 
     public Equipment equipment;
     public TurretType turretType; //TODO: is this the issue?
@@ -44,7 +45,7 @@ public class Turret : MonoBehaviour, IFocusable
 		xCurrRot = 0f;
 		yCurrRot = 0f;
 
-
+        Debug.Log("turrType: " + turretType);
 
 	}
 
@@ -99,7 +100,8 @@ public class Turret : MonoBehaviour, IFocusable
 
 		//TODO: better shooting at target
 		if (equipment != null)
-			equipment.Activate();
+            equipment.Activate();
+			
 
 	}
 
@@ -235,11 +237,11 @@ public class Turret : MonoBehaviour, IFocusable
 
 	}
 
-    public void SetupTurret(TurretType turrType)
+    public void SetupTurret(AudioSource source, ParticleSystem ps)
     {
+        Debug.Log("setupTurretType: " + turretType);
         focusType = TurretFocus.first;
-
-		turretType = turrType; //set the turret type
+        
 		setupTransforms(); //set main and head transforms for proper rotation
 
         switch (turretType)
@@ -253,7 +255,10 @@ public class Turret : MonoBehaviour, IFocusable
 
 				this.gameObject.AddComponent<Rifle>();
 				Rifle r = this.gameObject.GetComponent<Rifle>();
-		
+
+                r.gunAudio = source;
+                r.gunParticles = ps;
+
 				if (headTransform != null)
 					r.aimTransform = headTransform;
 				else
@@ -268,6 +273,20 @@ public class Turret : MonoBehaviour, IFocusable
                 attackRange = 200;
                 fireRate = 0.75f;
                 damage = 400;
+
+                this.gameObject.AddComponent<RocketLauncher>();
+                RocketLauncher rl = this.gameObject.GetComponent<RocketLauncher>();
+
+                rl.gunAudio = source;
+                rl.gunParticles = ps;
+
+                if (headTransform != null)
+                    rl.aimTransform = headTransform;
+                else
+                    rl.aimTransform = this.transform;
+
+                equipment = rl;
+
                 break;
             case TurretType.cannonTurret:
                 cost = 10;
@@ -275,6 +294,19 @@ public class Turret : MonoBehaviour, IFocusable
                 attackRange = 250;
                 fireRate = 0.5f;
                 damage = 200;
+
+                this.gameObject.AddComponent<Sniper>();
+                Sniper s = this.gameObject.GetComponent<Sniper>();
+
+                s.gunAudio = source;
+                s.gunParticles = ps;
+
+                if (headTransform != null)
+                    s.aimTransform = headTransform;
+                else
+                    s.aimTransform = this.transform;
+
+                equipment = s;
                 break;
             case TurretType.aoeTurret:
                 cost = 10;
@@ -282,6 +314,20 @@ public class Turret : MonoBehaviour, IFocusable
                 attackRange = 0;
                 fireRate = 0.5f;
                 damage = 500;
+
+                this.gameObject.AddComponent<Pulse>();
+                Pulse p = this.gameObject.GetComponent<Pulse>();
+
+                p.gunAudio = source;
+                p.gunParticles = ps;
+
+                if (headTransform != null)
+                    p.aimTransform = headTransform;
+                else
+                    p.aimTransform = this.transform;
+
+                equipment = p;
+
                 break;
         }
 
