@@ -111,6 +111,7 @@ public abstract class Weapon : MonoBehaviour, Equipment
 
     public virtual bool CanShoot()
     {
+        Debug.Log("state " + state + " uses ammo " + usesAmmo + " timer " + shootTimer);
         return state >= WeaponState.Idle && (HasBullets() || !usesAmmo) && shootTimer >= timeToShoot;
     }
 
