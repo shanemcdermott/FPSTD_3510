@@ -40,7 +40,7 @@ public class EnemyManager : MonoBehaviour
         GameObject enemy = enemyPrefabs[enemyIndex];
        
         spawnedEnemies[totalSpawned] = Instantiate (enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
-		spawnedEnemies [totalSpawned].GetComponent<EnemyMovement> ().setTileMap (map);
+		spawnedEnemies [totalSpawned].GetComponent<MonsterController> ().setTileMap (map);
         totalSpawned++;
         if (totalSpawned >= waveSize)
             bShouldSpawn = false;

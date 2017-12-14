@@ -138,7 +138,7 @@ public class Turret : MonoBehaviour, IFocusable
 				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
 					continue;
 				
-				int pathlen = go.GetComponent<EnemyMovement>().getPathLen();
+				int pathlen = go.GetComponent<MonsterController>().getPathLen();
 				if (pathlen < shortestPath)
 				{
 					target = go;
@@ -162,7 +162,7 @@ public class Turret : MonoBehaviour, IFocusable
 				if (go.GetComponent<EnemyHealth>().currentHealth == 0)
 					continue;
 
-				int pathlen = go.GetComponent<EnemyMovement>().getPathLen();
+				int pathlen = go.GetComponent<MonsterController>().getPathLen();
 				if (pathlen > longestPath)
 				{
 					target = go;
