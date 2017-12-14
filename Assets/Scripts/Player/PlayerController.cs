@@ -135,8 +135,9 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 				int x, z;
 				tileMap.nodeAtLocation(hitloc, out x, out z);
 				Tile t = tileMap.getTileAt(x, z);
-
-				GameObject newGameObject = t.gameObject;
+                GameObject newGameObject = null;
+                if(t != null)
+				    newGameObject = t.gameObject;
                 if(newGameObject != currentFocusedGameObject)
                 {
                     if (currentFocusable != null)
