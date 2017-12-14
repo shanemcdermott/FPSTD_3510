@@ -13,8 +13,6 @@ public class TraceWeapon : Weapon
     protected Ray shootRay = new Ray();
     protected RaycastHit shootHit;
 
-	GameObject go;
-
 
     protected override void Awake()
     {
@@ -26,16 +24,11 @@ public class TraceWeapon : Weapon
         if(gunLight == null)
             gunLight = GetComponent<Light>();
 
-		go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-
-
     }
 		
 
     public override void Activate()
     {
-		GameObject.Destroy(go);
-
         SetCurrentState(WeaponState.HipFiring);
 
         if (usesAmmo)
