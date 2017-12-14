@@ -7,8 +7,7 @@ public class Turret : MonoBehaviour, IFocusable
     
 
     public Equipment equipment;
-    public TurretType turretType; //TODO: is this the issue?
-
+    public TurretType turretType;
     public int RifleDamage = 100;
     public int RocketDamage = 400;
     public int CannonDamage = 200;
@@ -387,6 +386,31 @@ public class Turret : MonoBehaviour, IFocusable
     {
         //hide the turret upgrade menu
     }
+
+	public void rotateFocus()
+	{
+		if (focusType = TurretFocus.closest)
+		{
+			focusType = TurretFocus.first;
+		}
+		else if (focusType = TurretFocus.first)
+		{
+			focusType = TurretFocus.last;
+		}
+		else if (focusType = TurretFocus.last)
+		{
+			focusType = TurretFocus.strongest;
+		}
+		else if (focusType = TurretFocus.strongest)
+		{
+			focusType = TurretFocus.weakest;
+		}
+		else if (focusType = TurretFocus.weakest)
+		{
+			focusType = TurretFocus.closest;
+		}
+		Debug.Log("Turret set to target " + focusType);
+	}
 }
 
 public enum TurretFocus
