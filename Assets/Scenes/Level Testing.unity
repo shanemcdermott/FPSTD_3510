@@ -121,6 +121,8 @@ GameObject:
   - component: {fileID: 139559320}
   - component: {fileID: 139559319}
   - component: {fileID: 139559323}
+  - component: {fileID: 139559325}
+  - component: {fileID: 139559324}
   m_Layer: 0
   m_Name: Door
   m_TagString: Tower
@@ -203,6 +205,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11706fce6f590a64f9f26c027e157094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &139559324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 139559318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f011ec3ea263e4c8688595009b7600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bEnableFriendlyFire: 0
+  id: 1
+  teamColor: {r: 0, g: 0, b: 1, a: 1}
+  role: 2
+--- !u!114 &139559325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 139559318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51f54bf5acbd3644bbec06f5f92c8362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
+  currentHealth: 100
+  teamId: 1
 --- !u!1 &210905355 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1484481117885710, guid: 3dc8d1e25d78ab54faedd2565aefef88,

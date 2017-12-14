@@ -35,7 +35,8 @@ public class Sniper : TraceWeapon
     // Update is called once per frame
     protected override void Update()
     {
-        animator.SetBool("IsScoped", isScoped);
+        if(animator != null)
+            animator.SetBool("IsScoped", isScoped);
         base.Update();
         if (Input.GetButtonDown("Fire2"))
         {
