@@ -212,6 +212,14 @@ public class MenuManager : MonoBehaviour {
                 GameManager.instance.GetPlayer().GetComponent<PlayerController>().turretCost -= (int)(GameManager.instance.GetPlayer().GetComponent<PlayerController>().turretCost * 0.1f);
                 GameManager.instance.GetPlayer().GetComponent<PlayerController>().wallCost -= (int)(GameManager.instance.GetPlayer().GetComponent<PlayerController>().wallCost * 0.1f);
             }
+            else if (upg == 5)//upgrade turret cost
+            {
+                GameManager.instance.GetPlayer().GetComponent<PlayerController>().damageMod += 30;
+            }
+            else if (upg == 6)//upgrade turret cost
+            {
+                GameManager.instance.GetPlayer().GetComponent<PlayerController>().attackRange += 30;
+            }
             else if (upg == 7)//Rocket radius
             {
                 ((ProjectileWeapon)GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[3]).radius += ((ProjectileWeapon)GameManager.instance.GetPlayer().GetComponent<PlayerController>().weapons[3]).radius * 0.1f;

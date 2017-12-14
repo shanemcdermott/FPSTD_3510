@@ -38,6 +38,9 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
     public GameObject currentFocusedGameObject;
 
 	public TileMap tileMap;
+
+    public int damageMod = 0;
+    public float attackRange = 0;
     
     void Start()
     {
@@ -251,7 +254,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
 						{
 							if (turretCost <= GameManager.instance.crystals)
 							{
-								wallTarget.PlaceTurret(currentTurret, currentTurretType);
+								wallTarget.PlaceTurret(currentTurret, currentTurretType, damageMod, attackRange);
 								GameManager.instance.crystals -= turretCost;
 							}
 						}

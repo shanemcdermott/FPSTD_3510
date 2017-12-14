@@ -9,10 +9,12 @@ public class Turret : MonoBehaviour, IFocusable
     public Equipment equipment;
     public TurretType turretType; //TODO: is this the issue?
 
-    float damage;
+    public int RifleDamage = 100;
+    public int RocketDamage = 400;
+    public int CannonDamage = 200;
     int cost;
     float attackRadius;
-    float attackRange;
+    public float attackRange;
     float fireRate;
     TurretFocus focusType;
 
@@ -95,9 +97,20 @@ public class Turret : MonoBehaviour, IFocusable
 			mainTransform.localEulerAngles = new Vector3 (0, yCurrRot, 0);
 		if (headTransform != null)
 			headTransform.transform.localEulerAngles = new Vector3(xCurrRot, 0, 0);
-		
 
 
+        switch (turretType)
+        {
+            case TurretType.rifleTurret:
+                this.GetComponent<Rifle>().damagePerShot = RifleDamage;
+                break;
+            case TurretType.rocketTurret:
+                this.GetComponent<RocketLauncher>().damage = RocketDamage;
+                break;
+            case TurretType.cannonTurret:
+                this.GetComponent<Sniper>().damagePerShot = CannonDamage;
+                break;
+        }
 		//TODO: better shooting at target
 		if (equipment != null)
             equipment.Activate();
@@ -251,11 +264,11 @@ public class Turret : MonoBehaviour, IFocusable
                 attackRadius = 0;
                 attackRange = 30;
                 fireRate = 0.15f;
-                damage = 100;
+                //damage = 100;
 
 				this.gameObject.AddComponent<Rifle>();
 				Rifle r = this.gameObject.GetComponent<Rifle>();
-
+                
                 r.gunAudio = source;
                 r.gunParticles = ps;
 
@@ -272,7 +285,7 @@ public class Turret : MonoBehaviour, IFocusable
                 attackRadius = 50;
                 attackRange = 200;
                 fireRate = 0.75f;
-                damage = 400;
+                //damage = 400;
 
                 this.gameObject.AddComponent<RocketLauncher>();
                 RocketLauncher rl = this.gameObject.GetComponent<RocketLauncher>();
@@ -293,7 +306,7 @@ public class Turret : MonoBehaviour, IFocusable
                 attackRadius = 0;
                 attackRange = 250;
                 fireRate = 0.5f;
-                damage = 200;
+                //damage = 200;
 
                 this.gameObject.AddComponent<Sniper>();
                 Sniper s = this.gameObject.GetComponent<Sniper>();
@@ -313,7 +326,7 @@ public class Turret : MonoBehaviour, IFocusable
                 attackRadius = 10;
                 attackRange = 0;
                 fireRate = 0.5f;
-                damage = 500;
+                //damage = 500;
 
                 this.gameObject.AddComponent<Pulse>();
                 Pulse p = this.gameObject.GetComponent<Pulse>();

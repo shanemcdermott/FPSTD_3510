@@ -41,7 +41,7 @@ public class Wall : MonoBehaviour, IFocusable {
         turretToHide.SetActive(false);
     }
 
-    public void PlaceTurret(GameObject turretToPlace, TurretType type)
+    public void PlaceTurret(GameObject turretToPlace, TurretType type, int damageMod, float attackRange)
     {
         turret = turretToPlace;
 		//this.transform.lossyScale.y * 0.25
@@ -59,6 +59,10 @@ public class Wall : MonoBehaviour, IFocusable {
         Turret turretComponent = placedTurret.GetComponent<Turret>();
 
         turretComponent.turretType = type;
+        turretComponent.RifleDamage += damageMod;
+        turretComponent.RocketDamage += damageMod;
+        turretComponent.CannonDamage += damageMod;
+        
         switch (type)
         {
             case TurretType.rifleTurret:
@@ -74,6 +78,7 @@ public class Wall : MonoBehaviour, IFocusable {
                 turretComponent.SetupTurret(pulseAudio, muzzleFlash);
                 break;
         }
+        turretComponent.attackRange += attackRange;
         
         
         placedTurret.transform.tag = "Tower";
