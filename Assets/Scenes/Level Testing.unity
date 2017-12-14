@@ -2357,6 +2357,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114928587232897940, guid: 20f6fe34f060e914db713958208b2381,
+        type: 2}
+      propertyPath: enemyPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4416091760058988, guid: 20f6fe34f060e914db713958208b2381, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2414,6 +2419,18 @@ Prefab:
       propertyPath: stateMusic
       value: 
       objectReference: {fileID: 1468316036}
+    - target: {fileID: 114928587232897940, guid: 20f6fe34f060e914db713958208b2381,
+        type: 2}
+      propertyPath: enemyPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 1350807989951994, guid: 16746732ec1244f9c842c2410e63e3e8,
+        type: 2}
+    - target: {fileID: 114928587232897940, guid: 20f6fe34f060e914db713958208b2381,
+        type: 2}
+      propertyPath: enemyPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 1350807989951994, guid: 4ebf30e5635fb41e897af27daa95e32f,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20f6fe34f060e914db713958208b2381, type: 2}
   m_IsPrefabParent: 0
