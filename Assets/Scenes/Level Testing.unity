@@ -2783,6 +2783,11 @@ Prefab:
       propertyPath: lift
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 114143001366334094, guid: 8f89c3f0d8dff6f43b65028611833220,
+        type: 2}
+      propertyPath: movementSettings.JumpForce
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8f89c3f0d8dff6f43b65028611833220, type: 2}
   m_IsPrefabParent: 0
