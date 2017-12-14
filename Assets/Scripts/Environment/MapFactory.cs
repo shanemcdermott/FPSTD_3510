@@ -21,7 +21,7 @@ public class MapFactory : MonoBehaviour
     /// Number of tiles in Z direction
     /// </summary>
     public int height;
-
+    public float groundoffset = 0;
 	public int wallsToAdd = 10;
 	private int startx;
 	private int startz;
@@ -82,7 +82,7 @@ public class MapFactory : MonoBehaviour
 				{
 					float h = terrain.terrainData.GetHeight((int)(x * tileWidth + p.x), (int)(z * tileWidth + p.z));
 
-					if (h > 0.2f)
+					if (h > 0.2f + groundoffset)
 					{
 						instance.GetComponent<Tile>().PlaceWall();
 					}

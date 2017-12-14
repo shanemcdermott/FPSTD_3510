@@ -10,7 +10,7 @@ public class DefendingState : GameState
     public DefeatState defeatState;
     public VictoryState victoryState;
     public LevelVictoryState levelVictoryState;
-
+    
     private EnemyManager enemyManager;
 
     public override void Enter()
