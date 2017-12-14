@@ -112,7 +112,7 @@ public class Turret : MonoBehaviour, IFocusable
                 break;
         }
 		//TODO: better shooting at target
-		if (equipment != null)
+		if (equipment != null && equipment.CanActivate() && target != null)
             equipment.Activate();
 			
 
@@ -252,7 +252,6 @@ public class Turret : MonoBehaviour, IFocusable
 
     public void SetupTurret(AudioSource source, ParticleSystem ps)
     {
-        Debug.Log("setupTurretType: " + turretType);
         focusType = TurretFocus.first;
         
 		setupTransforms(); //set main and head transforms for proper rotation
@@ -271,6 +270,9 @@ public class Turret : MonoBehaviour, IFocusable
                 
                 r.gunAudio = source;
                 r.gunParticles = ps;
+                r.usesAmmo = false;
+                r.state = WeaponState.Idle;
+                r.DisableEffects();
 
 				if (headTransform != null)
 					r.aimTransform = headTransform;
@@ -292,6 +294,8 @@ public class Turret : MonoBehaviour, IFocusable
 
                 rl.gunAudio = source;
                 rl.gunParticles = ps;
+                rl.usesAmmo = false;
+                rl.state = WeaponState.Idle;
 
                 if (headTransform != null)
                     rl.aimTransform = headTransform;
@@ -313,6 +317,8 @@ public class Turret : MonoBehaviour, IFocusable
 
                 s.gunAudio = source;
                 s.gunParticles = ps;
+                s.usesAmmo = false;
+                s.state = WeaponState.Idle;
 
                 if (headTransform != null)
                     s.aimTransform = headTransform;
@@ -333,6 +339,8 @@ public class Turret : MonoBehaviour, IFocusable
 
                 p.gunAudio = source;
                 p.gunParticles = ps;
+                p.usesAmmo = false;
+                p.state = WeaponState.Idle;
 
                 if (headTransform != null)
                     p.aimTransform = headTransform;
