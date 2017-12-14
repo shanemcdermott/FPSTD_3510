@@ -389,23 +389,23 @@ public class Turret : MonoBehaviour, IFocusable
 
 	public void rotateFocus()
 	{
-		if (focusType = TurretFocus.closest)
+		if (focusType == TurretFocus.closest)
 		{
 			focusType = TurretFocus.first;
 		}
-		else if (focusType = TurretFocus.first)
+		else if (focusType == TurretFocus.first)
 		{
 			focusType = TurretFocus.last;
 		}
-		else if (focusType = TurretFocus.last)
+		else if (focusType == TurretFocus.last)
 		{
 			focusType = TurretFocus.strongest;
 		}
-		else if (focusType = TurretFocus.strongest)
+		else if (focusType == TurretFocus.strongest)
 		{
 			focusType = TurretFocus.weakest;
 		}
-		else if (focusType = TurretFocus.weakest)
+		else if (focusType == TurretFocus.weakest)
 		{
 			focusType = TurretFocus.closest;
 		}
