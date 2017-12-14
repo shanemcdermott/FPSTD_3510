@@ -5,9 +5,16 @@ using UnityEngine;
 
 public abstract class GameState : MonoBehaviour, IState
 {
+    public AudioSource stateMusic;
+
     public virtual void Enter()
     {
         enabled = true;
+        if (stateMusic != null)
+        {
+          
+            stateMusic.Play();
+        }
     }
 
 
@@ -30,6 +37,8 @@ public abstract class GameState : MonoBehaviour, IState
     public virtual void Exit()
     {
         enabled = false;
+        if(stateMusic != null)
+            stateMusic.Stop();
         //
     }
 }
