@@ -7,8 +7,7 @@ public class Turret : MonoBehaviour, IFocusable
     
 
     public Equipment equipment;
-    public TurretType turretType; //TODO: is this the issue?
-
+    public TurretType turretType;
     public int RifleDamage = 100;
     public int RocketDamage = 400;
     public int CannonDamage = 200;
@@ -70,9 +69,6 @@ public class Turret : MonoBehaviour, IFocusable
 		if (target != null)
 		{
 			//find the target rotation values
-//			float zDiff = target.transform.position.z - this.transform.position.z;
-//			float yDiff = target.transform.position.y - this.transform.position.y;
-//			float xDiff = target.transform.position.x - this.transform.position.x;
 			Vector3 pos_diff = target.transform.position - this.transform.position;
 			xTargRot = (Mathf.Atan2 (Mathf.Abs(pos_diff.y), Mathf.Sqrt(pos_diff.x * pos_diff.x + pos_diff.z * pos_diff.z)) / Mathf.PI * 180);
 			yTargRot = (Mathf.Atan2 (pos_diff.x, pos_diff.z) / Mathf.PI * 180);
@@ -111,7 +107,9 @@ public class Turret : MonoBehaviour, IFocusable
                 this.GetComponent<Sniper>().damagePerShot = CannonDamage;
                 break;
         }
-		//TODO: better shooting at target
+
+
+		//shoot at target
 		if (equipment != null && equipment.CanActivate() && target != null)
             equipment.Activate();
 			
@@ -388,6 +386,31 @@ public class Turret : MonoBehaviour, IFocusable
     {
         //hide the turret upgrade menu
     }
+
+	public void rotateFocus()
+	{
+		if (focusType == TurretFocus.closest)
+		{
+			focusType = TurretFocus.first;
+		}
+		else if (focusType == TurretFocus.first)
+		{
+			focusType = TurretFocus.last;
+		}
+		else if (focusType == TurretFocus.last)
+		{
+			focusType = TurretFocus.strongest;
+		}
+		else if (focusType == TurretFocus.strongest)
+		{
+			focusType = TurretFocus.weakest;
+		}
+		else if (focusType == TurretFocus.weakest)
+		{
+			focusType = TurretFocus.closest;
+		}
+		Debug.Log("Turret set to target " + focusType);
+	}
 }
 
 public enum TurretFocus

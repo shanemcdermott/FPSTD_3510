@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
         HandlePlacement();
         SwitchWeapon();
         SwitchTurret();
+        ConsiderFocusRotation();
     }
     private Quaternion t;
     private void HandleShooting()
@@ -330,6 +331,20 @@ public class PlayerController : MonoBehaviour, IRespondsToDeath
                 transparent.SetActive(false);
             }
         }
+    }
+
+    private void ConsiderFocusRotation()
+    {
+        if(Input.GetAxis("Mouse ScrollWheel") != 0 && currentFocusable != null)
+        {
+            Turret t = currentFocusedGameObject.GetComponentInChildren<Turret>();
+            if(t)
+            {
+                t.rotateFocus();
+            }
+        }
+
+
     }
 
     public void DisableEffects()
